@@ -1,0 +1,25 @@
+﻿@using everest.Entities
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<AppUser> SignInManager
+@inject UserManager<AppUser> UserManager
+
+
+<ul class="navbar-nav">
+@if (SignInManager.IsSignedIn(User))
+{
+    <li class="nav-item px-2">
+        <a  class="nav-link text-dark" asp-area="Identity" asp-page="/Account/MyProfile/Index" title="الصفحة الشخصية"><img src="~/assets/user.png" style="height:30px;width:30px" class="rounded-circle" /> @User.Identity.Name</a>
+    </li>
+    <li class="px-2">
+        <form  class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+            <button  type="submit" class="btn btn-outline-danger p-2 rounded-3 btn-logout">تسجيل خروج</button>
+        </form>
+    </li>
+}
+else
+{
+    <li class="nav-item">
+        <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Login">تسجيل الدخول</a>
+    </li>
+}
+</ul>

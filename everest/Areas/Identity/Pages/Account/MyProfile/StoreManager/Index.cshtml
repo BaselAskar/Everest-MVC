@@ -1,0 +1,80 @@
+﻿@page
+@addTagHelper *,Microsoft.AspNetCore.Mvc.TagHelpers
+@model everest.Areas.Identity.Pages.Account.MyProfile.StoreManager.IndexModel
+@{
+    ViewData["Title"] = "Store manager";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    .profile-link {
+        text-decoration: none;
+        color: black;
+        font-weight: 500;
+        font-size: 18px;
+        transition: all .3s ease-in-out;
+        -webkit-transition: all .3s ease-in-out;
+        -o-transition: all .3s ease-in-out;
+        -moz-transition: all .3s ease-in-out;
+        margin: 20px;
+        max-width: max-content;
+    }
+
+    .profile-link-con {
+        border-radius: 10px;
+        transition: all .3s ease-in-out;
+        -webkit-transition: all .3s ease-in-out;
+        -o-transition: all .3s ease-in-out;
+        -moz-transition: all .3s ease-in-out;
+    }
+
+        .profile-link-con:hover {
+            background-color: aqua;
+        }
+
+            .profile-link-con:hover .profile-link {
+                color: white;
+            }
+</style>
+
+
+
+<h1 class="text-center text-info p-5">إدراة المخزن</h1>
+
+<div class="container my-5">
+    <div class="row my-md-4">
+        <div class="col-md-2 text-center profile-link-con">
+            <a class="profile-link" asp-area="Identity" asp-page="/Account/MyProfile/StoreManager/StoreInfo" >معلومات المخزن</a>
+        </div>
+
+        <div class="col-md-3 my-3 flex-shrink-2"></div>
+
+        <div class="col-md-2 text-center profile-link-con">
+            <a class="profile-link" href="#">إضافة مادة</a>
+        </div>
+
+        <div class="col-md-3 my-3 flex-shrink-2"></div>
+
+        <div class="col-md-2 text-center profile-link-con">
+            <a class="profile-link" href="#">تعديل مادة</a>
+        </div>
+    </div>
+
+    <div class="row my-md-4">
+        <div class="col-md-2 text-center profile-link-con">
+            <a class="profile-link" href="#">عرض المخزن</a>
+        </div>
+
+        <div class="col-md-3 my-3 flex-shrink-2"></div>
+
+        <div class="col-md-2 text-center profile-link-con">
+            <a class="profile-link" href="#">البريد الوارد</a>
+        </div>
+
+        <div class="col-md-3 my-3 flex-shrink-2"></div>
+
+        <div class="col-md-2 text-center profile-link-con">
+            <a class="profile-link" href="#">Exanple</a>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,510 @@
+﻿@page
+@addTagHelper *,Microsoft.AspNetCore.Mvc.TagHelpers
+@model everest.Areas.Identity.Pages.Account.MyProfile.StoreManager.StoreInfoModel
+@{
+    ViewData["Title"] = "Store info";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<style>
+
+    .file-upload {
+        margin: 0 auto;
+        padding: 20px;
+        width:90%;
+    }
+
+    .file-upload-btn {
+        width: 100%;
+        margin: 0;
+        color: #fff;
+        background: #4dc5cb;
+        border: none;
+        padding: 10px;
+        border-radius: 4px;
+        border-bottom: 4px solid #55959b;
+        transition: all 0.2s ease;
+        outline: none;
+        text-transform: uppercase;
+        font-weight: 700;
+    }
+
+        .file-upload-btn:hover {
+            background: #61b5b5;
+            color: #ffffff;
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+
+        .file-upload-btn:active {
+            border: 0;
+            transition: all 0.2s ease;
+        }
+
+    .file-upload-content {
+        display: none;
+        text-align: center;
+    }
+
+    .file-upload-input {
+        position: absolute;
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        height: 100%;
+        outline: none;
+        opacity: 0;
+        cursor: pointer;
+    }
+
+    .image-upload-wrap {
+        margin-top: 20px;
+        border: 4px dashed #a3dfe3;
+        position: relative;
+    }
+
+        .image-dropping,
+        .image-upload-wrap:hover {
+            background-color: #84eef1;
+            border: 4px dashed #ffffff;
+        }
+
+    .image-title-wrap {
+        padding: 0 15px 15px 15px;
+        color: #222;
+    }
+
+    .drag-text {
+        text-align: center;
+    }
+
+    .drag-text h3 {
+        font-weight: 100;
+        text-transform: uppercase;
+        color: #15824b;
+        padding: 60px 0;
+    }
+
+    .file-upload-image {
+        max-height: 200px;
+        width:100%;
+        max-width: 706px;
+        margin-left: 50%;
+        transform:translateX(-50%);
+        padding: 20px;
+    }
+
+    .remove-image {
+        width: 200px;
+        margin: 0;
+        color: #fff;
+        background: #cd4535;
+        border: none;
+        padding: 10px;
+        border-radius: 4px;
+        border-bottom: 4px solid #b02818;
+        transition: all 0.2s ease;
+        outline: none;
+        text-transform: uppercase;
+        font-weight: 700;
+    }
+
+        .remove-image:hover {
+            background: #c13b2a;
+            color: #ffffff;
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+
+        .remove-image:active {
+            border: 0;
+            transition: all 0.2s ease;
+        }
+
+        .class-toggle{
+            margin-left:38%;
+        }
+
+    /* dropdown-input */
+
+    .dropdown-check-list {
+        display: inline-block;
+    }
+
+        .dropdown-check-list .anchor {
+            position: relative;
+            cursor: pointer;
+            display: inline-block;
+            padding: 5px 50px 5px 10px;
+            border: 1px solid #ccc;
+        }
+
+            .dropdown-check-list .anchor:after {
+                position: absolute;
+                content: "";
+                border-left: 2px solid black;
+                border-top: 2px solid black;
+                padding: 5px;
+                right: 10px;
+                top: 20%;
+                -moz-transform: rotate(-135deg);
+                -ms-transform: rotate(-135deg);
+                -o-transform: rotate(-135deg);
+                -webkit-transform: rotate(-135deg);
+                transform: rotate(-135deg);
+            }
+
+            .dropdown-check-list .anchor:active:after {
+                right: 8px;
+                top: 21%;
+            }
+
+        .dropdown-check-list ul.items {
+            padding: 2px;
+            display: none;
+            margin: 0;
+            border: 1px solid #ccc;
+            border-top: none;
+        }
+
+            .dropdown-check-list ul.items li {
+                list-style: none;
+            }
+
+        .dropdown-check-list.visible .anchor {
+            color: #0094ff;
+        }
+
+        .dropdown-check-list.visible .items {
+            display: block;
+        }
+
+        .visible{
+            visibility:visible !important;
+        }
+
+
+</style>
+
+
+
+
+<h1 class="text-center text-info p-5">معلومات المخزن</h1>
+
+
+<form class="container-fluid">
+    <div class="row form-group d-flex justify-content-center m-3">
+
+        @if (Model.Input.StorePhotoUrl == null)
+        {
+
+
+
+            <div class="file-upload">
+                <button class="file-upload-btn" type="button" onclick="$('.file-upload-input').trigger( 'click' )">إضافة صورة</button>
+
+                <div class="image-upload-wrap">
+                    <input class="file-upload-input" type='file' name="file-upload" onchange="readURL(this);" accept="image/*" />
+                    <div class="drag-text">
+                        <h3 class="text-info">صورة المتجر <br /> <span>706 x 160 px</span></h3>
+                    </div>
+                </div>
+                <div class="file-upload-content">
+                    <img class="file-upload-image" src="#" alt="your image" />
+                    <div class="image-title-wrap">
+                        <button type="button" onclick="removeUpload()" class="remove-image"> إزالة <br /> <span class="image-title">Uploaded Image</span></button>
+                    </div>
+                </div>
+            </div>
+
+
+
+        }
+        else
+        {
+            <div class="store-image m-3">
+                <img class="file-upload-image" src="@Model.Input.StorePhotoUrl" alt="your image" />
+                <div class="d-flex justify-content-center">
+                    <button type="button" class="remove-image change-image"> تغيير الصورة </button>
+                </div>
+            </div>
+
+            <div class="file-upload d-none">
+                <button class="file-upload-btn" type="button" onclick="$('.file-upload-input').trigger( 'click' )">إضافة صورة</button>
+
+                <div class="image-upload-wrap">
+                    <input class="file-upload-input" type='file' name="file-upload" onchange="readURL(this);" accept="image/*" />
+                    <div class="drag-text">
+                        <h3 class="text-info">صورة المتجر <br /> <span>706 x 160 px</span></h3>
+                    </div>
+                </div>
+                <div class="file-upload-content">
+                    <img class="file-upload-image" src="#" alt="your image" />
+                    <div class="image-title-wrap">
+                        <button type="button" onclick="removeUpload()" class="remove-image"> إزالة <br /> <span class="image-title">Uploaded Image</span></button>
+                    </div>
+                </div>
+            </div>
+
+
+        }
+    </div>
+        <div class="row form-group d-flex justify-content-center m-3">
+            <div class="col-6">
+                <input class="form-control text-center" asp-for="Input.Name" />
+            </div>
+            <div class="col-2">
+                <label class="form-label" asp-for="Input.Name"></label>
+            </div>
+        </div>
+
+        <div class="row form-group d-flex justify-content-center m-3">
+            <div class="col-6">
+                <textarea class="form-control text-center" asp-for="Input.Description"></textarea>
+            </div>
+            <div class="col-2">
+                <label class="form-label" asp-for="Input.Description"></label>
+            </div>
+        </div>
+
+        <div class="row form-group d-flex justify-content-center m-3">
+            <div class="col-6">
+                <input class="form-control text-center" asp-for="Input.Manager" />
+            </div>
+            <div class="col-2">
+                <label class="form-label" asp-for="Input.Manager"></label>
+            </div>
+        </div>
+
+        <div class="row form-group d-flex justify-content-center m-3">
+            <div class="col-6">
+                <select class="form-select text-center" asp-for="Input.City">
+                    @foreach (var city in Model.Cities)
+                    {
+                        <option value="@city">@city</option>
+                    }
+                </select>
+            </div>
+            <div class="col-2">
+                <label class="form-label" asp-for="Input.City"></label>
+            </div>
+        </div>
+
+        <div class="row form-group d-flex justify-content-center m-3">
+            <div class="col-6">
+                <input class="form-control text-center" asp-for="Input.Adress" />
+            </div>
+            <div class="col-2">
+                <label class="form-label" asp-for="Input.Adress"></label>
+            </div>
+        </div>
+
+        <div class="row form-group d-flex justify-content-center m-3">
+            <div class="col-6">
+                <input class="form-control text-center" asp-for="Input.Whatsapp1" />
+            </div>
+            <div class="col-2">
+                <label class="form-label" asp-for="Input.Whatsapp1"></label>
+            </div>
+        </div>
+
+        <div class="row form-group d-flex justify-content-center m-3">
+            <div class="col-6">
+                <input class="form-control text-center" asp-for="Input.Whatsapp2" />
+            </div>
+            <div class="col-2">
+                <label class="form-label" asp-for="Input.Whatsapp2"></label>
+            </div>
+        </div>
+
+
+        <div class="row form-group d-flex justify-content-center m-3">
+            <div class="col-6">
+                <input class="form-control text-center" asp-for="Input.PhoneNumber1" />
+            </div>
+            <div class="col-2">
+                <label class="form-label" asp-for="Input.PhoneNumber1"></label>
+            </div>
+        </div>
+
+        <div class="row form-group d-flex justify-content-center m-3">
+            <div class="col-6">
+                <input class="form-control text-center" asp-for="Input.PhoneNumber2" />
+            </div>
+            <div class="col-2">
+                <label class="form-label" asp-for="Input.PhoneNumber2"></label>
+            </div>
+        </div>
+
+
+        <div class="row form-group d-flex justify-content-center m-3">
+            <div class="col-6">
+                <input class="form-control text-center" asp-for="Input.LocationUrl" placeholder="إنسخ العنوان من خرائط جوجل" />
+            </div>
+            <div class="col-2">
+                <label class="form-label" asp-for="Input.LocationUrl"></label>
+            </div>
+        </div>
+
+        <div class="form-group d-flex justify-content-center m-3">
+            <button type="button" class="btn btn-danger p-2 me-5 cancel-changing">إلغاء التعديل</button>
+            <button class="btn btn-success p-2 ms-5" type="submit">حفظ التغييرات</button>
+        </div>
+        @Html.AntiForgeryToken();
+    </form>
+
+@section Scripts {
+<script>
+
+
+    //Constans
+    const formInfo = document.querySelector('form.container-fluid');
+    const fileUploadInput = document.querySelector('.file-upload-input');
+    const nameInput = document.querySelector('#Input_Name');
+    const descriptionInput = document.querySelector('#Input_Description');
+    const managerInput = document.querySelector('#Input_Manager');
+    const cityInput = document.querySelector('#Input_City');
+    const adressInput = document.querySelector('#Input_Adress');
+    const whatsapp1Input = document.querySelector('#Input_Whatsapp1');
+    const whatsapp2Input = document.querySelector('#Input_Whatsapp2');
+    const phoneNumber1Input = document.querySelector('#Input_PhoneNumber1');
+    const phoneNumber2Input = document.querySelector('#Input_PhoneNumber2');
+    const locationUrlInput = document.querySelector('#Input_LocationUrl');
+    const fileUplaod = document.querySelector('.file-upload');
+    const storeImage = document.querySelector('.store-image');
+    const changeImageBtn = document.querySelector('.change-image');
+    const cancelChanginBtn = document.querySelector('.cancel-changing');
+
+
+    //Image upload
+
+    function readURL(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                $(".image-upload-wrap").hide();
+
+                $(".file-upload-image").attr("src", e.target.result);
+                $(".file-upload-content").show();
+
+                $(".image-title").html(input.files[0].name);
+            };
+
+            reader.readAsDataURL(input.files[0]);
+        } else {
+            removeUpload();
+        }
+    }
+
+    function removeUpload() {
+        $(".file-upload-input").replaceWith($(".file-upload-input").clone());
+        $(".file-upload-content").hide();
+        $(".image-upload-wrap").show();
+    }
+    $(".image-upload-wrap").bind("dragover", function () {
+        $(".image-upload-wrap").addClass("image-dropping");
+    });
+    $(".image-upload-wrap").bind("dragleave", function () {
+        $(".image-upload-wrap").removeClass("image-dropping");
+    });
+
+    if (changeImageBtn !== null) {
+        //Chaneg image
+        changeImageBtn.addEventListener('click', () => {
+            storeImage.classList.add('d-none');
+            fileUplaod.classList.remove('d-none');
+        });
+
+    }
+    
+
+
+
+
+    //Form submit
+    formInfo.addEventListener('submit', e => {
+        e.preventDefault();
+
+
+        const info = {
+            name: nameInput.value,
+            description: descriptionInput.value,
+            manager: managerInput.value,
+            city: cityInput.value,
+            adress: adressInput.value,
+            whatsapp1: whatsapp1Input.value,
+            whatsapp2: whatsapp2Input.value,
+            phoneNumber1: phoneNumber1Input.value,
+            phoneNumber2: phoneNumber2Input.value,
+            locationUrl: locationUrlInput.value
+        }
+
+        const request = async function () {
+
+
+
+            //Photo request
+            if (fileUploadInput.files.length !== 0) {
+                let formData = new FormData();
+
+                formData.append("file", fileUploadInput.files[0], fileUploadInput.name);
+
+                formData.keys = "file";
+                formData.value = fileUploadInput.files[0];
+
+                try {
+                    const res = await fetch("/api/storeapi", {
+                        method: "POST",
+                        body: formData
+                    });
+
+                    if (!res.ok) throw new Error("Field to post photo");
+                } catch (err) {
+                    console.error(err.Message);
+                }
+            }
+
+            //Information request
+
+            try {
+                const resInfo = await fetch("/api/storeapi", {
+                    method: "PUT",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(info)
+
+                });
+
+                if (!resInfo.ok) throw new Error("Field to update informations");
+
+                window.location.reload();
+
+            } catch (err) {
+                console.error(err.Message);
+            }
+
+        }
+
+
+        request();
+
+
+
+
+
+
+        
+        
+
+    });
+
+    //Cancel changing
+    cancelChanginBtn.addEventListener('click', () => {
+        window.location.reload();
+    });
+
+</script>
+}

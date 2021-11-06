@@ -1,0 +1,104 @@
+﻿@page
+@addTagHelper *,Microsoft.AspNetCore.Mvc.TagHelpers
+@model everest.Areas.Identity.Pages.Account.MyProfile.IndexModel
+@{
+    ViewData["Title"] = "My profile";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    .profile-link {
+        text-decoration: none;
+        color: black;
+        font-weight: 500;
+        font-size: 18px;
+        transition: all .3s ease-in-out;
+        -webkit-transition: all .3s ease-in-out;
+        -o-transition: all .3s ease-in-out;
+        -moz-transition: all .3s ease-in-out;
+        margin:20px;
+        max-width:max-content;
+    }
+
+    .profile-link-con {
+        border-radius: 10px;
+        transition: all .3s ease-in-out;
+        -webkit-transition: all .3s ease-in-out;
+        -o-transition: all .3s ease-in-out;
+        -moz-transition: all .3s ease-in-out;
+    }
+
+    .profile-link-con:hover{
+        background-color:aqua;
+    }
+
+    .profile-link-con:hover .profile-link{
+        color:white;
+    }
+
+</style>
+
+<h1 class="text-center text-info p-4">الصفحة الشخصية</h1>
+
+<div class="text-center">
+    <img src="~/assets/user.png" class="rounded-circle p-1" style="height:100px;width:100px" alt="person_photo" />
+    <br />
+    <h3 class="p-1">@Model.UserName</h3>
+    <h5 class="p-1">@Model.RoleName</h5>
+</div>
+
+<div class="container my-5">
+    <div class="row my-md-4">
+
+        <div class="col-md-2 text-center profile-link-con">
+            <a class="profile-link" href="#">Example</a>
+        </div>
+
+        <div class="col-md-3 my-3 flex-shrink-2"></div>
+
+        <div class="col-md-2 text-center profile-link-con">
+            <a class="profile-link" href="#">Example</a>
+        </div>
+
+        <div class="col-md-3 my-3 flex-shrink-2"></div>
+
+        <div class="col-md-2 text-center profile-link-con">
+            <a class="profile-link" href="#">Example</a>
+        </div>
+
+    </div>
+    <div class="row my-md-4">
+
+        @if (Model.RoleName == "المدير")
+        {
+            <div class="col-md-3 my-3 d-md-none flex-shrink-2"></div>
+
+            <div class="col-md-2 text-center profile-link-con">
+                <a class="profile-link" asp-area="Identity" asp-page="/Account/MyProfile/CustomerManager">إدارة المستخدمين</a>
+            </div>
+
+            <div class="col-md-3 my-3 flex-shrink-2"></div>
+        }
+
+        @if (Model.RoleName == "مدير مخزن")
+        {
+            <div class="col-md-3 my-3 d-md-none flex-shrink-2"></div>
+
+            <div class="col-md-2 text-center profile-link-con">
+                <a class="profile-link" asp-area="Identity" asp-page="/Account/MyProfile/StoreManager/Index">إدارة المخزن</a>
+            </div>
+
+            <div class="col-md-3 my-3 flex-shrink-2"></div>
+        }
+        <div class="col-md-2 text-center profile-link-con">
+            <a class="profile-link" href="#">Example</a>
+        </div>
+
+        <div class="col-md-3 my-3 flex-shrink-2"></div>
+
+        <div class="col-md-2 text-center profile-link-con">
+            <a class="profile-link" href="#">Example</a>
+        </div>
+
+    </div>
+</div>
