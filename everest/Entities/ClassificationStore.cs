@@ -5,13 +5,13 @@ using System.Threading.Tasks;
 
 namespace everest.Entities
 {
-    public class ClinicClassification
+    public class ClassificationStore
     {
         public int Id { get; set; }
-        public int ClinicId { get; set; }
-        public Clinic Clinic { get; set; }
         public int ClassificationId { get; set; }
         public Classification Classification { get; set; }
+        public int StoreId { get; set; }
+        public Store Store { get; set; }
 
     }
 }

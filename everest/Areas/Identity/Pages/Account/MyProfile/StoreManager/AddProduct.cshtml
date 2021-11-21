@@ -1,0 +1,414 @@
+﻿@page
+@model everest.Areas.Identity.Pages.Account.MyProfile.StoreManager.AddProductModel
+@addTagHelper *,Microsoft.AspNetCore.Mvc.TagHelpers
+@{
+    ViewData["Title"] = "Add product";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+<style>
+
+    /*Back page link*/
+    .back-link {
+        position: absolute;
+        border: 1px solid;
+        border-radius: 50%;
+        width: fit-content;
+        height: fit-content;
+        top: 0;
+        left: 5%;
+        padding: 10px;
+        font-size: 1.5rem;
+        color: #0dcaf0;
+        transition: all 0.3s ease-in-out;
+        -webkit-transition: all 0.3s ease-in-out;
+        -o-transition: all 0.3s ease-in-out;
+        -moz-transition: all 0.3s ease-in-out;
+    }
+
+    .back-link:hover {
+        background-color: #0dcaf0;
+        color: white;
+        box-shadow: 0px 0px 28px #0dcaf0;
+        -webkit-box-shadow: 0px 0px 28px #0dcaf0;
+        -moz-box-shadow: 0px 0px 28px #0dcaf0;
+        box-shadow: 0px 0px 28px #0dcaf0;
+    }
+
+        
+
+
+    h1 {
+        margin: 0 auto;
+        margin-top: 1em;
+        margin-bottom: 1em;
+        max-width: 500px;
+    }
+
+    /*image uplaod*/
+    .image-box {
+        display: inline-flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        height: 200px;
+        position: relative;
+        border-radius: 10px;
+        transition: background-color 0.3s ease-in-out;
+        -webkit-transition: background-color 0.3s ease-in-out;
+        -o-transition: background-color 0.3s ease-in-out;
+        -moz-transition: background-color 0.3s ease-in-out;
+    }
+
+    .main-image-box {
+        width: 25%;
+        margin-left: 50%;
+        margin-top: 20px;
+        transform: translateX(-50%);
+        -webkit-transform: translateX(-50%);
+        -o-transform: translateX(-50%);
+        -moz-transform: translateX(-50%);
+    }
+
+    .image-box:hover {
+        background-color: rgba(0, 0, 255, 0.507);
+    }
+
+    .image-box:hover p {
+        color: white;
+    }
+
+    .image-box:hover .upload-box {
+        border-color: white;
+    }
+
+    .image-box img {
+        width: 100%;
+        height: 100%;
+        padding: 10px;
+        border: 1px dashed black;
+        border-radius: 10px;
+    }
+
+    .upload-box {
+        border: 2px dashed rgb(2, 180, 180);
+        border-radius: 10px;
+        width: 100%;
+        height: 100%;
+        position:relative;
+    }
+
+     .upload-box p {
+         position:absolute;
+         top:50%;
+         left:50%;
+         color: rgb(2, 180, 180);
+         transform: translate(-50%,-50%);
+     }
+
+     .upload-box span{
+         font-size:2rem;
+     }
+
+    .image-box input {
+        position: absolute;
+        border: 1px solid;
+        width: 100%;
+        height: 100%;
+        opacity: 0;
+        cursor:pointer;
+    }
+
+
+    /*form*/
+    form {
+        direction: rtl;
+    }
+
+    .form-control, .form-select {
+        width: 80%;
+    }
+
+    .check-input{
+        padding:0 1.5rem;
+        width: 1%;
+    }
+
+    .btn-add-product,
+    .btn-cancel-product {
+        width: 20%;
+    }
+</style>
+
+
+<div class="add-product-tamblet position-relative">
+    
+    
+    @*Back page link*@
+    <a class="back-link" asp-area="Identity" asp-page="/Account/MyProfile/StoreManager/Index" title="إدارة المخزن"><i class="bi bi-arrow-left"></i></a>
+
+    <h1 class="text-center text-info p-3">إضافة مادة</h1>
+
+    <div class="control-group file-upload mb-5" id="file-upload1">
+        <div class="image-box main-image-box text-center">
+            <div class="upload-box">
+                <p>الصورة الرئيسية<br /><span><i class="bi bi-cloud-upload"></i></span></p>
+            </div>
+            <img class="d-none" src="#" alt="product-image" />
+            <input type="file" class="file-image" name="file-image1" />
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="row">
+            <div class="control-group file-upload col-3" id="file-upload2">
+                <div class="image-box text-center">
+                    <div class="upload-box">
+                        <p>صورة<br /><span><i class="bi bi-cloud-upload"></i></span></p>
+                    </div>
+                    <img class="d-none" src="#" alt="product-image" />
+                    <input type="file" class="file-image" name="file-image2" />
+                </div>
+            </div>
+
+            <div class="control-group file-upload col-3" id="file-upload3">
+                <div class="image-box text-center">
+                    <div class="upload-box">
+                        <p>صورة<br /><span><i class="bi bi-cloud-upload"></i></span></p>
+                    </div>
+                    <img class="d-none" src="#" alt="product-image" />
+                    <input type="file" class="file-image" name="file-image3" />
+                </div>
+            </div>
+
+            <div class="control-group file-upload col-3" id="file-upload4">
+                <div class="image-box text-center">
+                    <div class="upload-box">
+                        <p>صورة<br /><span><i class="bi bi-cloud-upload"></i></span></p>
+                    </div>
+                    <img class="d-none" src="#" alt="product-image" />
+                    <input type="file" class="file-image" name="file-image4" />
+                </div>
+            </div>
+
+            <div class="control-group file-upload col-3" id="file-upload5">
+                <div class="image-box text-center">
+                    <div class="upload-box">
+                        <p>صورة<br /><span><i class="bi bi-cloud-upload"></i></span></p>
+                    </div>
+                    <img class="d-none" src="#" alt="product-image" />
+                    <input type="file" class="file-image" name="file-image5" />
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <form class="container-fluid form-add-product">
+        <div class="row form-group d-flex justify-content-center m-3 mt-5">
+            <div class="col-md-2">
+                <label class="form-label" asp-for="Input.Name"></label>
+            </div>
+            <div class="col-md-6">
+                <input class="form-control text-center" asp-for="Input.Name" />
+            </div>
+        </div>
+        <div class="row form-group d-flex justify-content-center m-3">
+            <div class="col-md-2">
+                <label class="form-label" asp-for="Input.Description"></label>
+            </div>
+            <div class="col-md-6">
+                <input class="form-control text-center" asp-for="Input.Description" />
+            </div>
+        </div>
+        <div class="row form-group d-flex justify-content-center m-3">
+            <div class="col-md-2">
+                <label class="form-label" asp-for="Input.Classification"></label>
+            </div>
+            <div class="col-md-6">
+                <select class="form-select text-center" asp-for="Input.Classification">
+                    @foreach (var cl in Model.Classifications)
+                    {
+                        <option value="@cl.Title-@cl.Name">@cl.Title-@cl.Name</option>
+                    }
+                </select>
+            </div>
+        </div>
+        <div class="row form-group d-flex justify-content-center m-3">
+            <div class="col-md-2">
+                <label class="form-label">السعر: </label>
+            </div>
+            <div class="col-md-6">
+                <input class="form-control text-center" asp-for="Input.Price" />
+            </div>
+        </div>
+        <div class="row form-group d-flex justify-content-center m-3">
+            <div class="col-md-2">
+                <label class="form-label">العملة: </label>
+            </div>
+            <div class="col-md-6">
+                <input class="form-control text-center" list="currencies" asp-for="Input.Currency" />
+                <datalist id="currencies">
+                    <option value="دولار $"></option>
+                    <option value="تركي TL"></option>
+                    <option value="سوري SYL"></option>
+                </datalist>
+            </div>
+        </div>
+
+        <div class="row form-group mt-3">
+            <div class="col-md-4"></div>
+            <div class="check-input">
+                <input type="checkbox" name="is-allowed" checked asp-for="Input.IsAllowed" />
+            </div>
+            <div class="col-1">
+                <label class="form-label" asp-for="Input.IsAllowed"></label>
+            </div>
+        </div>
+        <div class="form-group d-flex justify-content-around m-5">
+            <button type="submit" class="btn btn-success btn-add-product">
+                <span class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true"></span>
+                <span class="btn-text">إضافة</span>
+            </button>
+            <button type="reset" class="btn btn-danger btn-cancel-product">
+                إلغاء
+            </button>
+        </div>
+    </form>
+</div>
+
+
+
+@section Scripts{
+    <script>
+
+
+        //Elements
+        const filesImages = document.querySelectorAll(".file-image");
+        const form = document.querySelector('.form-add-product');
+        const nameInp = document.querySelector('#Input_Name');
+        const descriptionInp = document.querySelector('#Input_Description');
+        const classificationInp = document.querySelector('#Input_Classification');
+        const priceInp = document.querySelector('#Input_Price');
+        const currencyInp = document.querySelector('#Input_Currency');
+        const isAllowedInp = document.querySelector('#Input_IsAllowed');
+        const spinnerAddProduct = document.querySelector('.btn-add-product .spinner-border');
+        const addText = document.querySelector('.btn-add-product .btn-text');
+
+        //Functions
+        const request = async function (information, formData) {
+
+
+            //Show spinner
+            addText.classList.add('d-none');
+            spinnerAddProduct.classList.remove('d-none');
+
+
+            //Add product data
+            try {
+                const res = await fetch("/api/StoreApi/add-product", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(information)
+                });
+
+                if (!res.ok) throw new Error("Filed");
+
+                const data = await res.json();
+
+                console.log(data);
+
+                formData.append("productId", data.publicId);
+
+            } catch (err) {
+                console.error(err.Message);
+            }
+
+
+
+            //add product photos
+            try {
+                const resImg = await fetch("/api/StoreApi/add-product-photos", {
+                    method: "POST",
+                    body: formData
+                });
+
+                if (!resImg.ok) throw new Error("Field to add photos");
+
+
+                //Reload page
+                location.reload();
+
+
+            } catch (err) {
+                console.log(err.Message);
+
+
+                //Hidden spinner
+                spinnerAddProduct.classList.add('d-none');
+                addText.classList.remove('d-none');
+
+            }
+
+        };
+
+
+
+
+
+
+
+
+        //File upload
+        filesImages.forEach((fIm) => {
+            fIm.addEventListener("change", (e) => {
+                let reader = new FileReader();
+                const image = e.target.closest(".image-box").querySelector("img");
+                const uploadBox = e.target
+                    .closest(".image-box")
+                    .querySelector(".upload-box");
+
+                reader.onload = (e) => {
+                    image.src = e.target.result;
+                };
+
+                reader.readAsDataURL(fIm.files[0]);
+                image.classList.remove("d-none");
+                uploadBox.classList.add("d-none");
+            });
+        });
+
+
+
+
+        //Form submit
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+
+
+            let imagesData = new FormData();
+
+            if (filesImages[0].files.length === 0) {
+                alert("يجب إضافة الصورة الرئيسية!!");
+                return;
+            }
+
+            filesImages.forEach(fIm => imagesData.append("files", fIm.files[0], fIm.name));
+
+            const info = {
+                name: nameInp.value,
+                description: descriptionInp.value,
+                classification: classificationInp.value,
+                price: priceInp.value,
+                currency: currencyInp.value,
+                isAllowed: isAllowedInp.checked ? true : false
+            };
+
+            request(info, imagesData);
+        });
+
+    </script>
+}

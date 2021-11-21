@@ -5,6 +5,8 @@ using everest.Entities;
 using everest.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -13,103 +15,84 @@ namespace everest.Repositoies
     public class StoreRepository : IStoreRepository
     {
         private readonly DataContext _data;
-        public StoreRepository(DataContext data)
+        private readonly IMapper _mapper;
+        public StoreRepository(DataContext data,IMapper mapper)
         {
             _data = data;
+            _mapper = mapper;
         }
 
 
 
-        public async Task AddClassificationToStore(AppUser user,ClassificationDto classificationDto)
+
+        public async Task AddStorePhotoAsync(Store store, StorePhoto storePhoto)
         {
-
-            var classification = await _data.Classifications.SingleOrDefaultAsync(c => c.Title == classificationDto.Title 
-                                    && c.Name == classificationDto.Name);
-
-            var storeClassification = new StoreClassification
-            {
-                StoreId = user.Store.Id,
-                Store = user.Store,
-                ClassificationId = classification.Id,
-                Classification = classification
-            };
-
-            _data.StoreClassifications.Add(storeClassification);
-        }
-
-        public async Task AddCompanyPhotoAsync(AppUser user, CompanyPhoto companyPhoto)
-        {
-            await _data.CompanyPhotos.AddAsync(companyPhoto);
+            var storePhotoEntity = await _data.StorePhotos.AddAsync(storePhoto);
 
             await _data.SaveChangesAsync();
 
-            var store = await GetStoreAsync(user);
-
-            store.CompanyPhotoId = companyPhoto.Id;
-            store.CompanyPhoto = companyPhoto;
-
-            
+            store.StorePhotoId = storePhotoEntity.Entity.Id;
+            store.StorePhoto = storePhotoEntity.Entity;
 
         }
 
-        public async Task AddStore(AppUser user)
+
+        public async Task AddStoreAsync(Store store)
         {
-            _data.Store.Add(new Store() { UserId = user.Id,User = user });
-
-            await _data.SaveChangesAsync();
-
-            var store = _data.Store.FirstOrDefault(s => s.UserId == user.Id);
-
-            user.StoreId = store.Id;
-            user.Store = store;
-
-            await _data.SaveChangesAsync();
+            await _data.Stores.AddAsync(store);
         }
 
-        public async Task<CompanyPhoto> GetCompanyPhotoAsync(AppUser user)
+        public async Task<List<ClassificationDto>> GetClassificationStoreAsync(Store store)
         {
-            var store = await GetStoreAsync(user);
-            return await _data.CompanyPhotos.SingleOrDefaultAsync(cp => cp.Id == store.CompanyPhotoId);
+            return await _data.ClassificationStores
+                .Where(cs => cs.StoreId == store.Id)
+                .Select(cs => _mapper.Map<ClassificationDto>(cs.Classification))
+                .ToListAsync();
+        }
+
+        public async Task<StorePhoto> GetStorePhotoAsync(Store store)
+        {
+            return await _data.StorePhotos.FindAsync(store.StorePhotoId);
         }
 
         public async Task<Store> GetStoreAsync(AppUser user)
         {
-            return await _data.Store.SingleOrDefaultAsync(s => s.Id == user.StoreId);
+            return await _data.Stores
+                .Include(s => s.Products)
+                .SingleOrDefaultAsync(s => s.UserId == user.Id);
+            
         }
 
-        public async Task RemoveCompanyPhotoAsync(int companyPhotoId)
+        public async Task RemoveStorePhotoAsync(int storePhotoId)
         {
-            var companyPhoto = await _data.CompanyPhotos.FindAsync(companyPhotoId);
-
-            var store = await _data.Store.FindAsync(companyPhoto.StoreId);
-
-            _data.CompanyPhotos.Remove(companyPhoto);
-
-            await _data.SaveChangesAsync();
-
-            store.CompanyPhotoId = 0;
-            store.CompanyPhoto = null;
-
+            var store = await _data.Stores.SingleOrDefaultAsync(s => s.StorePhotoId == storePhotoId);
+            var storePhoto = await _data.StorePhotos.FindAsync(storePhotoId);
+            _data.StorePhotos.Remove(storePhoto);
+            store.StorePhotoId = 0;
+            store.StorePhoto = null;
         }
 
-        public async Task RemoveStore(AppUser user)
+        public void RemoveStore(Store store)
         {
-            var store = await _data.Store.SingleOrDefaultAsync(s => s.Id == user.StoreId);
 
-            user.StoreId = null;
-
-            _data.Store.Remove(store);
-
+            _data.Stores.Remove(store);
         }
 
-        public void UpdateCompanyPhoto(CompanyPhoto companyPhoto)
+        public void UpdateStorePhoto(StorePhoto storePhoto)
         {
-            _data.Entry(companyPhoto).State = EntityState.Modified;
+            _data.Entry(storePhoto).State = EntityState.Modified;
         }
 
         public void UpdateStore(Store store)
         {
             _data.Entry(store).State = EntityState.Modified;
+        }
+
+        public async Task<Product> GetProductByPublicIdAsync(string publicId)
+        {
+            return await _data.Products
+                .Include(p => p.Photos)
+                .FirstOrDefaultAsync(p => p.PublicId == publicId);
         }
     }
 }

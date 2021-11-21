@@ -190,7 +190,7 @@
         const btnConfirm = document.querySelector(".confirm-btns-group .btn-success");
         const btnCancel = document.querySelector('.confirm-btns-group .btn-danger');
         const rolesBtns = document.querySelectorAll('.btn-role');
-        const searchInput = document.querySelector('Input.form-control');
+        const searchInput = document.querySelector('.table-container .form-control');
         const blackBackground = document.querySelector('.black-background');
         const confirmForm = document.querySelector('.confirm-form');
 
@@ -248,9 +248,9 @@
             });
         });
 
+
+
         //Search input
-
-
         searchInput.addEventListener('input', () => {
             var users = document.querySelectorAll('.user-row');
             if (searchInput.value !== "") {

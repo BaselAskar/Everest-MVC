@@ -40,7 +40,7 @@ namespace everest.Areas.Identity.Pages.Account.MyProfile.StoreManager
 
             var userInput = _mapper.Map<InputModel>(store);
 
-            var photo = await _uof.StoreRepository.GetCompanyPhotoAsync(user);
+            var photo = await _uof.StoreRepository.GetStorePhotoAsync(store);
 
             userInput.StorePhotoUrl = photo != null ? photo.Url : null;
 

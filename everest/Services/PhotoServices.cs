@@ -26,7 +26,7 @@ namespace everest.Services
             _cloudinary = new Cloudinary(account);
         }
 
-        public async Task<ImageUploadResult> AddCompanyPhotoAsync(IFormFile file)
+        public async Task<ImageUploadResult> AddStorePhotoAsync(IFormFile file)
         {
             var uploadResult = new ImageUploadResult();
 
@@ -44,6 +44,29 @@ namespace everest.Services
             }
 
             return uploadResult;
+        }
+
+
+        public async Task<ImageUploadResult> AddProductPhotoAsync(IFormFile file)
+        {
+            var uploadResult = new ImageUploadResult();
+
+            if (file.Length > 0)
+            {
+                using var stream = file.OpenReadStream();
+
+                var imageParams = new ImageUploadParams
+                {
+                    File = new FileDescription(file.FileName, stream),
+                    Transformation = new Transformation()
+                                        .Height(150).Width(150).Quality("auto")
+                };
+
+                uploadResult = await _cloudinary.UploadAsync(imageParams);
+            }
+
+            return uploadResult;
+
         }
 
         public async Task<DeletionResult> RemovePhoto(string publicId)

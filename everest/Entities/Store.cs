@@ -7,7 +7,9 @@ namespace everest.Entities
     public class Store : Client
     {
         public ICollection<Product> Products { get; set; }
-        public ICollection<StoreClassification> Classifications { get; set; }
+        public ICollection<ClassificationStore> Classifications { get; set; }
+        public int StorePhotoId { get; set; }
+        public StorePhoto StorePhoto { get; set; }
 
     }
 }

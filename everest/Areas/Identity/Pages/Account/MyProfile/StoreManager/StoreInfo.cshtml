@@ -451,8 +451,7 @@
 
                 formData.append("file", fileUploadInput.files[0], fileUploadInput.name);
 
-                formData.keys = "file";
-                formData.value = fileUploadInput.files[0];
+
 
                 try {
                     const res = await fetch("/api/storeapi", {

@@ -16,11 +16,12 @@ namespace everest.Helpers
         {
 
             CreateMap<Store, InputModel>()
-                .ForMember(des => des.StorePhotoUrl, opt => opt.MapFrom(src => src.CompanyPhoto.Url));
-            CreateMap<IEnumerable<Classification>, IEnumerable<ClassificationDto>>();
+                .ForMember(des => des.StorePhotoUrl, opt => opt.MapFrom(src => src.StorePhoto.Url));
             CreateMap<ClassificationDto, Classification>();
+            CreateMap<Classification, ClassificationDto>();
             CreateMap<ClientDto, Store>();
-                
+            CreateMap<ProductDto, Product>();
+            CreateMap<Product, ProductDto>();
         }
     }
 }

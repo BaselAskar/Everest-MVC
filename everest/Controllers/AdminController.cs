@@ -1,4 +1,5 @@
-﻿using everest.DTOs;
+﻿using AutoMapper;
+using everest.DTOs;
 using everest.Entities;
 using everest.Interfaces;
 using Microsoft.AspNetCore.Authorization;
@@ -43,9 +44,10 @@ namespace everest.Controllers
 
                     if (userRoles.Count != 0)
                     {
-                        if (userRoles.Contains("Store")) await _uof.StoreRepository.RemoveStore(user);
+                        
+                        if (userRoles.Contains("Store")) _uof.StoreRepository.RemoveStore(await _uof.StoreRepository.GetStoreAsync(user));
 
-                        if (userRoles.Contains("Clinic")) await _uof.ClinicRepository.RemoveClinic(user);
+                        if (userRoles.Contains("Clinic")) _uof.ClinicRepository.RemoveClinic(await _uof.ClinicRepository.GetClinicAsync(user));
 
                         if (!await _uof.Complete()) return BadRequest("Something was wrong please try agian");
 
@@ -61,9 +63,9 @@ namespace everest.Controllers
 
                     if (!userRoles.Contains("Moderator"))
                     {
-                        if (userRoles.Contains("Store")) await _uof.StoreRepository.RemoveStore(user);
+                        if (userRoles.Contains("Store")) _uof.StoreRepository.RemoveStore(await _uof.StoreRepository.GetStoreAsync(user));
 
-                        if (userRoles.Contains("Clinic")) await _uof.ClinicRepository.RemoveClinic(user);
+                        if (userRoles.Contains("Clinic")) _uof.ClinicRepository.RemoveClinic(await _uof.ClinicRepository.GetClinicAsync(user));
 
                         if (!await _uof.Complete()) return BadRequest("Something was wrong please try agian");
 
@@ -76,8 +78,12 @@ namespace everest.Controllers
 
                 case "Store":
 
+                    
+                    await _uof.StoreRepository.AddStoreAsync(new Store {UserId = user.Id,User = user });
 
-                    await _uof.StoreRepository.AddStore(user);       
+                    if (!await _uof.Complete()) return BadRequest("Field to add store");
+
+                    var store = await _uof.StoreRepository.GetStoreAsync(user);
 
                     var classificationsList = classifications.Split(',').ToList();
 
@@ -91,8 +97,7 @@ namespace everest.Controllers
                         };
 
 
-                        
-                        await _uof.StoreRepository.AddClassificationToStore(user, classificationDto);
+                        await _uof.ClassificationRepository.AddClassificationToStoreAsync(store, classificationDto);
                     }
 
                     if (!await _uof.Complete()) return BadRequest("Something was wrong please try agian");
@@ -105,10 +110,12 @@ namespace everest.Controllers
 
                 case "Clinic":
 
+                    
+                    await _uof.ClinicRepository.AddClinicAsync(new Clinic { UserId = user.Id,User = user });
 
-                    await _uof.ClinicRepository.AddClinic(user);
+                    if (!await _uof.Complete()) return BadRequest("Field to add new clinic");
 
-
+                    var clinic = await _uof.ClinicRepository.GetClinicAsync(user);
 
                     var classificationsClinicList = classifications.Split(',').ToList();
 
@@ -120,7 +127,8 @@ namespace everest.Controllers
                             Name = classific.Substring(classific.IndexOf('-') + 1)
                         };
 
-                        await _uof.ClinicRepository.AddClassificationToClinic(user, classificationDto);
+
+                        await _uof.ClassificationRepository.AddClassificationToClinicAsync(clinic, classificationDto);
                     }
 
                     if (!await _uof.Complete()) return BadRequest("Something was wrong please try agian");

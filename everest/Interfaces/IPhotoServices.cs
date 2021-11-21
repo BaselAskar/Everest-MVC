@@ -9,7 +9,8 @@ namespace everest.Interfaces
 {
     public interface IPhotoServices
     {
-        Task<ImageUploadResult> AddCompanyPhotoAsync(IFormFile file);
+        Task<ImageUploadResult> AddStorePhotoAsync(IFormFile file);
+        Task<ImageUploadResult> AddProductPhotoAsync(IFormFile file);
         Task<DeletionResult> RemovePhoto(string publicId);
     }
 }

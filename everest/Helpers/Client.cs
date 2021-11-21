@@ -1,6 +1,7 @@
 ﻿using everest.Entities;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -19,8 +20,6 @@ namespace everest.Helpers
         public string Whatsapp2 { get; set; }
         public string PhoneNumber1 { get; set; }
         public string PhoneNumber2 { get; set; }
-        public int CompanyPhotoId { get; set; }
-        public CompanyPhoto CompanyPhoto { get; set; }
         public string UserId { get; set; }
         public AppUser User { get; set; }
 

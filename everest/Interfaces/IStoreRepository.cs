@@ -1,5 +1,6 @@
 ﻿using everest.DTOs;
 using everest.Entities;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,14 +10,15 @@ namespace everest.Interfaces
 {
     public interface IStoreRepository
     {
-        Task AddClassificationToStore(AppUser user,ClassificationDto classificationDto);
-        Task AddStore(AppUser user);
-        Task AddCompanyPhotoAsync(AppUser user, CompanyPhoto companyPhoto);
-        Task RemoveCompanyPhotoAsync(int companyPhotoId);
-        Task<CompanyPhoto> GetCompanyPhotoAsync(AppUser user);
-        void UpdateCompanyPhoto(CompanyPhoto companyPhoto);
+        Task<List<ClassificationDto>> GetClassificationStoreAsync(Store store);
+        Task AddStoreAsync(Store store);
+        Task AddStorePhotoAsync(Store store, StorePhoto storePhoto);
+        Task RemoveStorePhotoAsync(int StorePhotoId);
+        Task<StorePhoto> GetStorePhotoAsync(Store store);
+        void UpdateStorePhoto(StorePhoto companyPhoto);
         Task<Store> GetStoreAsync(AppUser user);
-        Task RemoveStore(AppUser user);
+        Task<Product> GetProductByPublicIdAsync(string publicId);
+        void RemoveStore(Store store);
         void UpdateStore(Store store);
     }
 }

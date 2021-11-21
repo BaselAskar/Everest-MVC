@@ -20,7 +20,7 @@ namespace everest.Repositoies
 
         public IClassificationRepository ClassificationRepository => new ClassificationRepository(_data, _mapper);
 
-        public IStoreRepository StoreRepository => new StoreRepository(_data);
+        public IStoreRepository StoreRepository => new StoreRepository(_data,_mapper);
 
         public IClinicRepository ClinicRepository => new ClinicRepository(_data);
 

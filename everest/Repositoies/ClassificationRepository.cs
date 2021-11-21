@@ -14,44 +14,60 @@ namespace everest.Repositoies
     public class ClassificationRepository : IClassificationRepository
     {
         private readonly DataContext _data;
+        private readonly IMapper _mapper;
 
         public ClassificationRepository(DataContext data, IMapper mapper)
         {
             _data = data;
+            _mapper = mapper;
         }
 
 
 
         public async Task AddClassification(ClassificationDto classificationDto)
         {
-            var classification = new Classification { Name = classificationDto.Name,Title= classificationDto.Title };
+            var classification = _mapper.Map<Classification>(classificationDto);
             await _data.Classifications.AddAsync(classification);
+        }
+
+        public async Task AddClassificationToClinicAsync(Clinic clinic, ClassificationDto classificationDto)
+        {
+            var classification = await _data.Classifications
+                .SingleOrDefaultAsync(c => c.Name == classificationDto.Name && c.Title == classificationDto.Title);
+
+            var classificationClinic = new ClassificationClinic
+            {
+                ClassificationId = classification.Id,
+                Classification = classification,
+                ClinicId = clinic.Id,
+
+            };
+
+            await _data.ClassificationClinics.AddAsync(classificationClinic);
+        }
+
+        public async Task AddClassificationToStoreAsync(Store store, ClassificationDto classificationDto)
+        {
+            var classification = await _data.Classifications
+                .SingleOrDefaultAsync(c => c.Name == classificationDto.Name && c.Title == classificationDto.Title);
+
+            var classificationStore = new ClassificationStore
+            {
+                ClassificationId = classification.Id,
+                Classification = classification,
+                StoreId = store.Id,
+                Store = store
+            };
+
+            await _data.ClassificationStores.AddAsync(classificationStore);
+
         }
 
         public async Task<IEnumerable<ClassificationDto>> GetClassifications()
         {
-            var classifications = await _data.Classifications.ToListAsync();
-
-            var classificationsDtos = new List<ClassificationDto>();
-
-            foreach(var c in classifications)
-            {
-                var classificatioDto = new ClassificationDto
-                {
-                    Title = c.Title,
-                    Name = c.Name
-                };
-
-                classificationsDtos.Add(classificatioDto);
-            }
-
-            return classificationsDtos;
-        }
-
-        public void RemoveClassification(ClassificationDto classificationDto)
-        {
-            var classification = new Classification { Name = classificationDto.Name,Title= classificationDto.Title };
-            _data.Classifications.Remove(classification);
+            return await _data.Classifications
+                .Select(c => _mapper.Map<ClassificationDto>(c))
+                .ToListAsync();
         }
 
     }

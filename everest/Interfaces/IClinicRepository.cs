@@ -9,10 +9,9 @@ namespace everest.Interfaces
 {
     public interface IClinicRepository
     {
-        Task AddClassificationToClinic(AppUser user, ClassificationDto classificationDto);
 
-        Task AddClinic(AppUser user);
-
-        Task RemoveClinic(AppUser user);
+        Task AddClinicAsync(Clinic clinic);
+        Task<Clinic> GetClinicAsync(AppUser user);
+        void RemoveClinic(Clinic clinic);
     }
 }
