@@ -7,14 +7,50 @@
 }
 
 <style>
-    .table-container {
-        width: 60%;
+
+    .customer-manager-tamplet{
+        height:100%;
+        width:100%;
     }
 
-    .table {
-        height: 500px;
-        overflow-y: scroll
+
+    /*Back page link*/
+    .back-link {
+        position: absolute;
+        border: 1px solid;
+        border-radius: 50%;
+        width: fit-content;
+        height: fit-content;
+        top: 2%;
+        left: 5%;
+        padding: 10px;
+        font-size: 1.5rem;
+        color: #0dcaf0;
+        transition: all 0.3s ease-in-out;
+        -webkit-transition: all 0.3s ease-in-out;
+        -o-transition: all 0.3s ease-in-out;
+        -moz-transition: all 0.3s ease-in-out;
     }
+
+        .back-link:hover {
+            background-color: #0dcaf0;
+            color: white;
+            box-shadow: 0px 0px 28px #0dcaf0;
+            -webkit-box-shadow: 0px 0px 28px #0dcaf0;
+            -moz-box-shadow: 0px 0px 28px #0dcaf0;
+            box-shadow: 0px 0px 28px #0dcaf0;
+        }
+
+
+
+
+    .table-container {
+        width: 100%;
+        max-width: 1000px;
+        max-height: 500px;
+        overflow-y: scroll;
+    }
+
 
     /*Confirm user to client*/
 
@@ -28,10 +64,12 @@
     }
 
     .confirm-form {
-        position: absolute;
+        position: fixed;
         background-color: #b0ffffdb;
         height: 70%;
+        max-height:700px;
         width: 90%;
+        max-width:1000px;
         border-radius: 20px;
         -webkit-box-shadow: 0px 0px 22px 1px #3f3f3f;
         box-shadow: 0px 0px 22px 1px #3f3f3f;
@@ -76,6 +114,14 @@
         overflow-y: auto;
     }
 
+    .class-added span {
+        background-color: cyan;
+        color: #220a83;
+        padding: .8%;
+        border-radius: 20px;
+        font-weight: bold;
+    }
+
     .confirm-form .btn-close {
         font-size: small;
     }
@@ -90,93 +136,94 @@
 
 </style>
 
-<h1 class="text-center text-info p-5">إدارة المستخدمين</h1>
 
-@*Confirm convert user to client*@
+<div class="customer-manager-tamplet position-absolute">
 
-<div class="black-background d-none">
-    <div class="confirm-form">
-        <form>
-            <label for="classification" class="text-center d-block m-3">تصنيف المتجر</label>
-            <input type="text"
-                   list="classification"
-                   class="form-control text-end" />
-            <datalist id="classification">
-                @foreach(var classification in Model.ClassificationList)
-                {
-                    <option value="@classification">@classification</option>
-                }
-            </datalist>
-            <button type="submit" class="btn btn-primary mt-3">إضافة</button>
-        </form>
-        <div class="classification-group text-center mt-3">
-            <!-- <div class="class-added m-3">
-              ملبوسات-رجالي <button class="btn-close" aria-label="close"></button>
+    @*Back page link*@
+    <a class="back-link" asp-area="Identity" asp-page="/Account/MyProfile/Index" title="الصفحة الشخصية"><i class="bi bi-arrow-left"></i></a>
+
+
+    <h1 class="text-center text-info p-5">إدارة المستخدمين</h1>
+
+    @*Confirm convert user to client*@
+
+    <div class="black-background d-none">
+        <div class="confirm-form">
+            <form>
+                <label for="classification" class="text-center d-block m-3">تصنيف المتجر</label>
+                <input type="text"
+                       list="classification"
+                       class="form-control text-end" />
+                <datalist id="classification">
+                    @foreach (var classification in Model.ClassificationList)
+                    {
+                        <option value="@classification">@classification</option>
+                    }
+                </datalist>
+                <button type="submit" class="btn btn-primary mt-3">إضافة</button>
+            </form>
+            <div class="classification-group text-center mt-3">
             </div>
-            <div class="class-added m-3 p-2">
-              ملبوسات-نسائي <button class="btn-close" aria-label="close"></button>
-            </div> -->
-        </div>
-        <p class="text-center" style="direction: rtl">
-            سيتم تغيير صلاحيات المستخدم إلى
-            <span class="fw-bold">مدير متجر</span> هل أنت متأكد من العملية..؟
-        </p>
-        <div class="confirm-btns-group d-flex justify-content-around">
-            <button class="btn btn-success">تأكيد</button>
-            <button class="btn btn-danger">إلغاء</button>
+            <p class="text-center" style="direction: rtl">
+                سيتم تغيير صلاحيات المستخدم إلى
+                <strong>مدير متجر</strong> هل أنت متأكد من العملية..؟
+            </p>
+            <div class="confirm-btns-group d-flex justify-content-around">
+                <button class="btn btn-danger">إلغاء</button>
+                <button class="btn btn-success">تأكيد</button>
+            </div>
         </div>
     </div>
-</div>
 
 
 
-@*Users table*@
-<div class="d-flex justify-content-center">
-    <div class="table-container">
-        <input type="search" class="form-control text-center" placeholder="بحث عن مستخدم" />
-        <table class="table table-hover mt-4">
-            <thead>
-                <tr>
-                    <th scope="col">صفة المستخدم</th>
-                    <th scope="col">اسم المستخدم</th>
-                    <th scope="col">تارخ التسجيل</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var user in Model.CustomerManagerDtos)
-                {
-                    <tr class="user-row">
-                        <td>
-                            <div class="btn-group dropstart">
-                                <button type="button" class="btn btn-outline-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">@user.RoleName</button>
-                                <ul class="dropdown-menu">
-                                    @foreach (var role in Model.RolesList)
-                                    {
-                                        @if (role.DisplayedName == user.RoleName)
-                                        {
-                                            <li><button class="dropdown-item" disabled>@role.DisplayedName</button></li>
-                                        }
-                                        else
-                                        {
-                                            <li><button class="dropdown-item btn-role" data-userid="@user.UserId" data-role="@role.Name">@role.DisplayedName</button></li>
-                                        }
-                                    }
-                                </ul>
-                            </div>
-                        </td>
-                        <td class="user-name">
-                            @user.UserName
-                        </td>
-                        <td>
-                            @user.Created
-                        </td>
+    @*Users table*@
+    <div class="d-flex justify-content-center">
+        <div class="table-container">
+            <input type="search" class="form-control text-center" placeholder="بحث عن مستخدم" />
+            <table class="table table-hover mt-4">
+                <thead>
+                    <tr>
+                        <th scope="col">صفة المستخدم</th>
+                        <th scope="col">اسم المستخدم</th>
+                        <th scope="col">تارخ التسجيل</th>
                     </tr>
-                }
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                    @foreach (var user in Model.CustomerManagerDtos)
+                    {
+                        <tr class="user-row">
+                            <td>
+                                <div class="btn-group dropstart">
+                                    <button type="button" class="btn btn-outline-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">@user.RoleName</button>
+                                    <ul class="dropdown-menu">
+                                        @foreach (var role in Model.RolesList)
+                                        {
+                                            @if (role.DisplayedName == user.RoleName)
+                                            {
+                                                <li><button class="dropdown-item" disabled>@role.DisplayedName</button></li>
+                                            }
+                                            else
+                                            {
+                                                <li><button class="dropdown-item btn-role" data-userid="@user.UserId" data-role="@role.Name">@role.DisplayedName</button></li>
+                                            }
+                                        }
+                                    </ul>
+                                </div>
+                            </td>
+                            <td class="user-name">
+                                @user.UserName
+                            </td>
+                            <td>
+                                @user.Created
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>
-
 
 
 
@@ -185,7 +232,7 @@
 
         //Constans
         const classForm = document.querySelector(".confirm-form form");
-        const clssificationGroup = document.querySelector(".classification-group");
+        const classificationGroup = document.querySelector(".classification-group");
         const classificationInput = document.querySelector(".confirm-form input");
         const btnConfirm = document.querySelector(".confirm-btns-group .btn-success");
         const btnCancel = document.querySelector('.confirm-btns-group .btn-danger');
@@ -197,9 +244,6 @@
 
 
         //Events convert role of user
-
-
-
         rolesBtns.forEach(btn => {
             btn.addEventListener('click', (e) => {
                 var userId = e.target.dataset.userid;
@@ -264,9 +308,9 @@
             }
         });
 
+
+
         //Confirm convert user to client
-
-
         const removeClassification = function (e) {
             const classAdded = e.target.closest(".class-added");
 
@@ -283,18 +327,19 @@
             );
 
             const html = `
-            <div class="class-added m-2">
-            ${classificationInput.value} <button onclick="removeClassification(event)
-            " class="btn-close" aria-label="close"></button>
+            <div class="class-added m-3">
+            <span>${classificationInput.value}<button onclick="removeClassification(event)
+            " class="btn-close" aria-label="close"></button></span>
             </div>
             `;
 
-            clssificationGroup.insertAdjacentHTML("beforeend", html);
+            classificationGroup.insertAdjacentHTML("beforeend", html);
 
             classificationInput.value = "";
         });
 
         btnCancel.addEventListener('click', () => {
+            classificationGroup.innerHTML = "";
             blackBackground.classList.add('d-none');
             confirmForm.classList.remove('confirm-form-visible');
         })
