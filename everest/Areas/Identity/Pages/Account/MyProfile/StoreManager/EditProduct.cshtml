@@ -1,0 +1,237 @@
+﻿@page
+@addTagHelper *,Microsoft.AspNetCore.Mvc.TagHelpers
+@model everest.Areas.Identity.Pages.Account.MyProfile.StoreManager.EditProductModel
+@{
+    ViewData["Title"] = "Edit product";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section Styles{
+    <link rel="stylesheet" href="@Url.Content("~/css/Account/MyPage/StoreManager/edit-product.css")"/>
+}
+
+
+
+<!--Confirm form-->
+
+<div class="black-background d-none"></div>
+
+
+
+
+<div class="confirm-removing position-fixed d-flex justify-content-center align-items-center flex-column">
+    <img src="@Url.Content("~/assets/warning.png")" alt="warning" />
+    <p>هل أنت متأكد من حذف المادة..؟</p>
+    <div class="confirm-btns-group d-flex justify-content-around">
+        <button class="btn btn-success">لا</button>
+        <button class="btn btn-warning">
+            <span class="spinner-border spinner-border-sm d-none"></span>
+            <span class="btn-content">تعم</span>
+        </button>
+    </div>
+
+</div>
+
+<div class="edit-product-tamblet position-relative">
+    <!--back link-->
+    <a class="back-link" asp-area="Identity" asp-page="/Account/MyProfile/StoreManager/ProductsManager"><i class="bi bi-arrow-left"></i></a>
+
+    <!--header text-->
+    <h1 class="text-center text-info p-3">تعديل مادة</h1>
+
+    <!--edit product form-->
+    <form class="form-edit-product d-flex justify-content-center mt-5">
+        <div class="container">
+            <!--images section-->
+            <div class="row d-flex justify-content-center">
+                <!--main image-->
+                <div class="upload-group col-md-6 col-xl-4 col-10">
+                    <div class="image-group my-3">
+                        <img class="product-image"
+                             src="@Model.Input.MainPhotoUrl"
+                             alt="الصورة الرئيسية" />
+                    </div>
+                    <div class="main-photo-text mt-2 text-center p-2 fw-bold">
+                        الصورة الرئيسية
+                    </div>
+                </div>
+            </div>
+
+            <div class="row d-flex justify-content-center">
+
+                @for (int i = 0; i < 4; i++)
+                {
+                    @if (i < Model.ProductPhotos.Count)
+                    {
+                        <!--image @(i+1) -->
+
+                        <div class="upload-group col-10 col-md-3">
+                            <div class="file-upload-container p-3 d-none">
+                                <div class="file-upload position-relative">
+                                    <p class="text-center">
+                                        تحميل الصورة <br />
+                                        <i class="fs-2 bi bi-cloud-upload"></i>
+                                    </p>
+                                    <input type="file" name="iamge @(i+1)" data-updated="false" data-publicid="@Model.ProductPhotos[i].PublicId" />
+                                </div>
+                            </div>
+
+                            <div class="image-group my-3">
+                                <img class="product-image"
+                                     src="@Model.ProductPhotos[i].Url"
+                                     alt="صورة @(i+1) " /><br />
+                                <div class="btns-group mt-2 d-flex justify-content-center">
+                                    <button type="button" class="btn btn-warning" data-id="@Model.ProductPhotos[i].Id">
+                                        <span class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true"></span>
+                                        <span class="btn-content">الرئيسية</span>
+                                    </button>
+                                    <button type="button" class="btn btn-danger">إزالة</button>
+                                </div>
+                            </div>
+                        </div>
+
+                    }
+                    else
+                    {
+                        <!--image @(i+1) -->
+
+                        <div class="upload-group col-10 col-md-3">
+                            <div class="file-upload-container p-3">
+                                <div class="file-upload position-relative">
+                                    <p class="text-center">
+                                        تحميل الصورة <br />
+                                        <i class="fs-2 bi bi-cloud-upload"></i>
+                                    </p>
+                                    <input type="file" name="iamge @(i+1)" data-updated="false" />
+                                </div>
+                            </div>
+
+                            <div class="image-group my-3 d-none">
+                                <img class="product-image"
+                                     src="@Url.Content("~/assets/loading.gif")"
+                                     alt="صورة @(i+1) " /><br />
+                                <div class="btns-group mt-2 d-flex justify-content-center">
+                                    <button type="button" class="btn btn-danger">إزالة</button>
+                                </div>
+                            </div>
+                        </div>
+
+                    }
+
+
+                }
+            </div>
+
+
+                <!--information section-->
+                <div class="row form-group d-flex justify-content-center"
+                     style="direction: rtl">
+                    <div class="col-2">
+                        <label class="form-label" asp-for="Input.Name"></label>
+                    </div>
+                    <div class="col-md-8 col-7">
+                        <input type="text" class="form-control text-center" asp-for="Input.Name" />
+                    </div>
+                </div>
+
+                <div class="row form-group d-flex justify-content-center"
+                     style="direction: rtl">
+                    <div class="col-2">
+                        <label class="form-label" asp-for="Input.Description"></label>
+                    </div>
+                    <div class="col-md-8 col-7">
+                        <textarea type="text" class="form-control text-center" style="resize:none;" asp-for="Input.Description"></textarea>
+                    </div>
+                </div>
+
+                <div class="row form-group d-flex justify-content-center"
+                     style="direction: rtl">
+                    <div class="col-2">
+                        <label class="form-label" asp-for="Input.Classification"></label>
+                    </div>
+                    <div class="col-md-8 col-7">
+                        <select class="form-control text-center" asp-for="Input.Classification">
+                            @foreach (var cl in Model.Classifications)
+                            {
+                                @if (Model.Input.Classification == $"{cl.Title}-{cl.Name}")
+                                {
+                                    <option value="@cl.Title-@cl.Name" selected>@cl.Title-@cl.Name</option>
+                                }
+                                else
+                                {
+                                    <option value="@cl.Title-@cl.Name">@cl.Title-@cl.Name</option>
+                                }
+                            }
+                        </select>
+                    </div>
+                </div>
+
+                <div class="row form-group d-flex justify-content-center"
+                     style="direction: rtl">
+                    <div class="col-2">
+                        <label class="form-label" asp-for="Input.Price"></label>
+                    </div>
+                    <div class="col-md-8 col-7">
+                        <input type="text" class="form-control text-center" asp-for="Input.Price" />
+                    </div>
+                </div>
+
+                <div class="row form-group d-flex justify-content-center"
+                     style="direction: rtl">
+                    <div class="col-2">
+                        <label class="form-label" asp-for="Input.Currency"></label>
+                    </div>
+                    <div class="col-md-8 col-7">
+                        <input type="text" class="form-control text-center" list="currency-list" asp-for="Input.Currency" />
+                    </div>
+                    <datalist id="currency-list">
+                        <option value="دولار $">دولار $</option>
+                        <option value="تركي TL">تركي TL</option>
+                        <option value="سوري SYP">سوري SYP</option>
+                    </datalist>
+                </div>
+
+                <div class="row form-group d-flex justify-content-center"
+                     style="direction: rtl">
+                    <div class="col-2">
+                        <label class="form-label" asp-for="Input.IsAllowed"></label>
+                    </div>
+                    <div class="col-md-8 col-7">
+                        @if (Model.Input.IsAllowed)
+                        {
+                            <input type="checkbox" class="form-check" asp-for="Input.IsAllowed" checked />
+                        }
+                        else
+                        {
+                            <input type="checkbox" class="form-check" asp-for="Input.IsAllowed" />
+                        }
+
+                    </div>
+                </div>
+
+
+                <div class="row form-group d-flex justify-content-center"
+                     style="direction: rtl">
+                    <button type="submit" class="btn btn-success col-4 col-md-2 m-2 mx-5 submit-btn">
+                        <span class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true"></span>
+                        <span class="btn-content">حفظ التغييرات</span>
+                    </button>
+                    <button type="button" class="btn btn-secondary col-4 col-md-2 m-2 mx-5 cancel-changes-btn">
+                        <span class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true"></span>
+                        <span class="btn-content">إلغاء التغييرات</span>
+                    </button>
+                    <button type="button" class="btn btn-danger col-4 col-md-2 m-2 mx-5 remove-product-btn">
+                        <span class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true"></span>
+                        <span class="btn-content">حذف المنتج</span>
+                    </button>
+
+                </div>
+
+            </div>
+    </form>
+</div>
+
+
+@section Scripts{
+    <script src="@Url.Content("~/js/Account/MyPage/StoreManager/edit-product.js")"></script>
+}

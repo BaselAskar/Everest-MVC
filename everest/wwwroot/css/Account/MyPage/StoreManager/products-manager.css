@@ -1,0 +1,118 @@
+﻿
+/*Heder*/
+h2 {
+    margin: 0 auto;
+    margin-top: 1em;
+    margin-bottom: 1em;
+    max-width: 500px;
+}
+
+/*Search form*/
+
+.search-input {
+    max-width: 500px;
+}
+
+.search-type {
+    outline: none;
+    border-right: none;
+    border-color: #ced4da;
+    background-color: #c5f3f3;
+    width: 20px;
+    height: 38px;
+}
+
+.btn-search {
+    margin-top: 15px;
+    margin-right: 50%;
+    transform: translateX(50%);
+}
+
+/*Products table*/
+
+.product-container table {
+    width: 100%;
+    max-width: 1000px;
+    margin-left: 50%;
+    transform: translateX(-50%);
+    -webkit-transform: translateX(-50%);
+    -o-transform: translateX(-50%);
+    -moz-transform: translateX(-50%);
+    max-height:1000px;
+    overflow-y:scroll;
+}
+
+.table-product-image {
+    width: 50px;
+    height: 50px;
+}
+
+tbody tr{
+    cursor:pointer;
+}
+
+
+
+
+/*spinner*/
+.spinner-container {
+    height: 100%;
+    width: 100%;
+    background-color: rgb(70 115 115 / 31%);
+    position: absolute;
+    z-index: 3;
+}
+
+    .spinner-loading {
+    position:absolute;
+    top:50%;
+    left:50%;
+    transform: translate(-50%, -50%);
+}
+
+    .spinner-loading div {
+        width: 20px;
+        height: 20px;
+        background: black;
+        display: inline-block;
+        border-radius: 50%;
+        background: linear-gradient( 180deg, rgba(255, 255, 255, 1) 6%, rgba(0, 250, 243, 1) 84% );
+    }
+
+        .spinner-loading div:nth-child(1) {
+            animation: spinner 3s ease-in-out 0s infinite;
+        }
+
+        .spinner-loading div:nth-child(2) {
+            animation: spinner 3s ease-in-out 0.25s infinite;
+        }
+
+        .spinner-loading div:nth-child(3) {
+            animation: spinner 3s ease-in-out 0.5s infinite;
+        }
+
+        .spinner-loading div:nth-child(4) {
+            animation: spinner 3s ease-in-out 0.75s infinite;
+        }
+
+        .spinner-loading div:nth-child(5) {
+            animation: spinner 3s ease-in-out 1s infinite;
+        }
+
+@keyframes spinner {
+    0% {
+        transform: translateY(0);
+    }
+
+    10% {
+        transform: translateY(-75%);
+    }
+
+    25% {
+        transform: translateY(0);
+    }
+
+    100% {
+        transform: translateY(0);
+    }
+}

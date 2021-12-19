@@ -1,0 +1,28 @@
+﻿.profile-link {
+    text-decoration: none;
+    color: black;
+    font-weight: 500;
+    font-size: 18px;
+    transition: all .3s ease-in-out;
+    -webkit-transition: all .3s ease-in-out;
+    -o-transition: all .3s ease-in-out;
+    -moz-transition: all .3s ease-in-out;
+    margin: 20px;
+    max-width: max-content;
+}
+
+.profile-link-con {
+    border-radius: 10px;
+    transition: all .3s ease-in-out;
+    -webkit-transition: all .3s ease-in-out;
+    -o-transition: all .3s ease-in-out;
+    -moz-transition: all .3s ease-in-out;
+}
+
+    .profile-link-con:hover {
+        background-color: aqua;
+    }
+
+        .profile-link-con:hover .profile-link {
+            color: white;
+        }

@@ -20,7 +20,7 @@ namespace everest
         public static async Task Main(string[] args)
         {
             var host = CreateHostBuilder(args).Build();
-            using var scope = host.Services.CreateScope();
+            var scope = host.Services.CreateScope();
             var services = scope.ServiceProvider;
 
             try
@@ -43,12 +43,15 @@ namespace everest
             await host.RunAsync();
         }
 
-        public static IHostBuilder CreateHostBuilder(string[] args) =>
-            Host.CreateDefaultBuilder(args)
-                .ConfigureWebHostDefaults(webBuilder =>
-                {
-                    webBuilder.UseUrls("http://192.168.32.3:5002");
-                    webBuilder.UseStartup<Startup>();
-                });
+        public static IHostBuilder CreateHostBuilder(string[] args)
+        {
+            return Host.CreateDefaultBuilder(args)
+            .ConfigureWebHostDefaults(webBuilder =>
+             {
+             
+             webBuilder.UseStartup<Startup>();
+            });
+
+        }
     }
 }

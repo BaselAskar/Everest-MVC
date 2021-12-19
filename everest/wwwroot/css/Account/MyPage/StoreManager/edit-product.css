@@ -1,0 +1,131 @@
+﻿/*Heder*/
+h1 {
+    margin: 0 auto;
+    margin-top: 1em;
+    margin-bottom: 1em;
+    max-width: 500px;
+}
+
+/*Confirm form*/
+.black-background {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background-color: #00000096;
+    top: 0;
+    left: 0;
+    z-index:5;
+}
+
+.confirm-removing {
+    top: -100%;
+    left: 50%;
+    background-color: cyan;
+    transform: translate(-50%,0);
+    -webkit-transform: translate(-50%,0);
+    -o-transform: translate(-50%,0);
+    -moz-transform: translate(-50%,0);
+    z-index: 10;
+    width: 80%;
+    height: 80%;
+    border-radius: 15px;
+    box-shadow: 1px 1px 10px black;
+    -webkit-box-shadow: 1px 1px 10px black;
+    -moz-box-shadow: 1px 1px 10px black;
+    max-width: 500px;
+    transition:all .5s ease-in-out;
+}
+
+.visiable-confirm-removing {
+    top: 50%;
+    transform: translate(-50%,-50%);
+    -webkit-transform: translate(-50%,-50%);
+    -o-transform: translate(-50%,-50%);
+    -moz-transform: translate(-50%,-50%);
+}
+
+    .confirm-removing p {
+        margin: 10%;
+        font-size: 119%;
+        font-weight: bold;
+    }
+
+.confirm-btns-group{
+    width:100%;
+}
+
+.confirm-btns-group .btn{
+    width:20%;
+}
+
+
+
+/*Images form section*/
+.upload-group {
+    height: 100%;
+}
+
+.file-upload-container {
+    height: 295.984px;
+}
+
+.product-image {
+    width: 100%;
+    height: 220px;
+    border: 1px dashed black;
+    border-radius: 10px;
+    padding: 10px;
+}
+
+.file-upload {
+    border: 2px dashed rgb(2, 180, 180);
+    width: 90%;
+    height: 90%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+    transition: all 0.3s ease-in-out;
+    color: rgb(2, 180, 180);
+    font-weight: bold;
+}
+
+    .file-upload:hover {
+        background-color: rgba(0, 0, 255, 0.507);
+        color: white;
+        border-color: white;
+    }
+
+    .file-upload input {
+        position: absolute;
+        top: 0;
+        left: 0;
+        border: 1px solid black;
+        width: 100%;
+        height: 100%;
+        z-index: 5;
+        cursor: pointer;
+        opacity: 0;
+    }
+
+.btns-group .btn {
+    margin: 3px;
+    padding: 3%;
+}
+
+.btns-group {
+    direction: rtl;
+}
+
+.main-photo-text {
+    border-radius: 10px;
+    background-color: #0dcaf0;
+    color: white;
+    width: 100%;
+}
+
+/*information form section*/
+.form-group {
+    margin: 1.5% 0;
+}
+

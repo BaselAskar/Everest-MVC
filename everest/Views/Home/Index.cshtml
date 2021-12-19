@@ -4,8 +4,8 @@
 @{
     ViewData["Title"] = "Home Page";
 }
-@section Style {
-    <link rel="stylesheet" href="~/css/index.css" />
+@section Styles {
+    <link rel="stylesheet" href="@Url.Content("~/css/index.css")" />
 }
 
 
@@ -61,5 +61,5 @@
 
 
 @section Scripts {
-    <script src="~/js/Index.js"></script>
+    <script src="@Url.Content("~/js/index.js")"></script>
 }

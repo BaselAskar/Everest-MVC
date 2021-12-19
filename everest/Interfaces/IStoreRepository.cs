@@ -17,7 +17,10 @@ namespace everest.Interfaces
         Task<StorePhoto> GetStorePhotoAsync(Store store);
         void UpdateStorePhoto(StorePhoto companyPhoto);
         Task<Store> GetStoreAsync(AppUser user);
-        Task<Product> GetProductByPublicIdAsync(string publicId);
+        Task<Product> GetProductByIdAsync(string id);
+        void UpdateProduct(Product product);
+        Task<List<ProductDto>> GetProductsAsync(Store store);
+        void RemoveProduct(Product product);
         void RemoveStore(Store store);
         void UpdateStore(Store store);
     }

@@ -88,11 +88,33 @@ namespace everest.Repositoies
             _data.Entry(store).State = EntityState.Modified;
         }
 
-        public async Task<Product> GetProductByPublicIdAsync(string publicId)
+        public async Task<Product> GetProductByIdAsync(string id)
         {
             return await _data.Products
                 .Include(p => p.Photos)
-                .FirstOrDefaultAsync(p => p.PublicId == publicId);
+                .FirstOrDefaultAsync(p => p.Id == id);
+
         }
+
+        public async Task<List<ProductDto>> GetProductsAsync(Store store)
+        {
+            return await _data.Products
+                .Where(p => p.StoreId == store.Id)
+                .Include(p => p.Photos)
+                .Select(p => _mapper.Map<ProductDto>(p))
+                .ToListAsync();
+        }
+
+
+        public void UpdateProduct(Product product)
+        {
+            _data.Entry(product).State = EntityState.Modified;
+        }
+
+        public void RemoveProduct(Product product)
+        {
+            _data.Products.Remove(product);
+        }
+
     }
 }

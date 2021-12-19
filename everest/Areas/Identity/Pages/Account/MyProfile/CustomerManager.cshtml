@@ -6,138 +6,14 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<style>
+@section Styles{ 
+    <link rel="stylesheet" href="@Url.Content("~/css/Account/MyPage/AdminManager/customer-manager.css")" />
+}
 
-    .customer-manager-tamplet{
-        height:100%;
-        width:100%;
-    }
-
-
-    /*Back page link*/
-    .back-link {
-        position: absolute;
-        border: 1px solid;
-        border-radius: 50%;
-        width: fit-content;
-        height: fit-content;
-        top: 2%;
-        left: 5%;
-        padding: 10px;
-        font-size: 1.5rem;
-        color: #0dcaf0;
-        transition: all 0.3s ease-in-out;
-        -webkit-transition: all 0.3s ease-in-out;
-        -o-transition: all 0.3s ease-in-out;
-        -moz-transition: all 0.3s ease-in-out;
-    }
-
-        .back-link:hover {
-            background-color: #0dcaf0;
-            color: white;
-            box-shadow: 0px 0px 28px #0dcaf0;
-            -webkit-box-shadow: 0px 0px 28px #0dcaf0;
-            -moz-box-shadow: 0px 0px 28px #0dcaf0;
-            box-shadow: 0px 0px 28px #0dcaf0;
-        }
+<div class="black-background d-none"></div>
 
 
-
-
-    .table-container {
-        width: 100%;
-        max-width: 1000px;
-        max-height: 500px;
-        overflow-y: scroll;
-    }
-
-
-    /*Confirm user to client*/
-
-    .black-background {
-        position: absolute;
-        background-color: rgba(0, 0, 0, 0.5);
-        height: 100%;
-        width: 100%;
-        z-index: 1;
-        top:0;
-    }
-
-    .confirm-form {
-        position: fixed;
-        background-color: #b0ffffdb;
-        height: 70%;
-        max-height:700px;
-        width: 90%;
-        max-width:1000px;
-        border-radius: 20px;
-        -webkit-box-shadow: 0px 0px 22px 1px #3f3f3f;
-        box-shadow: 0px 0px 22px 1px #3f3f3f;
-        z-index: 2;
-        top: 0;
-        left: 50%;
-        transform: translate(-50%, -110%);
-        -webkit-transform: translate(-50%, -110%);
-        -o-transform: translate(-50%, -110%);
-        -moz-transform: translate(-50%, -110%);
-        transition: all .5s ease-in-out;
-        -webkit-transition: all .5s ease-in-out;
-        -o-transition: all .5s ease-in-out;
-        -moz-transition: all .5s ease-in-out;
-    }
-
-    .confirm-form-visible {
-        top: 50%;
-        transform: translate(-50%,-50%);
-        -webkit-transform: translate(-50%,-50%);
-        -o-transform: translate(-50%,-50%);
-        -moz-transform: translate(-50%,-50%);
-    }
-
-    .confirm-form label {
-        font-weight: bold;
-    }
-
-    .confirm-form .form-control {
-        width: 80%;
-        margin-left: 10%;
-        border-radius: 10px;
-    }
-
-    .confirm-form .btn-primary {
-        margin-left: 50%;
-        transform: translateX(-50%);
-    }
-
-    .confirm-form .classification-group {
-        height: 27%;
-        overflow-y: auto;
-    }
-
-    .class-added span {
-        background-color: cyan;
-        color: #220a83;
-        padding: .8%;
-        border-radius: 20px;
-        font-weight: bold;
-    }
-
-    .confirm-form .btn-close {
-        font-size: small;
-    }
-
-    .confirm-form p {
-        height: 10%;
-    }
-
-    .confirm-btns-group .btn {
-        width: 20%;
-    }
-
-</style>
-
-
-<div class="customer-manager-tamplet position-absolute">
+<div class="customer-manager-tamplet position-relative mb-3">
 
     @*Back page link*@
     <a class="back-link" asp-area="Identity" asp-page="/Account/MyProfile/Index" title="الصفحة الشخصية"><i class="bi bi-arrow-left"></i></a>
@@ -147,40 +23,38 @@
 
     @*Confirm convert user to client*@
 
-    <div class="black-background d-none">
-        <div class="confirm-form">
-            <form>
-                <label for="classification" class="text-center d-block m-3">تصنيف المتجر</label>
-                <input type="text"
-                       list="classification"
-                       class="form-control text-end" />
-                <datalist id="classification">
-                    @foreach (var classification in Model.ClassificationList)
-                    {
-                        <option value="@classification">@classification</option>
-                    }
-                </datalist>
-                <button type="submit" class="btn btn-primary mt-3">إضافة</button>
-            </form>
-            <div class="classification-group text-center mt-3">
-            </div>
-            <p class="text-center" style="direction: rtl">
-                سيتم تغيير صلاحيات المستخدم إلى
-                <strong>مدير متجر</strong> هل أنت متأكد من العملية..؟
-            </p>
-            <div class="confirm-btns-group d-flex justify-content-around">
-                <button class="btn btn-danger">إلغاء</button>
-                <button class="btn btn-success">تأكيد</button>
-            </div>
+    <div class="confirm-form">
+        <form>
+            <label for="classification" class="text-center d-block m-3">تصنيف المتجر</label>
+            <input type="text"
+                   list="classification"
+                   class="form-control text-end" />
+            <datalist id="classification">
+                @foreach (var classification in Model.ClassificationList)
+                {
+                    <option value="@classification">@classification</option>
+                }
+            </datalist>
+            <button type="submit" class="btn btn-primary mt-3">إضافة</button>
+        </form>
+        <div class="classification-group text-center mt-3">
+        </div>
+        <p class="text-center" style="direction: rtl">
+            سيتم تغيير صلاحيات المستخدم إلى
+            <strong>مدير متجر</strong> هل أنت متأكد من العملية..؟
+        </p>
+        <div class="confirm-btns-group d-flex justify-content-around">
+            <button class="btn btn-danger">إلغاء</button>
+            <button class="btn btn-success">تأكيد</button>
         </div>
     </div>
 
 
-
+    <input type="search" class="search-input form-control text-center" placeholder="بحث عن مستخدم" />
     @*Users table*@
     <div class="d-flex justify-content-center">
         <div class="table-container">
-            <input type="search" class="form-control text-center" placeholder="بحث عن مستخدم" />
+
             <table class="table table-hover mt-4">
                 <thead>
                     <tr>
@@ -227,123 +101,6 @@
 
 
 
-@section Scripts {
-    <script>
-
-        //Constans
-        const classForm = document.querySelector(".confirm-form form");
-        const classificationGroup = document.querySelector(".classification-group");
-        const classificationInput = document.querySelector(".confirm-form input");
-        const btnConfirm = document.querySelector(".confirm-btns-group .btn-success");
-        const btnCancel = document.querySelector('.confirm-btns-group .btn-danger');
-        const rolesBtns = document.querySelectorAll('.btn-role');
-        const searchInput = document.querySelector('.table-container .form-control');
-        const blackBackground = document.querySelector('.black-background');
-        const confirmForm = document.querySelector('.confirm-form');
-
-
-
-        //Events convert role of user
-        rolesBtns.forEach(btn => {
-            btn.addEventListener('click', (e) => {
-                var userId = e.target.dataset.userid;
-                var role = e.target.dataset.role;
-
-
-                if (role === "Store" || role === "Clinic") {
-                    blackBackground.classList.remove('d-none');
-                    confirmForm.classList.add('confirm-form-visible');
-
-                    
-
-                    //Event button confirm
-                    btnConfirm.addEventListener("click", () => {
-                        let classifications = [];
-
-                        const classAddedElements = document.querySelectorAll(
-                            "div.class-added:not(.d-none)"
-                        );
-
-                        classAddedElements.forEach((classAdded) => {
-                            classifications.push(classAdded.textContent.trim());
-                        });
-
-                        classifications = [...new Set(classifications)];
-
-                        if (classifications.length === 0) alert("الرجاء إدخال تصنيف المتجر");
-                        else {
-                            const classificationText = classifications.join(",");
-
-                            console.log(classificationText);
-
-                            window.location.href = `/admin/changeRole?userid=${userId}&role=${role}&classifications=${classificationText}`;
-                        }
-                    });
-
-                }
-
-                if ((role === "Customer" || role === "Moderator")
-                    && confirm("سيتم حذف جميع البيانات لمستخدم نهائيا ... هل ترغب بالاستمرار؟..")) {
-
-                    window.location.href = `/admin/changeRole?userid=${userId}&role=${role}`;
-                }
-                
-
-            });
-        });
-
-
-
-        //Search input
-        searchInput.addEventListener('input', () => {
-            var users = document.querySelectorAll('.user-row');
-            if (searchInput.value !== "") {
-                users.forEach(user => {
-                    if (user.querySelector('.user-name').textContent.includes(searchInput.value)) user.classList.remove('d-none');
-                    else user.classList.add('d-none');
-                });
-            } else {
-                users.forEach(user => user.classList.remove('d-none'));
-
-            }
-        });
-
-
-
-        //Confirm convert user to client
-        const removeClassification = function (e) {
-            const classAdded = e.target.closest(".class-added");
-
-            classAdded.classList.add("d-none");
-        };
-
-        classForm.addEventListener("submit", (e) => {
-            e.preventDefault();
-
-            if (classificationInput.value === "") return;
-
-            const classAddedElements = document.querySelectorAll(
-                "div.class-added:not(.d-none)"
-            );
-
-            const html = `
-            <div class="class-added m-3">
-            <span>${classificationInput.value}<button onclick="removeClassification(event)
-            " class="btn-close" aria-label="close"></button></span>
-            </div>
-            `;
-
-            classificationGroup.insertAdjacentHTML("beforeend", html);
-
-            classificationInput.value = "";
-        });
-
-        btnCancel.addEventListener('click', () => {
-            classificationGroup.innerHTML = "";
-            blackBackground.classList.add('d-none');
-            confirmForm.classList.remove('confirm-form-visible');
-        })
-
-
-    </script>
-}
+    @section Scripts {
+        <script src="@Url.Content("~/js/Account/MyPage/AdminManager/customer-manager.js")"></script>
+    }

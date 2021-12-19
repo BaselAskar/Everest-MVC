@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -10,6 +11,7 @@ using everest.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System.Text.Json;
 
 namespace everest.Controllers
 {
@@ -105,19 +107,19 @@ namespace everest.Controllers
 
 
         [HttpPost("add-product")]
-        public async Task<ActionResult<ProductDto>> AppProduct([FromBody]ProductDto productDto)
+        public async Task<IActionResult> AppProduct([FromBody]ProductDto productDto)
         {
             var user = await _userManager.GetUserAsync(User);
             var store = await _uof.StoreRepository.GetStoreAsync(user);
 
-            productDto.PublicId = GeneratorId.CreateRandomId(6);
+            productDto.Id = GeneratorId.CreateRandomId();
 
             var product = _mapper.Map<Product>(productDto);
 
 
-            while (await _uof.StoreRepository.GetProductByPublicIdAsync(product.PublicId) != null)
+            while (await _uof.StoreRepository.GetProductByIdAsync(product.Id) != null)
             {
-                product.PublicId = GeneratorId.CreateRandomId(6);
+                product.Id = GeneratorId.CreateRandomId();
             }
 
             store.Products.Add(product);
@@ -125,8 +127,8 @@ namespace everest.Controllers
 
             if (await _uof.Complete())
             {
-                productDto.PublicId = product.PublicId;
-                return productDto;
+                productDto.Id = product.Id;
+                return Ok(new { id = productDto.Id });
             } 
 
             return BadRequest("Field to product");
@@ -134,9 +136,9 @@ namespace everest.Controllers
 
 
         [HttpPost("add-product-photos")]
-        public async Task<IActionResult> AddProductPhotos([FromForm]IFormFile[] files,string productId)
+        public async Task<IActionResult> AddProductPhotos([FromForm]IFormFile[] files,string id)
         {
-            var product = await _uof.StoreRepository.GetProductByPublicIdAsync(productId);
+            var product = await _uof.StoreRepository.GetProductByIdAsync(id);
             var mainFile = files.FirstOrDefault(f => f.FileName == "file-image1");
 
             if (mainFile == null) return BadRequest("You have to add the main photo");
@@ -181,6 +183,174 @@ namespace everest.Controllers
             
 
             return NoContent();
+        }
+
+
+        [HttpGet("searchProducts")]
+        public async Task<ActionResult<IEnumerable<ProductDto>>> searchProducts(string searchKey)
+        {
+
+            var user = await _userManager.GetUserAsync(User);
+
+            var store = await _uof.StoreRepository.GetStoreAsync(user);
+
+            var products = await _uof.StoreRepository.GetProductsAsync(store);
+
+            var productsToRetuen = products.Where(p => p.Id.ToLower().Contains(searchKey.ToLower().Trim()) || p.Name.ToLower().Contains(searchKey.ToLower().Trim()))
+                .Select(p => _mapper.Map<ProductDto>(p))
+                .ToList();
+
+            return productsToRetuen;
+
+        }
+
+
+
+
+
+        [HttpPut("make-photo-main")]
+        public async Task<IActionResult> MakePhotoMain(string productId,int? id)
+        {
+            if (productId == null) return BadRequest("product id is null!!");
+            if (id == null) return BadRequest();
+
+            var product = await _uof.StoreRepository.GetProductByIdAsync(productId);
+
+            var photo = product.Photos.FirstOrDefault(ph => ph.Id == id);
+
+            if (photo.IsMain) return BadRequest("This photo is already main!!");
+
+            foreach(var productPhoto in product.Photos)
+            {
+                productPhoto.IsMain = false;
+            }
+
+            photo.IsMain = true;
+
+            if (!await _uof.Complete()) return BadRequest("Field to change main photo!!");
+
+            return Ok();
+            
+        }
+
+
+        [HttpPut("edit-product")]
+        public async Task<IActionResult> EditProduct([FromForm] IFormFile[] updatedFiles,
+                                                      [FromForm] IFormFile[] addedFiles,
+                                                      [FromForm]string[] updated,
+                                                      [FromForm] string[] deleted,
+                                                      [FromQuery] ProductDto productDto)
+        {
+            //Edit product imformations
+
+            var product = await _uof.StoreRepository.GetProductByIdAsync(productDto.Id);
+
+            _mapper.Map(productDto, product);
+
+            _uof.StoreRepository.UpdateProduct(product);
+
+            if (!await _uof.Complete()) BadRequest("Field to update product!!");
+
+
+
+            //Update photo
+            if (updated != null)
+            {
+                for (int i = 0; i< updated.Length; i++)
+                {
+                    string publicId = updated[i];
+
+                    var deleteResult = await _phtotoServices.RemovePhoto(publicId);
+
+                    if (deleteResult.Error != null) return BadRequest(deleteResult.Error.Message);
+
+                    var uploadResult = await _phtotoServices.AddProductPhotoAsync(updatedFiles[i]);
+
+                    if (uploadResult.Error != null) return BadRequest(uploadResult.Error.Message);
+
+                    var photo = product.Photos.FirstOrDefault(ph => ph.PublicId == publicId);
+
+                    photo.Url = uploadResult.Url.AbsoluteUri;
+                    photo.PublicId = uploadResult.PublicId;
+
+                    if (!await _uof.Complete()) return BadRequest("Field to update photo!!");
+
+                }
+            }
+
+
+
+            //Add photo
+            if (addedFiles.Length > 0)
+            {
+                foreach(var added in addedFiles)
+                {
+                    var uploadResult = await _phtotoServices.AddProductPhotoAsync(added);
+
+                    if (uploadResult.Error != null) return BadRequest(uploadResult.Error.Message);
+
+                    var productPhoto = new ProductPhoto
+                    {
+                        Url = uploadResult.Url.AbsoluteUri,
+                        PublicId = uploadResult.PublicId
+                    };
+
+                    product.Photos.Add(productPhoto);
+
+                    if (!await _uof.Complete()) return BadRequest("Field to add photo!");
+
+                }
+            }
+
+
+
+
+
+
+            //Delete photo
+            if (deleted != null)
+            {
+                foreach(string pId in deleted)
+                {
+                    var deleteResult = await _phtotoServices.RemovePhoto(pId);
+
+                    if (deleteResult.Error != null) return BadRequest(deleteResult.Error.Message);
+
+                    var photo = product.Photos.FirstOrDefault(ph => ph.PublicId == pId);
+
+                    product.Photos.Remove(photo);
+
+                    if (!await _uof.Complete()) return BadRequest("Filed to delete photo!!");
+                }
+            }
+
+
+            return Ok();
+        }
+
+
+
+        [HttpDelete("delete-product")]
+        public async Task<IActionResult> DeleteProduct(string productId)
+        {
+            var product = await _uof.StoreRepository.GetProductByIdAsync(productId);
+
+            if (product == null) return NotFound("Id is not correct");
+
+            //Remove product photos
+            foreach(var photo in product.Photos)
+            {
+                var deleteResult = await _phtotoServices.RemovePhoto(photo.PublicId);
+
+                if (deleteResult.Error != null) return BadRequest(deleteResult.Error.Message);
+
+            }
+
+            _uof.StoreRepository.RemoveProduct(product);
+
+            if (!await _uof.Complete()) return BadRequest("Field to Remove the product");
+
+            return Ok();
         }
 
     }

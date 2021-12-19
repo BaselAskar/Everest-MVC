@@ -7,8 +7,9 @@
         <link rel="shortcut icon" href="~/favicon.ico" type="image/x-icon" />
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
         <link rel="stylesheet" href="~/lib/bootstrap-icons/font/bootstrap-icons.css" />
-        <link rel="stylesheet" href="~/css/site.css" />
-        @await RenderSectionAsync("Style", required: false)
+        <link rel="stylesheet" href="@Url.Content("~/css/style.css")" />
+        <link rel="stylesheet" href="@Url.Content("~/css/site.css")" />
+        @await RenderSectionAsync("Styles", required: false)
     </head>
     <body>
         <header>
@@ -27,7 +28,7 @@
                 </div>
             </nav>
         </header>
-        <main role="main" class="pb-3">
+        <main role="main">
             @RenderBody()
         </main>
         <footer class="border-top footer text-muted">

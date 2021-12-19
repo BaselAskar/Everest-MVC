@@ -1,0 +1,88 @@
+﻿@page
+@addTagHelper *,Microsoft.AspNetCore.Mvc.TagHelpers
+@model everest.Areas.Identity.Pages.Account.MyProfile.StoreManager.ProductsManagerModel
+@{
+    ViewData["Title"] = "Products manager";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+@section Styles{ 
+    <link rel="stylesheet" href="@Url.Content("~/css/Account/MyPage/StoreManager/products-manager.css")" />
+}
+
+<div class="edit-product-tamblet position-relative">
+
+    <!--back link-->
+    <a class="back-link" asp-area="Identity" asp-page="/Account/MyProfile/StoreManager/Index"><i class="bi bi-arrow-left"></i></a>
+
+    <!--header text-->
+    <h2 class="text-center text-info p-3">إدارة مواد المخزن</h2>
+
+
+    <!--search form-->
+    <form class="search-container" style="direction: rtl;">
+
+        <div class="d-flex justify-content-center">
+            <input type="search"
+                   name="search"
+                   class="form-control search-input"
+                   placeholder="ابحث عن اسم المنتج أو ID" />
+
+
+        </div>
+
+        <button class="btn btn-outline-info btn-search">
+            <i class="bi bi-search"></i>
+            بحث
+        </button>
+    </form>
+
+
+    <div class="product-container position-relative">
+        <!--products table-->
+        <table class="table table-hover mt-5" style="direction: rtl;">
+            <thead>
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">اسم المنتج</th>
+                    <th scope="col">الصورة الرئيسية</th>
+                </tr>
+            </thead>
+            <tbody>
+                <div class="spinner-container d-none">
+                    <div class="spinner-loading">
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                    </div>
+                </div>
+                
+                @foreach (var product in Model.Products)
+                {
+                    <tr data-id="@product.Id">
+                        <td>@product.Id</td>
+                        <td>@product.Name</td>
+                        <td><img class="table-product-image" src="@product.MainPhotoUrl" alt="صورة المنتج" /></td>
+                    </tr>
+                }
+
+
+                <!--
+    <tr>
+        <th scope="row">dssd2346</th>
+        <td>غسالة</td>
+        <td><img src="https://img2.arabpng.com/20171220/kqx/washing-machine-png-5a3a07e137dad4.84797709151375254522887767.jpg" alt="صورة المنتج" class="table-product-image" /></td>
+    </tr>
+        -->
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+@section Scripts{ 
+    <script src="@Url.Content("~/js/Account/MyPage/StoreManager/products-manager.js")"></script>
+}

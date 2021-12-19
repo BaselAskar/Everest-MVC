@@ -1,0 +1,134 @@
+﻿
+.customer-manager-tamplet {
+    width: 100%;
+}
+
+
+/*Back page link*/
+.back-link {
+    position: absolute;
+    border: 1px solid;
+    border-radius: 50%;
+    width: fit-content;
+    height: fit-content;
+    top: 2%;
+    left: 5%;
+    padding: 10px;
+    font-size: 1.5rem;
+    color: #0dcaf0;
+    transition: all 0.3s ease-in-out;
+    -webkit-transition: all 0.3s ease-in-out;
+    -o-transition: all 0.3s ease-in-out;
+    -moz-transition: all 0.3s ease-in-out;
+}
+
+    .back-link:hover {
+        background-color: #0dcaf0;
+        color: white;
+        box-shadow: 0px 0px 28px #0dcaf0;
+        -webkit-box-shadow: 0px 0px 28px #0dcaf0;
+        -moz-box-shadow: 0px 0px 28px #0dcaf0;
+        box-shadow: 0px 0px 28px #0dcaf0;
+    }
+
+/*search input*/
+.search-input {
+    width: 100%;
+    max-width: 1000px;
+    margin-left: 50%;
+    transform: translateX(-50%);
+    -webkit-transform: translateX(-50%);
+    -o-transform: translateX(-50%);
+    -moz-transform: translateX(-50%);
+}
+
+
+/*table*/
+.table-container {
+    width: 100%;
+    max-width: 1000px;
+    max-height: 500px;
+    overflow-y: scroll;
+}
+
+
+/*Confirm user to client*/
+
+.black-background {
+    position: absolute;
+    background-color: rgba(0, 0, 0, 0.5);
+    height: 100%;
+    width: 100%;
+    z-index: 1;
+    top: 0;
+}
+
+.confirm-form {
+    position: fixed;
+    background-color: #b0ffffdb;
+    height: 70%;
+    max-height: 700px;
+    width: 90%;
+    max-width: 1000px;
+    border-radius: 20px;
+    -webkit-box-shadow: 0px 0px 22px 1px #3f3f3f;
+    box-shadow: 0px 0px 22px 1px #3f3f3f;
+    z-index: 2;
+    top: -40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    -webkit-transform: translate(-50%, -50%);
+    -o-transform: translate(-50%, -50%);
+    -moz-transform: translate(-50%, -50%);
+    transition: all .5s ease-in-out;
+    -webkit-transition: all .5s ease-in-out;
+    -o-transition: all .5s ease-in-out;
+    -moz-transition: all .5s ease-in-out;
+}
+
+.confirm-form-visible {
+    top: 50%;
+}
+
+
+
+.confirm-form label {
+    font-weight: bold;
+}
+
+.confirm-form .form-control {
+    width: 80%;
+    margin-left: 10%;
+    border-radius: 10px;
+}
+
+.confirm-form .btn-primary {
+    margin-left: 50%;
+    transform: translateX(-50%);
+}
+
+.confirm-form .classification-group {
+    height: 27%;
+    overflow-y: auto;
+}
+
+.class-added span {
+    background-color: cyan;
+    color: #220a83;
+    padding: .8%;
+    border-radius: 20px;
+    font-weight: bold;
+}
+
+.confirm-form .btn-close {
+    font-size: small;
+}
+
+.confirm-form p {
+    height: 10%;
+}
+
+.confirm-btns-group .btn {
+    width: 20%;
+}
+
