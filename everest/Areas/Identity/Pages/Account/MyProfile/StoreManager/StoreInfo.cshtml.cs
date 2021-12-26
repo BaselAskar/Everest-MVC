@@ -27,6 +27,12 @@ namespace everest.Areas.Identity.Pages.Account.MyProfile.StoreManager
         }
 
 
+        public string StorePhotoUrl { get; set; }
+
+        public string PhotoPublicId { get; set; }
+
+
+
         [BindProperty]
         public InputModel Input { get; set; }
 
@@ -36,15 +42,15 @@ namespace everest.Areas.Identity.Pages.Account.MyProfile.StoreManager
 
         private async Task LoadUser(AppUser user)
         {
-            var store = await _uof.StoreRepository.GetStoreAsync(user);
+            var store = await _uof.StoreRepository.GetStoreWithStoerPhotoAsync(user);
 
-            var userInput = _mapper.Map<InputModel>(store);
+            StorePhotoUrl = store.StorePhoto?.Url;
 
-            var photo = await _uof.StoreRepository.GetStorePhotoAsync(store);
+            PhotoPublicId = store.StorePhoto?.PublicId;
 
-            userInput.StorePhotoUrl = photo != null ? photo.Url : null;
+            Input = _mapper.Map<InputModel>(store);
 
-            Input = userInput;
+            
         }
 
         public async Task<IActionResult> OnGetAsync()
@@ -70,38 +76,36 @@ namespace everest.Areas.Identity.Pages.Account.MyProfile.StoreManager
 
         public class InputModel
         {
-            [Display(Name = ":إسم المحل")]
+            [Display(Name = "إسم المحل:")]
             public string Name { get; set; }
 
-            [Display(Name = ":وصف المحل")]
+            [Display(Name = "وصف المحل:")]
             public string Description { get; set; }
 
-            [Display(Name = ":مدير المحل")]
+            [Display(Name = "مدير المحل:")]
             public string Manager { get; set; }
 
-            [Display(Name = ":العنوان")]
+            [Display(Name = "العنوان:")]
             public string Adress { get; set; }
 
-            [Display(Name = ":المدينة")]
+            [Display(Name = "المدينة:")]
             public string City { get; set; }
 
-            [Display(Name = ":الموقع")]
+            [Display(Name = "الموقع:")]
             public string LocationUrl { get; set; }
 
-            [Display(Name = ": (1) واتساب")]
+            [Display(Name = "(1) واتساب:")]
             public string Whatsapp1 { get; set; }
 
-            [Display(Name = ": (2) واتساب")]
+            [Display(Name = "(2) واتساب:")]
             public string Whatsapp2 { get; set; }
 
-            [Display(Name = ": (1) رقم الهاتف")]
+            [Display(Name = "(1) رقم الهاتف:")]
             public string PhoneNumber1 { get; set; }
 
-            [Display(Name = ": (2) رقم الهاتف")]
+            [Display(Name = "(2) رقم الهاتف:")]
             public string PhoneNumber2 { get; set; }
 
-            [Display(Name = "إضافة أو تعديل الصورة")]
-            public string StorePhotoUrl { get; set; }
 
 
         }

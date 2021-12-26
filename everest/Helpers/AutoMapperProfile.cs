@@ -17,8 +17,8 @@ namespace everest.Helpers
         public AutoMapperProfile()
         {
 
-            CreateMap<Store, InputModel>()
-                .ForMember(des => des.StorePhotoUrl, opt => opt.MapFrom(src => src.StorePhoto.Url));
+            CreateMap<Store, InputModel>();
+                
             
             CreateMap<ClassificationDto, Classification>();
             

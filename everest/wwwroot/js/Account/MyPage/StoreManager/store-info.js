@@ -1,7 +1,8 @@
 ﻿
-//Constans
-const formInfo = document.querySelector('form.container-fluid');
-const fileUploadInput = document.querySelector('.file-upload-input');
+
+//Html elements
+const formInfo = document.querySelector('form.container');
+const fileUploadInput = document.querySelector('.file-upload input');
 const nameInput = document.querySelector('#Input_Name');
 const descriptionInput = document.querySelector('#Input_Description');
 const managerInput = document.querySelector('#Input_Manager');
@@ -12,57 +13,94 @@ const whatsapp2Input = document.querySelector('#Input_Whatsapp2');
 const phoneNumber1Input = document.querySelector('#Input_PhoneNumber1');
 const phoneNumber2Input = document.querySelector('#Input_PhoneNumber2');
 const locationUrlInput = document.querySelector('#Input_LocationUrl');
-const fileUplaod = document.querySelector('.file-upload');
+const fileUplaod = document.querySelector('.file-upload-container');
+const imageGroup = document.querySelector('.image-group');
 const storeImage = document.querySelector('.store-image');
-const changeImageBtn = document.querySelector('.change-image');
+const removImageBtn = document.querySelector('.image-group .btn-danger');
+const submitBtn = document.querySelector('.submit-btn');
 const cancelChanginBtn = document.querySelector('.cancel-changing');
 
 
-//Image upload
 
-function readURL(input) {
-    if (input.files && input.files[0]) {
-        var reader = new FileReader();
+//Functions
+const startSpinner = function (btnElement) {
 
-        reader.onload = function (e) {
-            $(".image-upload-wrap").hide();
+    const spinner = btnElement.querySelector('.spinner-border');
+    const btnContent = btnElement.querySelector('.btn-content');
 
-            $(".file-upload-image").attr("src", e.target.result);
-            $(".file-upload-content").show();
+    btnContent.classList.add('d-none');
+    spinner.classList.remove('d-none');
+}
 
-            $(".image-title").html(input.files[0].name);
-        };
 
-        reader.readAsDataURL(input.files[0]);
-    } else {
-        removeUpload();
+const closeSpinner = function (btnElement) {
+
+    const spinner = btnElement.querySelector('.spinner-border');
+    const btnContent = btnElement.querySelector('.btn-content');
+
+    spinner.classList.add('d-none');
+    btnContent.classList.remove('d-none');
+
+}
+
+
+
+const submitRequest = async function (btnElement, formData, information) {
+
+    try {
+
+        startSpinner(btnElement);
+
+        const queryInfo = new URLSearchParams(information).toString();
+
+        const res = await fetch(`/api/StoreApi/edit-store?${queryInfo}`, {
+            method: "PUT",
+            body: formData
+        });
+
+        if (!res.ok) throw new Error("خطأ في تعديل بيانات المتجر...!!!");
+
+        location.reload();
+
+
+    } catch (err) {
+        console.error(err.Message);
     }
-}
 
-function removeUpload() {
-    $(".file-upload-input").replaceWith($(".file-upload-input").clone());
-    $(".file-upload-content").hide();
-    $(".image-upload-wrap").show();
-}
-$(".image-upload-wrap").bind("dragover", function () {
-    $(".image-upload-wrap").addClass("image-dropping");
-});
-$(".image-upload-wrap").bind("dragleave", function () {
-    $(".image-upload-wrap").removeClass("image-dropping");
-});
-
-if (changeImageBtn !== null) {
-    //Chaneg image
-    changeImageBtn.addEventListener('click', () => {
-        storeImage.classList.add('d-none');
-        fileUplaod.classList.remove('d-none');
-    });
+    closeSpinner(btnElement);
 
 }
 
 
 //Image upload
+fileUploadInput.addEventListener('change', (event) => {
 
+    let reader = new FileReader();
+
+    reader.readAsDataURL(event.target.files[0]);
+
+    reader.onload = (e) => storeImage.src = e.target.result;
+
+
+    //Displaying image
+    fileUplaod.classList.add('d-none');
+    imageGroup.classList.remove('d-none');
+
+});
+
+
+
+//Remove image
+removImageBtn.addEventListener('click', () => {
+
+    imageGroup.classList.add('d-none');
+    fileUplaod.classList.remove('d-none');
+
+    if (fileUploadInput.files.length > 0) fileUploadInput.value = null;
+    
+    storeImage.src = `${location.origin}/assets/loading.gif`;
+
+});
 
 
 
@@ -86,66 +124,37 @@ formInfo.addEventListener('submit', e => {
         locationUrl: locationUrlInput.value
     }
 
-    const request = async function () {
 
+    let formData = new FormData();
 
+    
 
-        //Photo request
-        if (fileUploadInput.files.length !== 0) {
-            let formData = new FormData();
+    if (fileUploadInput.files.length !== 0 && !fileUploadInput.dataset.publicid) {
 
-            formData.append("file", fileUploadInput.files[0], fileUploadInput.name);
+        formData.append("file", fileUploadInput.files[0]);
 
+    } else if (fileUploadInput.files.length === 0 && fileUploadInput.dataset.publicid) {
 
+        formData.append("deleteId", fileUploadInput.dataset.publicid);
 
-            try {
-                const res = await fetch("/api/storeapi", {
-                    method: "POST",
-                    body: formData
-                });
+    } else if (fileUploadInput.files.length !== 0 && fileUploadInput.dataset.publicid) {
 
-                if (!res.ok) throw new Error("Field to post photo");
-            } catch (err) {
-                console.error(err.Message);
-            }
-        }
-
-        //Information request
-
-        try {
-            const resInfo = await fetch("/api/storeapi", {
-                method: "PUT",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify(info)
-
-            });
-
-            if (!resInfo.ok) throw new Error("Field to update informations");
-
-            window.location.reload();
-
-        } catch (err) {
-            console.error(err.Message);
-        }
-
+        formData.append("deleteId", fileUploadInput.dataset.publicid);
+        formData.append("file", fileUploadInput.files[0]);
+        
     }
 
 
-    request();
 
-
-
-
-
-
-
+    
+    submitRequest(submitBtn, formData, info);
 
 
 });
 
 //Cancel changing
 cancelChanginBtn.addEventListener('click', () => {
+
+    startSpinnerBtn(cancelChanginBtn);
     window.location.reload();
 });

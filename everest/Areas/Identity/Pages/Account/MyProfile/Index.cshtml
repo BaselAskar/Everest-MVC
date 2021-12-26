@@ -20,57 +20,47 @@
 </div>
 
 <div class="container my-5">
-    <div class="row my-md-4">
+    <div class="row my-md-4 d-flex justify-content-around">
 
-        <div class="col-md-2 text-center profile-link-con">
+
+        <div class="col-12 col-md-4 text-center my-4 my-md-0">
             <a class="profile-link" href="#">Example</a>
         </div>
 
-        <div class="col-md-3 my-3 flex-shrink-2"></div>
-
-        <div class="col-md-2 text-center profile-link-con">
-            <a class="profile-link" href="#">Example</a>
+        <div class="col-12 col-md-4 text-center my-4 my-md-0">
+            <a class="profile-link col-md-2" href="#">Example</a>
         </div>
 
-        <div class="col-md-3 my-3 flex-shrink-2"></div>
-
-        <div class="col-md-2 text-center profile-link-con">
-            <a class="profile-link" href="#">Example</a>
+        <div class="col-12 col-md-4 text-center my-4 my-md-0">
+            <a class="profile-link col-md-2" href="#">Example</a>
         </div>
-
+        
     </div>
-    <div class="row my-md-4">
+    <div class="row my-md-4 d-flex justify-content-around">
+
+
 
         @if (Model.RoleName == "المدير")
         {
-            <div class="col-md-3 my-3 d-md-none flex-shrink-2"></div>
-
-            <div class="col-md-2 text-center profile-link-con">
+            <div class="col-12 col-md-4 text-center my-4 my-md-0">
                 <a class="profile-link" asp-area="Identity" asp-page="/Account/MyProfile/CustomerManager">إدارة المستخدمين</a>
             </div>
-
-            <div class="col-md-3 my-3 flex-shrink-2"></div>
         }
 
         @if (Model.RoleName == "مدير مخزن")
         {
-            <div class="col-md-3 my-3 d-md-none flex-shrink-2"></div>
-
-            <div class="col-md-2 text-center profile-link-con">
+            <div class="col-12 col-md-4 text-center my-4 my-md-0">
                 <a class="profile-link" asp-area="Identity" asp-page="/Account/MyProfile/StoreManager/Index">إدارة المخزن</a>
             </div>
-
-            <div class="col-md-3 my-3 flex-shrink-2"></div>
         }
-        <div class="col-md-2 text-center profile-link-con">
-            <a class="profile-link" href="#">Example</a>
-        </div>
 
-        <div class="col-md-3 my-3 flex-shrink-2"></div>
+            <div class="col-12 col-md-4 text-center my-4 my-md-0">
+                <a class="profile-link" href="#">Example</a>
+            </div>
+            <div class="col-12 col-md-4 text-center my-4 my-md-0">
+                <a class="profile-link" href="#">Example</a>
+            </div>
 
-        <div class="col-md-2 text-center profile-link-con">
-            <a class="profile-link" href="#">Example</a>
-        </div>
-
+        
     </div>
-</div>
+        </div>

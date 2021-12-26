@@ -9,7 +9,7 @@
     -moz-transition: all .3s ease-in-out;
     max-width: max-content;
     padding:10px;
-    border-radius:10px;
+    border-radius:12px;
 }
 
 .profile-link:hover{

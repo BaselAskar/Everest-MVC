@@ -10,13 +10,13 @@
 
 
 <div class="bg-info bg-opacity-75">
-    <div class="container-fluid d-none d-md-block">
-        <div class="row">
+    <div class="container d-none d-md-block">
+        <div class="row d-flex justify-content-center">
             @foreach (var catigory in Model.Catigories)
             {
-                <div class="col-md-1 flex-shrink-1"></div>
+                
 
-                <div class="group-section col-md-1">
+                <div class="group-section col-md-2">
                     <div class="btn-dropdown">@catigory.CatigoryName</div>
                     <ul class="list-section">
                         @foreach (var sec in catigory.Sections)

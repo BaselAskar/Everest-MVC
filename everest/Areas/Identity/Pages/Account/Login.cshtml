@@ -17,17 +17,20 @@
         <div class="text-center">
             <img src="~/assets/user.png" class="rounded-circle my-3" style="height:40%;width:40%;max-height:150px;max-width:150px" />
         </div>
-         <div class="form-group">
-             <div class="row">
-                 <div class="col-4">
-                     <label class="form-label" asp-for="Input.UserName"></label>
-                 </div>
-                 <div class="col-8">
-                     <input asp-for="Input.UserName" class="form-control" />
-                 </div>
-             </div>
-         </div>
-        
+        <div asp-validation-summary="All" class="text-danger"></div>
+
+        <div class="form-group">
+            <div class="row">
+                <div class="col-4">
+                    <label class="form-label" asp-for="Input.UserName"></label>
+                </div>
+                <div class="col-8">
+                    <input asp-for="Input.UserName" class="form-control" />
+                </div>
+                <span asp-validation-for="Input.UserName" class="text-danger"></span>
+            </div>
+        </div>
+
         <div class="form-group">
             <div class="row">
                 <div class="col-4">
@@ -36,6 +39,7 @@
                 <div class="col-8">
                     <input type="password" asp-for="Input.Password" class="form-control" />
                 </div>
+                <span asp-validation-for="Input.Password" class="text-danger"></span>
             </div>
         </div>
 
@@ -48,8 +52,9 @@
 
         <div class="form-group d-flex bd-highlight">
             <button type="submit" class="btn btn-primary me-auto p-2 bd-highlight">تسجيل الدخول</button>
-            <a class="btn btn-outline-success p-2 bd-highlight" asp-area="Identity" asp-page="/Account/Register">مستخدم جديد</a> 
+            <a class="btn btn-outline-success p-2 bd-highlight" asp-area="Identity" asp-page="/Account/Register">مستخدم جديد</a>
         </div>
+
 
     </form>
 </div>

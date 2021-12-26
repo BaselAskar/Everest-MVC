@@ -116,5 +116,12 @@ namespace everest.Repositoies
             _data.Products.Remove(product);
         }
 
+        public async Task<Store> GetStoreWithStoerPhotoAsync(AppUser user)
+        {
+            return await _data.Stores
+                .Where(s => s.UserId == user.Id)
+                .Include(s => s.StorePhoto)
+                .SingleOrDefaultAsync();
+        }
     }
 }

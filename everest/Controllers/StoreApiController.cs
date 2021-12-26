@@ -31,80 +31,145 @@ namespace everest.Controllers
             _mapper = mapper;
         }
 
-        [HttpPost]
-        public async Task<IActionResult> UpdatePhoto(IFormFile file)
+
+
+        //[HttpPost]
+        //public async Task<IActionResult> UpdatePhoto(IFormFile file)
+        //{
+        //    var user = await _userManager.GetUserAsync(User);
+        //    var store = await _uof.StoreRepository.GetStoreAsync(user);
+
+
+        //    if (file == null) return NoContent();
+
+        //    if (store.StorePhotoId != 0)
+        //    {
+        //        var storePhotoStore = await  _uof.StoreRepository.GetStorePhotoAsync(store);
+
+        //        var publicId = storePhotoStore.PublicId;
+
+        //        var deletionResult = await _phtotoServices.RemovePhoto(publicId);
+
+        //        if (deletionResult.Error != null) return BadRequest(deletionResult.Error.Message);
+
+        //        var uploadResult = await _phtotoServices.AddStorePhotoAsync(file);
+
+        //        if (uploadResult.Error != null) return BadRequest(uploadResult.Error.Message);
+
+
+
+
+        //        storePhotoStore.Url = uploadResult.Url.AbsoluteUri;
+        //        storePhotoStore.PublicId = uploadResult.PublicId;
+
+        //        if (!await _uof.Complete()) return BadRequest("Field to update company photo");
+
+        //        return NoContent();
+
+        //    }
+
+        //    var result = await _phtotoServices.AddStorePhotoAsync(file);
+
+        //    if (result.Error != null) return BadRequest(result.Error.Message);
+
+        //    var storePhoto = new StorePhoto
+        //    {
+        //        Url = result.Url.AbsoluteUri,
+        //        PublicId = result.PublicId,
+        //        StoreId = store.Id,
+        //        Store = store
+        //    };
+
+        //    await _uof.StoreRepository.AddStorePhotoAsync(store, storePhoto);
+            
+
+        //    if (!await _uof.Complete()) return BadRequest("There is a wrong during uploading photo");
+
+        //    return NoContent();
+        //}
+
+
+
+        //[HttpPut]
+        //public async Task<IActionResult> UpdateInfo([FromBody] ClientDto clientDto)
+        //{
+        //    var user = await _userManager.GetUserAsync(User);
+
+        //    var store = await _uof.StoreRepository.GetStoreAsync(user);
+
+        //    _mapper.Map(clientDto, store);
+
+        //    _uof.StoreRepository.UpdateStore(store);
+
+        //    if (!await _uof.Complete()) return BadRequest("There is a wrong during updating store information");
+
+        //    return NoContent();
+        //}
+
+        [HttpPut("edit-store")]
+        public async Task<IActionResult> EditStore([FromQuery] ClientDto clientDto,[FromForm] IFormFile file,[FromForm] string deleteId)
         {
             var user = await _userManager.GetUserAsync(User);
-            var store = await _uof.StoreRepository.GetStoreAsync(user);
+            var store = await _uof.StoreRepository.GetStoreWithStoerPhotoAsync(user);
 
 
-            if (file == null) return NoContent();
-
-            if (store.StorePhotoId != 0)
+            //Add Store photo
+            if (store.StorePhoto == null && file?.Length > 0)
             {
-                var storePhotoStore = await  _uof.StoreRepository.GetStorePhotoAsync(store);
-
-                var publicId = storePhotoStore.PublicId;
-
-                var deletionResult = await _phtotoServices.RemovePhoto(publicId);
-
-                if (deletionResult.Error != null) return BadRequest(deletionResult.Error.Message);
-
                 var uploadResult = await _phtotoServices.AddStorePhotoAsync(file);
 
                 if (uploadResult.Error != null) return BadRequest(uploadResult.Error.Message);
 
+                store.StorePhoto = new StorePhoto
+                {
+                    Url = uploadResult.Url.AbsoluteUri,
+                    PublicId = uploadResult.PublicId
+                };
 
-
-
-                storePhotoStore.Url = uploadResult.Url.AbsoluteUri;
-                storePhotoStore.PublicId = uploadResult.PublicId;
-
-                if (!await _uof.Complete()) return BadRequest("Field to update company photo");
-
-                return NoContent();
+                if (!await _uof.Complete()) return BadRequest("Filed to add store photo!!");
 
             }
 
-            var result = await _phtotoServices.AddStorePhotoAsync(file);
-
-            if (result.Error != null) return BadRequest(result.Error.Message);
-
-            var storePhoto = new StorePhoto
+            else if (store.StorePhoto != null && deleteId != null)
             {
-                Url = result.Url.AbsoluteUri,
-                PublicId = result.PublicId,
-                StoreId = store.Id,
-                Store = store
-            };
 
-            await _uof.StoreRepository.AddStorePhotoAsync(store, storePhoto);
-            
+                //Remove store photo
+                var deleteResult = await _phtotoServices.RemovePhoto(deleteId);
 
-            if (!await _uof.Complete()) return BadRequest("There is a wrong during uploading photo");
-
-            return NoContent();
-        }
+                if (deleteResult.Error != null) return NotFound(deleteResult.Error.Message);
 
 
+                if (file?.Length > 0)
+                {
+                    //Add store photo
+                    var uploadResult = await _phtotoServices.AddStorePhotoAsync(file);
 
-        [HttpPut]
-        public async Task<IActionResult> UpdateInfo([FromBody] ClientDto clientDto)
-        {
-            var user = await _userManager.GetUserAsync(User);
+                    if (uploadResult.Error != null) return BadRequest(uploadResult.Error.Message);
 
-            var store = await _uof.StoreRepository.GetStoreAsync(user);
+                    store.StorePhoto.Url = uploadResult.Url.AbsoluteUri;
+                    store.StorePhoto.PublicId = uploadResult.PublicId;
+
+
+                }
+                else
+                {
+                    store.StorePhoto = null;
+                }
+
+                if (!await _uof.Complete()) return BadRequest("Field to add store photo!!");
+
+            }
+
+            //Update store information
 
             _mapper.Map(clientDto, store);
 
             _uof.StoreRepository.UpdateStore(store);
 
-            if (!await _uof.Complete()) return BadRequest("There is a wrong during updating store information");
+            if (!await _uof.Complete()) return BadRequest("Filed to update store information!!");
 
-            return NoContent();
+            return Ok();
         }
-
-
 
         [HttpPost("add-product")]
         public async Task<IActionResult> AppProduct([FromBody]ProductDto productDto)

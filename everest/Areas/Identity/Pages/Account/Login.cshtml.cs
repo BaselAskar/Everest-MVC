@@ -70,9 +70,20 @@ namespace everest.Areas.Identity.Pages.Account
         {
             returnUrl = returnUrl ?? Url.Content("~/");
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
+
+            var user = await _userManager.FindByNameAsync(Input.UserName);
+
+            if (user == null)
+            {
+                ModelState.AddModelError(Input.UserName, "هذا المستخدم غير موجود..!!!");
+            }
+
+
+
+
             if (ModelState.IsValid)
             {
-                var user = await _userManager.FindByNameAsync(Input.UserName);
+               
                 if (user != null)
                 {
                     // To enable password failures to trigger account lockout, set lockoutOnFailure: true
@@ -91,15 +102,6 @@ namespace everest.Areas.Identity.Pages.Account
                         _logger.LogWarning("User account locked out.");
                         return RedirectToPage("./Lockout");
                     }
-                    else
-                    {
-                        ModelState.AddModelError(string.Empty, "Invalid login attempt.");
-                        return Page();
-                    }
-                }
-                else
-                {
-                    ModelState.AddModelError(string.Empty, "هذا المستخدم موجود مسبقا! جرب اسما آخر");
                 }
 
             }

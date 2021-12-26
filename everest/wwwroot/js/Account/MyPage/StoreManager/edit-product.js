@@ -271,11 +271,6 @@ form.addEventListener("submit", (e) => {
         }
     });
 
-    console.log(formData.getAll("updatedFiles"));
-    console.log(formData.getAll("updated"));
-    console.log(formData.getAll("deleted"));
-    console.log(formData.getAll("addedFiles"))
-
 
     const info = {
             id: new URLSearchParams(location.search).get('id'),

@@ -20,27 +20,28 @@
 
     <h1 class="text-center text-info p-3">معلومات المخزن</h1>
 
-    <form class="container-fluid">
+    <form class="container" style="direction:rtl;">
         <div class="row form-group d-flex justify-content-center m-3">
 
-            @if (Model.Input.StorePhotoUrl == null)
+            @if (Model.StorePhotoUrl == null)
             {
 
 
 
-                <div class="file-upload">
-                    <button class="file-upload-btn" type="button" onclick="$('.file-upload-input').trigger( 'click' )">إضافة صورة</button>
-
-                    <div class="image-upload-wrap">
-                        <input class="file-upload-input" type='file' name="file-upload" onchange="readURL(this);" accept="image/*" />
-                        <div class="drag-text">
-                            <h3 class="text-info">صورة المتجر <br /> <span>706 x 160 px</span></h3>
+                <div class="upload-group col-12">
+                    <div class="file-upload-container p-3 d-flex justify-content-center" >
+                        <div class="file-upload d-flex justify-content-center align-content-center position-relative">
+                            <p class="text-center">
+                                صورة المتجر <br /><i class="fs-2 bi bi-cloud-upload"></i>
+                            </p>
+                            <input type="file" name="store-image" />
                         </div>
                     </div>
-                    <div class="file-upload-content">
-                        <img class="file-upload-image" src="#" alt="your image" />
-                        <div class="image-title-wrap">
-                            <button type="button" onclick="removeUpload()" class="remove-image"> إزالة <br /> <span class="image-title">Uploaded Image</span></button>
+
+                    <div class="image-group my-3 d-none">
+                        <img class="store-image" src="@Url.Content("~/assets/loading.gif")" alt="صورة المتجر" />
+                        <div class="btns-group d-flex justify-content-center">
+                            <button type="button" class="btn btn-danger">إزالة الصورة</button>
                         </div>
                     </div>
                 </div>
@@ -50,26 +51,20 @@
             }
             else
             {
-                <div class="store-image m-3">
-                    <img class="file-upload-image" src="@Model.Input.StorePhotoUrl" alt="your image" />
-                    <div class="d-flex justify-content-center">
-                        <button type="button" class="remove-image change-image"> تغيير الصورة </button>
-                    </div>
-                </div>
-
-                <div class="file-upload d-none">
-                    <button class="file-upload-btn" type="button" onclick="$('.file-upload-input').trigger( 'click' )">إضافة صورة</button>
-
-                    <div class="image-upload-wrap">
-                        <input class="file-upload-input" type='file' name="file-upload" onchange="readURL(this);" accept="image/*" />
-                        <div class="drag-text">
-                            <h3 class="text-info">صورة المتجر <br /> <span>706 x 160 px</span></h3>
+                <div class="upload-group col-10">
+                    <div class="file-upload-container p3 d-none">
+                        <div class="file-upload d-flex justify-content-center align-content-center position-relative">
+                            <p class="text-center">
+                                صورة المتجر <br /><i class="fs-2 bi bi-cloud-upload"></i>
+                            </p>
+                            <input type="file" name="store-image" data-publicid="@Model.PhotoPublicId"/>
                         </div>
                     </div>
-                    <div class="file-upload-content">
-                        <img class="file-upload-image" src="#" alt="your image" />
-                        <div class="image-title-wrap">
-                            <button type="button" onclick="removeUpload()" class="remove-image"> إزالة <br /> <span class="image-title">Uploaded Image</span></button>
+
+                    <div class="image-group my-3">
+                        <img class="store-image" src="@Model.StorePhotoUrl" alt="صورة المتجر" />
+                        <div class="btns-group d-flex justify-content-center">
+                            <button type="button" class="btn btn-danger">إزالة الصورة</button>
                         </div>
                     </div>
                 </div>
@@ -78,34 +73,31 @@
             }
         </div>
         <div class="row form-group d-flex justify-content-center m-3">
-            <div class="col-6">
-                <input class="form-control text-center" asp-for="Input.Name" />
-            </div>
-            <div class="col-2">
-                <label class="form-label" asp-for="Input.Name"></label>
-            </div>
+                <label class="form-label col-md-2 col-10" asp-for="Input.Name"></label>
+                <div class="col-md-6 col-10 d-flex justify-content-center">
+                    <input class="form-control text-center" asp-for="Input.Name" />
+                </div>
         </div>
 
         <div class="row form-group d-flex justify-content-center m-3">
-            <div class="col-6">
+            <label class="form-label col-md-2 col-10" asp-for="Input.Description"></label>
+            <div class="col-md-6 col-10 d-flex justify-content-center">
                 <textarea class="form-control text-center" asp-for="Input.Description"></textarea>
             </div>
-            <div class="col-2">
-                <label class="form-label" asp-for="Input.Description"></label>
-            </div>
+
         </div>
 
         <div class="row form-group d-flex justify-content-center m-3">
-            <div class="col-6">
+            <label class="form-label col-md-2 col-10" asp-for="Input.Manager"></label>
+            <div class="col-md-6 col-10 d-flex justify-content-center">
                 <input class="form-control text-center" asp-for="Input.Manager" />
             </div>
-            <div class="col-2">
-                <label class="form-label" asp-for="Input.Manager"></label>
-            </div>
+
         </div>
 
         <div class="row form-group d-flex justify-content-center m-3">
-            <div class="col-6">
+            <label class="form-labe col-md-2 col-10" asp-for="Input.City"></label>
+            <div class="col-md-6 col-10 d-flex justify-content-center">
                 <select class="form-select text-center" asp-for="Input.City">
                     @foreach (var city in Model.Cities)
                     {
@@ -113,70 +105,68 @@
                     }
                 </select>
             </div>
-            <div class="col-2">
-                <label class="form-label" asp-for="Input.City"></label>
-            </div>
+
         </div>
 
         <div class="row form-group d-flex justify-content-center m-3">
-            <div class="col-6">
+            <label class="form-label col-md-2 col-10" asp-for="Input.Adress"></label>
+            <div class="col-md-6 col-10 d-flex justify-content-center">
                 <input class="form-control text-center" asp-for="Input.Adress" />
             </div>
-            <div class="col-2">
-                <label class="form-label" asp-for="Input.Adress"></label>
-            </div>
+
         </div>
 
         <div class="row form-group d-flex justify-content-center m-3">
-            <div class="col-6">
-                <input class="form-control text-center" asp-for="Input.Whatsapp1" />
+            <label class="form-label col-md-2 col-10" asp-for="Input.Whatsapp1"></label>
+            <div class="col-md-6 col-10 d-flex justify-content-center">
+                <input class="form-control text-center col-6" asp-for="Input.Whatsapp1" />
             </div>
-            <div class="col-2">
-                <label class="form-label" asp-for="Input.Whatsapp1"></label>
-            </div>
+
         </div>
 
         <div class="row form-group d-flex justify-content-center m-3">
-            <div class="col-6">
+            <label class="form-label col-md-2 col-10" asp-for="Input.Whatsapp2"></label>
+            <div class="col-md-6 col-10 d-flex justify-content-center">
                 <input class="form-control text-center" asp-for="Input.Whatsapp2" />
             </div>
-            <div class="col-2">
-                <label class="form-label" asp-for="Input.Whatsapp2"></label>
-            </div>
+
         </div>
 
 
         <div class="row form-group d-flex justify-content-center m-3">
-            <div class="col-6">
+            <label class="form-label col-md-2 col-10" asp-for="Input.PhoneNumber1"></label>
+            <div class="col-md-6 col-10 d-flex justify-content-center">
                 <input class="form-control text-center" asp-for="Input.PhoneNumber1" />
             </div>
-            <div class="col-2">
-                <label class="form-label" asp-for="Input.PhoneNumber1"></label>
-            </div>
+
         </div>
 
         <div class="row form-group d-flex justify-content-center m-3">
-            <div class="col-6">
+            <label class="form-label col-md-2 col-10" asp-for="Input.PhoneNumber2"></label>
+            <div class="col-md-6 col-10 d-flex justify-content-center">
                 <input class="form-control text-center" asp-for="Input.PhoneNumber2" />
             </div>
-            <div class="col-2">
-                <label class="form-label" asp-for="Input.PhoneNumber2"></label>
-            </div>
+
         </div>
 
 
         <div class="row form-group d-flex justify-content-center m-3">
-            <div class="col-6">
+            <label class="form-label col-md-2 col-10" asp-for="Input.LocationUrl"></label>
+            <div class="col-md-6 col-10 d-flex justify-content-center">
                 <input class="form-control text-center" asp-for="Input.LocationUrl" placeholder="إنسخ العنوان من خرائط جوجل" />
             </div>
-            <div class="col-2">
-                <label class="form-label" asp-for="Input.LocationUrl"></label>
-            </div>
+
         </div>
 
-        <div class="form-group d-flex justify-content-center m-3">
-            <button type="button" class="btn btn-danger p-2 me-5 cancel-changing">إلغاء التعديل</button>
-            <button class="btn btn-success p-2 ms-5" type="submit">حفظ التغييرات</button>
+        <div class="row form-group d-flex justify-content-evenly mt-4">
+            <button class="btn btn-success submit-btn p-2 m-2 col-md-2 col-10" type="submit">
+                <span class="spinner-border spinner-border-sm d-none"></span>
+                <span class="btn-content">حفظ التغييرات</span>
+            </button>
+            <button type="button" class="btn btn-danger p-2 m-2 cancel-changing col-md-2 col-10">
+                <span class="spinner-border spinner-border-sm d-none"></span>
+                <span class="btn-content">إلغاء التغييرات</span>
+            </button>
         </div>
         @Html.AntiForgeryToken();
     </form>
