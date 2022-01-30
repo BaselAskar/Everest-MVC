@@ -11,6 +11,8 @@ namespace everest.Interfaces
     public interface IStoreRepository
     {
         Task<List<ClassificationDto>> GetClassificationStoreAsync(Store store);
+        Task<List<Store>> GetStoresAsync();
+        Task<AppUser> GetUserFromStoreAsync(int storeId);
         Task AddStoreAsync(Store store);
         Task AddStorePhotoAsync(Store store, StorePhoto storePhoto);
         Task RemoveStorePhotoAsync(int StorePhotoId);

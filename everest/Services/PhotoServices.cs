@@ -77,5 +77,25 @@ namespace everest.Services
 
             return deletionResult;
         }
+
+        public async Task<ImageUploadResult> AddSlidePhotoAsync(IFormFile file)
+        {
+            var uploadResult = new ImageUploadResult();
+
+            if (file.Length > 0)
+            {
+                using var stream = file.OpenReadStream();
+
+                var imageParams = new ImageUploadParams
+                {
+                    File = new FileDescription(file.FileName, stream)
+                };
+
+                uploadResult = await _cloudinary.UploadAsync(imageParams);
+            }
+
+            return uploadResult;
+
+        }
     }
 }

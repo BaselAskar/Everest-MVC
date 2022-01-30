@@ -13,6 +13,8 @@ namespace everest.Interfaces
 
         IClinicRepository ClinicRepository { get; }
 
+        ISlideRepository SlideRepository { get; }
+
         Task<bool> Complete();
     }
 }

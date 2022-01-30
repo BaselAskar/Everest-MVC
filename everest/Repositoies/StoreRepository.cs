@@ -123,5 +123,20 @@ namespace everest.Repositoies
                 .Include(s => s.StorePhoto)
                 .SingleOrDefaultAsync();
         }
+
+        public async Task<List<Store>> GetStoresAsync()
+        {
+            return await _data.Stores.ToListAsync();
+        }
+
+        public async Task<AppUser> GetUserFromStoreAsync(int storeId)
+        {
+            var store = await _data.Stores
+                .Include(s => s.User)
+                .SingleOrDefaultAsync(s => s.Id == storeId);
+
+            return store.User;
+
+        }
     }
 }

@@ -227,14 +227,16 @@ namespace everest.Data.Migrations
                     b.Property<DateTime>("DateOfBooking")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("Name")
+                    b.Property<string>("UserId")
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
 
                     b.HasIndex("ClinicId");
 
-                    b.ToTable("Bookins");
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Bookings");
                 });
 
             modelBuilder.Entity("everest.Entities.Classification", b =>
@@ -400,6 +402,56 @@ namespace everest.Data.Migrations
                     b.ToTable("ProductsPhotos");
                 });
 
+            modelBuilder.Entity("everest.Entities.Slide", b =>
+                {
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("Created")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("Order")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<double>("Speed")
+                        .HasColumnType("REAL");
+
+                    b.Property<int>("StoreId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("StoreId");
+
+                    b.ToTable("Slides");
+                });
+
+            modelBuilder.Entity("everest.Entities.SlidePhoto", b =>
+                {
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("PublicId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("SlideId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("SlideId1")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Url")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("SlideId1");
+
+                    b.ToTable("SlidePhoto");
+                });
+
             modelBuilder.Entity("everest.Entities.Store", b =>
                 {
                     b.Property<int>("Id")
@@ -535,7 +587,13 @@ namespace everest.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("everest.Entities.AppUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId");
+
                     b.Navigation("Clinic");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("everest.Entities.ClassificationClinic", b =>
@@ -605,6 +663,26 @@ namespace everest.Data.Migrations
                     b.Navigation("Product");
                 });
 
+            modelBuilder.Entity("everest.Entities.Slide", b =>
+                {
+                    b.HasOne("everest.Entities.Store", "Store")
+                        .WithMany()
+                        .HasForeignKey("StoreId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Store");
+                });
+
+            modelBuilder.Entity("everest.Entities.SlidePhoto", b =>
+                {
+                    b.HasOne("everest.Entities.Slide", "Slide")
+                        .WithMany("Photos")
+                        .HasForeignKey("SlideId1");
+
+                    b.Navigation("Slide");
+                });
+
             modelBuilder.Entity("everest.Entities.Store", b =>
                 {
                     b.HasOne("everest.Entities.AppUser", "User")
@@ -649,6 +727,11 @@ namespace everest.Data.Migrations
                 });
 
             modelBuilder.Entity("everest.Entities.Product", b =>
+                {
+                    b.Navigation("Photos");
+                });
+
+            modelBuilder.Entity("everest.Entities.Slide", b =>
                 {
                     b.Navigation("Photos");
                 });

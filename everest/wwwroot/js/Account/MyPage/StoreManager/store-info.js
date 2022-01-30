@@ -97,7 +97,9 @@ removImageBtn.addEventListener('click', () => {
     fileUplaod.classList.remove('d-none');
 
     if (fileUploadInput.files.length > 0) fileUploadInput.value = null;
-    
+
+    fileUploadInput.dataset.deleted = true;
+
     storeImage.src = `${location.origin}/assets/loading.gif`;
 
 });
@@ -127,13 +129,13 @@ formInfo.addEventListener('submit', e => {
 
     let formData = new FormData();
 
-    
 
+    
     if (fileUploadInput.files.length !== 0 && !fileUploadInput.dataset.publicid) {
 
         formData.append("file", fileUploadInput.files[0]);
 
-    } else if (fileUploadInput.files.length === 0 && fileUploadInput.dataset.publicid) {
+    } else if (fileUploadInput.files.length === 0 && fileUploadInput.dataset.publicid && fileUploadInput.dataset.deleted) {
 
         formData.append("deleteId", fileUploadInput.dataset.publicid);
 

@@ -11,6 +11,7 @@ namespace everest.Interfaces
     {
         Task<ImageUploadResult> AddStorePhotoAsync(IFormFile file);
         Task<ImageUploadResult> AddProductPhotoAsync(IFormFile file);
+        Task<ImageUploadResult> AddSlidePhotoAsync(IFormFile file);
         Task<DeletionResult> RemovePhoto(string publicId);
     }
 }

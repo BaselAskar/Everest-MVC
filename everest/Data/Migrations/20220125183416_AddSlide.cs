@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace everest.Data.Migrations
 {
-    public partial class Initial : Migration
+    public partial class AddSlide : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -227,20 +227,26 @@ namespace everest.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Bookins",
+                name: "Bookings",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    Name = table.Column<string>(type: "TEXT", nullable: true),
                     DateOfBooking = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    UserId = table.Column<string>(type: "TEXT", nullable: true),
                     ClinicId = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Bookins", x => x.Id);
+                    table.PrimaryKey("PK_Bookings", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Bookins_Clinics_ClinicId",
+                        name: "FK_Bookings_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Bookings_Clinics_ClinicId",
                         column: x => x.ClinicId,
                         principalTable: "Clinics",
                         principalColumn: "Id",
@@ -303,8 +309,7 @@ namespace everest.Data.Migrations
                 name: "Products",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
+                    Id = table.Column<string>(type: "TEXT", nullable: false),
                     Name = table.Column<string>(type: "TEXT", nullable: true),
                     Description = table.Column<string>(type: "TEXT", nullable: true),
                     Classification = table.Column<string>(type: "TEXT", nullable: true),
@@ -318,6 +323,27 @@ namespace everest.Data.Migrations
                     table.PrimaryKey("PK_Products", x => x.Id);
                     table.ForeignKey(
                         name: "FK_Products_Stores_StoreId",
+                        column: x => x.StoreId,
+                        principalTable: "Stores",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Slides",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "TEXT", nullable: false),
+                    Created = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    Order = table.Column<int>(type: "INTEGER", nullable: false),
+                    Speed = table.Column<double>(type: "REAL", nullable: false),
+                    StoreId = table.Column<int>(type: "INTEGER", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Slides", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Slides_Stores_StoreId",
                         column: x => x.StoreId,
                         principalTable: "Stores",
                         principalColumn: "Id",
@@ -354,16 +380,36 @@ namespace everest.Data.Migrations
                     Url = table.Column<string>(type: "TEXT", nullable: true),
                     IsMain = table.Column<bool>(type: "INTEGER", nullable: false),
                     PublicId = table.Column<string>(type: "TEXT", nullable: true),
-                    ProductId = table.Column<string>(type: "TEXT", nullable: true),
-                    ProductId1 = table.Column<int>(type: "INTEGER", nullable: true)
+                    ProductId = table.Column<string>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_ProductsPhotos", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_ProductsPhotos_Products_ProductId1",
-                        column: x => x.ProductId1,
+                        name: "FK_ProductsPhotos_Products_ProductId",
+                        column: x => x.ProductId,
                         principalTable: "Products",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "SlidePhoto",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "TEXT", nullable: false),
+                    Url = table.Column<string>(type: "TEXT", nullable: true),
+                    PublicId = table.Column<string>(type: "TEXT", nullable: true),
+                    SlideId = table.Column<int>(type: "INTEGER", nullable: false),
+                    SlideId1 = table.Column<string>(type: "TEXT", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_SlidePhoto", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_SlidePhoto_Slides_SlideId1",
+                        column: x => x.SlideId1,
+                        principalTable: "Slides",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -406,9 +452,14 @@ namespace everest.Data.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Bookins_ClinicId",
-                table: "Bookins",
+                name: "IX_Bookings_ClinicId",
+                table: "Bookings",
                 column: "ClinicId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Bookings_UserId",
+                table: "Bookings",
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ClassificationClinics_ClassificationId",
@@ -441,9 +492,19 @@ namespace everest.Data.Migrations
                 column: "StoreId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ProductsPhotos_ProductId1",
+                name: "IX_ProductsPhotos_ProductId",
                 table: "ProductsPhotos",
-                column: "ProductId1");
+                column: "ProductId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_SlidePhoto_SlideId1",
+                table: "SlidePhoto",
+                column: "SlideId1");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Slides_StoreId",
+                table: "Slides",
+                column: "StoreId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_StorePhotos_StoreId",
@@ -475,7 +536,7 @@ namespace everest.Data.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "Bookins");
+                name: "Bookings");
 
             migrationBuilder.DropTable(
                 name: "ClassificationClinics");
@@ -485,6 +546,9 @@ namespace everest.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "ProductsPhotos");
+
+            migrationBuilder.DropTable(
+                name: "SlidePhoto");
 
             migrationBuilder.DropTable(
                 name: "StorePhotos");
@@ -500,6 +564,9 @@ namespace everest.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "Products");
+
+            migrationBuilder.DropTable(
+                name: "Slides");
 
             migrationBuilder.DropTable(
                 name: "Stores");

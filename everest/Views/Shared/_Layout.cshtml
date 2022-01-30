@@ -1,16 +1,19 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="utf-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>@ViewData["Title"] - everest</title>
-        <link rel="shortcut icon" href="~/favicon.ico" type="image/x-icon" />
-        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
-        <link rel="stylesheet" href="~/lib/bootstrap-icons/font/bootstrap-icons.css" />
-        <link rel="stylesheet" href="@Url.Content("~/css/style.css")" />
-        <link rel="stylesheet" href="@Url.Content("~/css/site.css")" />
-        @await RenderSectionAsync("Styles", required: false)
-    </head>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - everest</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Rakkas&display=swap" rel="stylesheet">
+    <link rel="shortcut icon" href="~/favicon.ico" type="image/x-icon" />
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+    <link rel="stylesheet" href="~/lib/bootstrap-icons/font/bootstrap-icons.css" />
+    <link rel="stylesheet" href="@Url.Content("~/css/style.css")" />
+    <link rel="stylesheet" href="@Url.Content("~/css/site.css")" />
+    @await RenderSectionAsync("Styles", required: false)
+</head>
     <body>
         <header>
             <nav class="navbar navbar-expand-sm navbar-light bg-info bg-gradient">

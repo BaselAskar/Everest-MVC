@@ -72,9 +72,11 @@ const submitRequest = async function (btnElement, formData,info) {
 
         startSpinnerBtn(btnElement);
 
-        const params = new URLSearchParams(info).toString();
+        for (var key in info) {
+            formData.append(key, info[key])
+        }
 
-        const res = await fetch(`/api/StoreApi/edit-product?${params}`, {
+        const res = await fetch(`/api/StoreApi/edit-product`, {
             method: "PUT",
             body: formData
         });

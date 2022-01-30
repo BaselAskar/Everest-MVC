@@ -45,6 +45,10 @@
             <div class="col-12 col-md-4 text-center my-4 my-md-0">
                 <a class="profile-link" asp-area="Identity" asp-page="/Account/MyProfile/CustomerManager">إدارة المستخدمين</a>
             </div>
+            <div class="col-12 col-md-4 text-center my-4 my-md-0">
+                <a class="profile-link" asp-area="Identity" asp-page="/Account/MyProfile/AdminManager/MainPageManager">إدارة الصفحة الرئيسية</a>
+            </div>
+
         }
 
         @if (Model.RoleName == "مدير مخزن")
@@ -54,13 +58,10 @@
             </div>
         }
 
-            <div class="col-12 col-md-4 text-center my-4 my-md-0">
-                <a class="profile-link" href="#">Example</a>
-            </div>
-            <div class="col-12 col-md-4 text-center my-4 my-md-0">
-                <a class="profile-link" href="#">Example</a>
-            </div>
+        <div class="col-12 col-md-4 text-center my-4 my-md-0">
+            <a class="profile-link" href="#">Example</a>
+        </div>
 
-        
+
     </div>
         </div>

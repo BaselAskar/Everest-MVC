@@ -18,7 +18,6 @@ namespace everest.Helpers
         {
 
             CreateMap<Store, InputModel>();
-                
             
             CreateMap<ClassificationDto, Classification>();
             
@@ -35,6 +34,8 @@ namespace everest.Helpers
 
             CreateMap<Product, InputProductModel>()
                 .ForMember(des => des.MainPhotoUrl, opt => opt.MapFrom(src => src.Photos.FirstOrDefault(ph => ph.IsMain).Url));
+
+            CreateMap<SlideForm,Slide>();
         }
     }
 }

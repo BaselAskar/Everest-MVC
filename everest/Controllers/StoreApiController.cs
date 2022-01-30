@@ -12,11 +12,13 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Text.Json;
+using Microsoft.AspNetCore.Authorization;
 
 namespace everest.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(Roles = "Store")]
     public class StoreApiController : ControllerBase
     {
         private readonly IPhotoServices _phtotoServices;
@@ -31,80 +33,6 @@ namespace everest.Controllers
             _mapper = mapper;
         }
 
-
-
-        //[HttpPost]
-        //public async Task<IActionResult> UpdatePhoto(IFormFile file)
-        //{
-        //    var user = await _userManager.GetUserAsync(User);
-        //    var store = await _uof.StoreRepository.GetStoreAsync(user);
-
-
-        //    if (file == null) return NoContent();
-
-        //    if (store.StorePhotoId != 0)
-        //    {
-        //        var storePhotoStore = await  _uof.StoreRepository.GetStorePhotoAsync(store);
-
-        //        var publicId = storePhotoStore.PublicId;
-
-        //        var deletionResult = await _phtotoServices.RemovePhoto(publicId);
-
-        //        if (deletionResult.Error != null) return BadRequest(deletionResult.Error.Message);
-
-        //        var uploadResult = await _phtotoServices.AddStorePhotoAsync(file);
-
-        //        if (uploadResult.Error != null) return BadRequest(uploadResult.Error.Message);
-
-
-
-
-        //        storePhotoStore.Url = uploadResult.Url.AbsoluteUri;
-        //        storePhotoStore.PublicId = uploadResult.PublicId;
-
-        //        if (!await _uof.Complete()) return BadRequest("Field to update company photo");
-
-        //        return NoContent();
-
-        //    }
-
-        //    var result = await _phtotoServices.AddStorePhotoAsync(file);
-
-        //    if (result.Error != null) return BadRequest(result.Error.Message);
-
-        //    var storePhoto = new StorePhoto
-        //    {
-        //        Url = result.Url.AbsoluteUri,
-        //        PublicId = result.PublicId,
-        //        StoreId = store.Id,
-        //        Store = store
-        //    };
-
-        //    await _uof.StoreRepository.AddStorePhotoAsync(store, storePhoto);
-            
-
-        //    if (!await _uof.Complete()) return BadRequest("There is a wrong during uploading photo");
-
-        //    return NoContent();
-        //}
-
-
-
-        //[HttpPut]
-        //public async Task<IActionResult> UpdateInfo([FromBody] ClientDto clientDto)
-        //{
-        //    var user = await _userManager.GetUserAsync(User);
-
-        //    var store = await _uof.StoreRepository.GetStoreAsync(user);
-
-        //    _mapper.Map(clientDto, store);
-
-        //    _uof.StoreRepository.UpdateStore(store);
-
-        //    if (!await _uof.Complete()) return BadRequest("There is a wrong during updating store information");
-
-        //    return NoContent();
-        //}
 
         [HttpPut("edit-store")]
         public async Task<IActionResult> EditStore([FromQuery] ClientDto clientDto,[FromForm] IFormFile file,[FromForm] string deleteId)
@@ -251,8 +179,8 @@ namespace everest.Controllers
         }
 
 
-        [HttpGet("searchProducts")]
-        public async Task<ActionResult<IEnumerable<ProductDto>>> searchProducts(string searchKey)
+        [HttpGet("search-products")]
+        public async Task<ActionResult<IEnumerable<ProductDto>>> SearchProducts(string searchKey)
         {
 
             var user = await _userManager.GetUserAsync(User);
@@ -261,11 +189,17 @@ namespace everest.Controllers
 
             var products = await _uof.StoreRepository.GetProductsAsync(store);
 
-            var productsToRetuen = products.Where(p => p.Id.ToLower().Contains(searchKey.ToLower().Trim()) || p.Name.ToLower().Contains(searchKey.ToLower().Trim()))
+
+            if (searchKey == null || searchKey == "")
+            {
+                return products.Select(p => _mapper.Map<ProductDto>(p)).ToList();
+            }
+
+            return products.Where(p => p.Id.ToLower().Contains(searchKey.ToLower().Trim()) || p.Name.ToLower().Contains(searchKey.ToLower().Trim()))
                 .Select(p => _mapper.Map<ProductDto>(p))
                 .ToList();
 
-            return productsToRetuen;
+            
 
         }
 
@@ -304,7 +238,7 @@ namespace everest.Controllers
                                                       [FromForm] IFormFile[] addedFiles,
                                                       [FromForm]string[] updated,
                                                       [FromForm] string[] deleted,
-                                                      [FromQuery] ProductDto productDto)
+                                                      [FromForm] ProductDto productDto)
         {
             //Edit product imformations
 

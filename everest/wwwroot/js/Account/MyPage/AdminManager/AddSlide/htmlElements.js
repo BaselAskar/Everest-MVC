@@ -1,0 +1,10 @@
+export const form = document.querySelector(".add-slide-form");
+export const cancelBtn = document.querySelector(".btns-group .btn-danger");
+export const addImageInput = document.querySelector("#add-image-input");
+export const imagesGroup = document.querySelector(".images-group");
+export const storeSelect = document.querySelector("#store-name");
+export const dataList = document.querySelector("datalist");
+export const userName = document.querySelector('#user-name');
+export const orderInput = document.querySelector("#order");
+export const speedInput = document.querySelector("#speed");
+export const submitBtn = document.querySelector('.btns-group .btn[type="submit"]');

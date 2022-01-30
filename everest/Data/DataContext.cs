@@ -24,6 +24,7 @@ namespace everest.Data
         public DbSet<ClassificationStore> ClassificationStores { get; set; }
         public DbSet<ClassificationClinic> ClassificationClinics { get; set; }
         public DbSet<StorePhoto> StorePhotos { get; set; }
+        public DbSet<Slide> Slides { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

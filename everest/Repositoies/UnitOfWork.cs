@@ -24,6 +24,8 @@ namespace everest.Repositoies
 
         public IClinicRepository ClinicRepository => new ClinicRepository(_data);
 
+        public ISlideRepository SlideRepository => new SlideRepository(_data, _mapper);
+
         public async Task<bool> Complete()
         {
             return await _data.SaveChangesAsync() > 0;

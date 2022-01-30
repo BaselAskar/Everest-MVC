@@ -1,0 +1,31 @@
+﻿@page
+@addTagHelper *,Microsoft.AspNetCore.Mvc.TagHelpers
+@model everest.Areas.Identity.Pages.Account.MyProfile.AdminManager.MainPageManagerModel
+@{
+    ViewData["title"] = "Main page Manager";
+
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+<div class="main-page-manager-tamp position-relative mb-5">
+
+    @*Back page link*@
+    <a class="back-link" asp-area="Identity" asp-page="/Account/MyProfile/Index" title="الصفحة الشخصية"><i class="bi bi-arrow-left"></i></a>
+
+    <h1 class="text-center text-info p-5">إدارة الصفحة الرئيسية</h1>
+
+    <div class="container">
+        <div class="row d-flex justify-content-around my-md-4">
+            <div class="col-12 col-md-4 text-center my-4 my-md-0">
+                <a class="profile-link" asp-area="Identity" asp-page="/Account/MyProfile/AdminManager/AddSlide">إضافة سلايد</a>
+            </div>
+
+            <div class="col-12 col-md-4 text-center my-4 my-md-0">
+                <a class="profile-link" asp-area="Identity" asp-page="/Account/MyProfile/StoreManager/AddProduct">تعديل سلايد</a>
+            </div>
+
+        </div>
+    </div>
+</div>

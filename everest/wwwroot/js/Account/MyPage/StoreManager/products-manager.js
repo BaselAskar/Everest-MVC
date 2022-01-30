@@ -29,7 +29,7 @@ const searchRequest = async function (searchKey,tableElement) {
 
     try {
 
-        const res = await fetch(`/api/StoreApi/searchProducts?searchKey=${searchKey}`);
+        const res = await fetch(`/api/StoreApi/search-products?searchKey=${searchKey}`);
 
         
         if (!res.ok) throw new Error("Field to searching products!!");
@@ -86,8 +86,7 @@ const searchRequest = async function (searchKey,tableElement) {
 searchForm.addEventListener('submit', (e) => {
     e.preventDefault();
 
-    const searchKey = searchInput.value;
-
+    const searchKey = searchInput.value.trim();
 
     searchRequest(searchKey, productsTable)
 

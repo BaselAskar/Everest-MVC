@@ -1,0 +1,60 @@
+﻿* {
+    box-sizing: border-box;
+}
+
+.add-slide-form {
+    direction: rtl;
+    border-radius: 10px;
+    background-color: rgba(0, 255, 255, 0.164);
+    box-shadow: 1px 1px 10px cyan;
+}
+
+.image-container img {
+    height: 200px;
+    width: 100%;
+    border-radius: 10px;
+    transition: all 0.4s ease-in-out;
+}
+
+.btn-add-image {
+    width: 70%;
+}
+
+.image-container .btn-danger {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 25%;
+    display: none;
+    transition: all 0.4s ease-in-out;
+}
+
+.image-container:hover img {
+    opacity: 0.3;
+}
+
+.image-container:hover .btn-danger {
+    display: block;
+    animation: move-upp 0.3s forwards;
+}
+
+@keyframes move-upp {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        transform: translate(-50%, -50%);
+        opacity: 1;
+    }
+}
+
+.images-group input {
+    position: absolute;
+    width: 65%;
+    height: 100%;
+    border: 1px solid black;
+    cursor: pointer;
+    opacity: 0;
+}

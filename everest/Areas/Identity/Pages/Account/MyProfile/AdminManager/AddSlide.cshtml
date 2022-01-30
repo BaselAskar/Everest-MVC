@@ -1,0 +1,78 @@
+﻿@page
+@addTagHelper *,Microsoft.AspNetCore.Mvc.TagHelpers
+@model everest.Areas.Identity.Pages.Account.MyProfile.AdminManager.AddSlideModel
+@{
+    ViewData["title"] = "Add slide";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section Styles{
+    <link rel="stylesheet" href="@Url.Content("~/css/Account/MyPage/AdminManager/add-slide.css")" />
+}
+
+
+<div class="add-slide-temp position-relative">
+
+    <a class="back-link" asp-area="Identity" asp-page="/Account/MyProfile/AdminManager/MainPageManager" title="إدارة الصفحة الرئيسية"><i class="bi bi-arrow-left"></i></a>
+
+    <h1 class="text-center text-info p-5">إضافة سلايد</h1>
+
+    <form class="container add-slide-form">
+        <div class="row py-md-3">
+            <div class="form-group col-10 col-md-4">
+                <label for="store-manager" class="form-label">اسم المستخدم:</label>
+                <div class="text-center fw-bold p-1" id="user-name"><span class="opacity-0">اسم المستخدم</span></div>
+                <label for="store-name" class="form-label">اسم المتجر:</label>
+                <input type="text" list="stores-names" id="store-name" class="form-control" placeholder="ادخل اسم المتجر"/> 
+                <datalist id="stores-names">
+                    @foreach (var store in Model.AddSlideViews)
+                    {
+                        <option value="@store.StoreName @store.City" data-userid="@store.UserId"/>
+                    }
+                </datalist>
+            </div>
+
+            <div class="col-10 col-md-2 form-group">
+                <label for="order" class="form-label">الترتيب:</label>
+                <input type="number" id="order" name="order" class="form-control text-center" />
+            </div>
+
+
+
+            <div class="col-10 col-md-2 form-group">
+                <label for="speed" class="form-label">السرعة:</label>
+                <input type="number"
+                       id="speed"
+                       name="speed"
+                       class="form-control text-center"
+                       placeholder="ثواني" />
+            </div>
+        </div>
+
+        <div class="row images-group my-5" style="direction:rtl;">
+            <div class="col-10 col-md-4 my-3 mx-auto mx-md-0 my-md-auto position-relative">
+                <input type="file" name="upload-image" id="add-image-input" />
+
+                <div class="btn btn-primary btn-add-image">
+                    <p class="text-center m-auto">
+                        إضافة صورة <br />
+                        <i class="bi bi-plus-square"></i>
+                    </p>
+
+                </div>
+            </div>
+
+        </div>
+
+        <div class="row my-5 d-flex justify-content-evenly btns-group">
+            <button type="submit" class="btn btn-success btn-submit col-10 col-md-3 my-2">إضافة</button>
+            <button type="button" class="btn btn-danger col-10 col-md-3 my-2">إلغاء</button>
+
+        </div>
+    </form>
+</div>
+
+
+@section Scripts{
+    <script type="module" src="@Url.Content("~/js/Account/MyPage/AdminManager/AddSlide/app.js")"></script>
+}
