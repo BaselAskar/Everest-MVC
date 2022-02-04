@@ -5,7 +5,8 @@ namespace everest.Entities
     [Table("ProductsPhotos")]
     public class ProductPhoto
     {
-        public int Id { get; set; }
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public string Id { get; set; }
         public string Url { get; set; }
         public bool IsMain { get; set; }
         public string PublicId { get; set; }

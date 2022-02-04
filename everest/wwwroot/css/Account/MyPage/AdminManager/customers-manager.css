@@ -1,0 +1,24 @@
+﻿@media (min-width: 768px) {
+    #search {
+        width: 40% !important;
+    }
+}
+
+.user-img {
+    height: 40px;
+    border-radius: 50%;
+}
+
+th {
+    font-family: "Times New Roman", Times, serif;
+}
+
+tbody tr {
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+    vertical-align: middle;
+}
+
+    tbody tr:hover {
+        background: #6bfff73d;
+    }

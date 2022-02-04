@@ -30,36 +30,12 @@ namespace everest.Repositoies
             await _data.Classifications.AddAsync(classification);
         }
 
-        public async Task AddClassificationToClinicAsync(Clinic clinic, ClassificationDto classificationDto)
+
+
+        public async Task<Classification> GetClassificationByTitleAndName(string title, string name)
         {
-            var classification = await _data.Classifications
-                .SingleOrDefaultAsync(c => c.Name == classificationDto.Name && c.Title == classificationDto.Title);
-
-            var classificationClinic = new ClassificationClinic
-            {
-                ClassificationId = classification.Id,
-                Classification = classification,
-                ClinicId = clinic.Id,
-
-            };
-
-            await _data.ClassificationClinics.AddAsync(classificationClinic);
-        }
-
-        public async Task AddClassificationToStoreAsync(Store store, ClassificationDto classificationDto)
-        {
-            var classification = await _data.Classifications
-                .SingleOrDefaultAsync(c => c.Name == classificationDto.Name && c.Title == classificationDto.Title);
-
-            var classificationStore = new ClassificationStore
-            {
-                ClassificationId = classification.Id,
-                Classification = classification,
-                StoreId = store.Id,
-                Store = store
-            };
-
-            await _data.ClassificationStores.AddAsync(classificationStore);
+            return await _data.Classifications
+                            .SingleOrDefaultAsync(c => c.Name == name && c.Title == title);
 
         }
 

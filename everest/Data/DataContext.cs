@@ -21,35 +21,33 @@ namespace everest.Data
         public DbSet<Store> Stores { get; set; }
         public DbSet<Clinic> Clinics { get; set; }
         public DbSet<Classification> Classifications { get; set; }
-        public DbSet<ClassificationStore> ClassificationStores { get; set; }
-        public DbSet<ClassificationClinic> ClassificationClinics { get; set; }
         public DbSet<StorePhoto> StorePhotos { get; set; }
         public DbSet<Slide> Slides { get; set; }
 
-        protected override void OnModelCreating(ModelBuilder builder)
-        {
-            base.OnModelCreating(builder);
+        //protected override void OnModelCreating(ModelBuilder builder)
+        //{
+        //    base.OnModelCreating(builder);
 
-            builder.Entity<AppUser>()
-                .HasMany(u => u.UserRoles)
-                .WithOne(ur => ur.User)
-                .HasForeignKey(ur => ur.UserId)
-                .IsRequired();
+        //    builder.Entity<AppUser>()
+        //        .HasMany(u => u.UserRoles)
+        //        .WithOne(ur => ur.User)
+        //        .HasForeignKey(ur => ur.UserId)
+        //        .IsRequired();
 
-            builder.Entity<AppRole>()
-                .HasMany(r => r.UserRoles)
-                .WithOne(ur => ur.Role)
-                .HasForeignKey(ur => ur.RoleId)
-                .IsRequired();
+        //    builder.Entity<AppRole>()
+        //        .HasMany(r => r.UserRoles)
+        //        .WithOne(ur => ur.Role)
+        //        .HasForeignKey(ur => ur.RoleId)
+        //        .IsRequired();
 
 
-            builder.Entity<Store>()
-                .HasOne(s => s.StorePhoto)
-                .WithOne(sp => sp.Store)
-                .HasForeignKey<StorePhoto>(sp => sp.StoreId)
-                .OnDelete(DeleteBehavior.Cascade)
-                .IsRequired(false);
+        //    builder.Entity<Store>()
+        //        .HasOne(s => s.StorePhoto)
+        //        .WithOne(sp => sp.Store)
+        //        .HasForeignKey<StorePhoto>(sp => sp.StoreId)
+        //        .OnDelete(DeleteBehavior.Cascade)
+        //        .IsRequired(false);
 
-        }
+        //}
     }
 }

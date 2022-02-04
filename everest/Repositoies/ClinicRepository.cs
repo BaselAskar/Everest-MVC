@@ -27,7 +27,9 @@ namespace everest.Repositoies
 
         public async Task<Clinic> GetClinicAsync(AppUser user)
         {
-            return await _data.Clinics.SingleOrDefaultAsync(cl => cl.UserId == user.Id);
+            return await _data.Clinics
+                .Include(cl => cl.Classifications)
+                .SingleOrDefaultAsync(cl => cl.UserId == user.Id);
         }
 
         public void RemoveClinic(Clinic clinic)

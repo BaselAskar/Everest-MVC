@@ -9,11 +9,10 @@ namespace everest.Entities
     [Table("StorePhotos")]
     public class StorePhoto
     {
-        public int Id { get; set; }
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public string Id { get; set; }
         public string Url { get; set; }
         public string PublicId { get; set; }
-        public int StoreId { get; set; }
-        public Store Store { get; set; }
 
     }
 }

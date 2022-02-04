@@ -16,6 +16,36 @@ namespace everest.Data.Migrations
             modelBuilder
                 .HasAnnotation("ProductVersion", "5.0.9");
 
+            modelBuilder.Entity("ClassificationClinic", b =>
+                {
+                    b.Property<string>("ClassificationsId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("ClinicsId")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("ClassificationsId", "ClinicsId");
+
+                    b.HasIndex("ClinicsId");
+
+                    b.ToTable("ClassificationClinic");
+                });
+
+            modelBuilder.Entity("ClassificationStore", b =>
+                {
+                    b.Property<string>("ClassificationsId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("StoresId")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("ClassificationsId", "StoresId");
+
+                    b.HasIndex("StoresId");
+
+                    b.ToTable("ClassificationStore");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.Property<int>("Id")
@@ -188,6 +218,9 @@ namespace everest.Data.Migrations
                         .HasMaxLength(256)
                         .HasColumnType("TEXT");
 
+                    b.Property<string>("UserPhotoId")
+                        .HasColumnType("TEXT");
+
                     b.HasKey("Id");
 
                     b.HasIndex("NormalizedEmail")
@@ -196,6 +229,8 @@ namespace everest.Data.Migrations
                     b.HasIndex("NormalizedUserName")
                         .IsUnique()
                         .HasDatabaseName("UserNameIndex");
+
+                    b.HasIndex("UserPhotoId");
 
                     b.ToTable("AspNetUsers");
                 });
@@ -208,21 +243,31 @@ namespace everest.Data.Migrations
                     b.Property<string>("RoleId")
                         .HasColumnType("TEXT");
 
+                    b.Property<string>("RoleId1")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("UserId1")
+                        .HasColumnType("TEXT");
+
                     b.HasKey("UserId", "RoleId");
 
                     b.HasIndex("RoleId");
+
+                    b.HasIndex("RoleId1");
+
+                    b.HasIndex("UserId1");
 
                     b.ToTable("AspNetUserRoles");
                 });
 
             modelBuilder.Entity("everest.Entities.Booking", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<string>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("TEXT");
 
-                    b.Property<int>("ClinicId")
-                        .HasColumnType("INTEGER");
+                    b.Property<string>("ClinicId")
+                        .HasColumnType("TEXT");
 
                     b.Property<DateTime>("DateOfBooking")
                         .HasColumnType("TEXT");
@@ -241,9 +286,9 @@ namespace everest.Data.Migrations
 
             modelBuilder.Entity("everest.Entities.Classification", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<string>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Name")
                         .HasColumnType("TEXT");
@@ -256,53 +301,11 @@ namespace everest.Data.Migrations
                     b.ToTable("Classifications");
                 });
 
-            modelBuilder.Entity("everest.Entities.ClassificationClinic", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("ClassificationId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("ClinicId")
-                        .HasColumnType("INTEGER");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ClassificationId");
-
-                    b.HasIndex("ClinicId");
-
-                    b.ToTable("ClassificationClinics");
-                });
-
-            modelBuilder.Entity("everest.Entities.ClassificationStore", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("ClassificationId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("StoreId")
-                        .HasColumnType("INTEGER");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ClassificationId");
-
-                    b.HasIndex("StoreId");
-
-                    b.ToTable("ClassificationStores");
-                });
-
             modelBuilder.Entity("everest.Entities.Clinic", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<string>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Adress")
                         .HasColumnType("TEXT");
@@ -367,8 +370,8 @@ namespace everest.Data.Migrations
                     b.Property<double>("Price")
                         .HasColumnType("REAL");
 
-                    b.Property<int>("StoreId")
-                        .HasColumnType("INTEGER");
+                    b.Property<string>("StoreId")
+                        .HasColumnType("TEXT");
 
                     b.HasKey("Id");
 
@@ -379,9 +382,9 @@ namespace everest.Data.Migrations
 
             modelBuilder.Entity("everest.Entities.ProductPhoto", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<string>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("TEXT");
 
                     b.Property<bool>("IsMain")
                         .HasColumnType("INTEGER");
@@ -417,8 +420,8 @@ namespace everest.Data.Migrations
                     b.Property<double>("Speed")
                         .HasColumnType("REAL");
 
-                    b.Property<int>("StoreId")
-                        .HasColumnType("INTEGER");
+                    b.Property<string>("StoreId")
+                        .HasColumnType("TEXT");
 
                     b.HasKey("Id");
 
@@ -436,10 +439,7 @@ namespace everest.Data.Migrations
                     b.Property<string>("PublicId")
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("SlideId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<string>("SlideId1")
+                    b.Property<string>("SlideId")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Url")
@@ -447,16 +447,16 @@ namespace everest.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("SlideId1");
+                    b.HasIndex("SlideId");
 
                     b.ToTable("SlidePhoto");
                 });
 
             modelBuilder.Entity("everest.Entities.Store", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<string>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Adress")
                         .HasColumnType("TEXT");
@@ -482,8 +482,8 @@ namespace everest.Data.Migrations
                     b.Property<string>("PhoneNumber2")
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("StorePhotoId")
-                        .HasColumnType("INTEGER");
+                    b.Property<string>("StorePhotoId")
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("UserId")
                         .HasColumnType("TEXT");
@@ -496,6 +496,8 @@ namespace everest.Data.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("StorePhotoId");
+
                     b.HasIndex("UserId");
 
                     b.ToTable("Stores");
@@ -503,25 +505,66 @@ namespace everest.Data.Migrations
 
             modelBuilder.Entity("everest.Entities.StorePhoto", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<string>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("PublicId")
                         .HasColumnType("TEXT");
-
-                    b.Property<int>("StoreId")
-                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Url")
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("StoreId")
-                        .IsUnique();
-
                     b.ToTable("StorePhotos");
+                });
+
+            modelBuilder.Entity("everest.Entities.UserPhoto", b =>
+                {
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("PublicId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Url")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("UserPhoto");
+                });
+
+            modelBuilder.Entity("ClassificationClinic", b =>
+                {
+                    b.HasOne("everest.Entities.Classification", null)
+                        .WithMany()
+                        .HasForeignKey("ClassificationsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("everest.Entities.Clinic", null)
+                        .WithMany()
+                        .HasForeignKey("ClinicsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("ClassificationStore", b =>
+                {
+                    b.HasOne("everest.Entities.Classification", null)
+                        .WithMany()
+                        .HasForeignKey("ClassificationsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("everest.Entities.Store", null)
+                        .WithMany()
+                        .HasForeignKey("StoresId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -560,19 +603,36 @@ namespace everest.Data.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("everest.Entities.AppUser", b =>
+                {
+                    b.HasOne("everest.Entities.UserPhoto", "Photo")
+                        .WithMany()
+                        .HasForeignKey("UserPhotoId");
+
+                    b.Navigation("Photo");
+                });
+
             modelBuilder.Entity("everest.Entities.AppUserRole", b =>
                 {
+                    b.HasOne("everest.Entities.AppRole", null)
+                        .WithMany()
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("everest.Entities.AppRole", "Role")
                         .WithMany("UserRoles")
-                        .HasForeignKey("RoleId")
+                        .HasForeignKey("RoleId1");
+
+                    b.HasOne("everest.Entities.AppUser", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("everest.Entities.AppUser", "User")
                         .WithMany("UserRoles")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("UserId1");
 
                     b.Navigation("Role");
 
@@ -583,9 +643,7 @@ namespace everest.Data.Migrations
                 {
                     b.HasOne("everest.Entities.Clinic", "Clinic")
                         .WithMany("Bookings")
-                        .HasForeignKey("ClinicId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("ClinicId");
 
                     b.HasOne("everest.Entities.AppUser", "User")
                         .WithMany()
@@ -594,44 +652,6 @@ namespace everest.Data.Migrations
                     b.Navigation("Clinic");
 
                     b.Navigation("User");
-                });
-
-            modelBuilder.Entity("everest.Entities.ClassificationClinic", b =>
-                {
-                    b.HasOne("everest.Entities.Classification", "Classification")
-                        .WithMany("Clinics")
-                        .HasForeignKey("ClassificationId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("everest.Entities.Clinic", "Clinic")
-                        .WithMany("Classifications")
-                        .HasForeignKey("ClinicId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Classification");
-
-                    b.Navigation("Clinic");
-                });
-
-            modelBuilder.Entity("everest.Entities.ClassificationStore", b =>
-                {
-                    b.HasOne("everest.Entities.Classification", "Classification")
-                        .WithMany("Stores")
-                        .HasForeignKey("ClassificationId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("everest.Entities.Store", "Store")
-                        .WithMany("Classifications")
-                        .HasForeignKey("StoreId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Classification");
-
-                    b.Navigation("Store");
                 });
 
             modelBuilder.Entity("everest.Entities.Clinic", b =>
@@ -647,9 +667,7 @@ namespace everest.Data.Migrations
                 {
                     b.HasOne("everest.Entities.Store", "Store")
                         .WithMany("Products")
-                        .HasForeignKey("StoreId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("StoreId");
 
                     b.Navigation("Store");
                 });
@@ -667,9 +685,7 @@ namespace everest.Data.Migrations
                 {
                     b.HasOne("everest.Entities.Store", "Store")
                         .WithMany()
-                        .HasForeignKey("StoreId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("StoreId");
 
                     b.Navigation("Store");
                 });
@@ -678,28 +694,24 @@ namespace everest.Data.Migrations
                 {
                     b.HasOne("everest.Entities.Slide", "Slide")
                         .WithMany("Photos")
-                        .HasForeignKey("SlideId1");
+                        .HasForeignKey("SlideId");
 
                     b.Navigation("Slide");
                 });
 
             modelBuilder.Entity("everest.Entities.Store", b =>
                 {
+                    b.HasOne("everest.Entities.StorePhoto", "StorePhoto")
+                        .WithMany()
+                        .HasForeignKey("StorePhotoId");
+
                     b.HasOne("everest.Entities.AppUser", "User")
                         .WithMany()
                         .HasForeignKey("UserId");
 
+                    b.Navigation("StorePhoto");
+
                     b.Navigation("User");
-                });
-
-            modelBuilder.Entity("everest.Entities.StorePhoto", b =>
-                {
-                    b.HasOne("everest.Entities.Store", "Store")
-                        .WithOne("StorePhoto")
-                        .HasForeignKey("everest.Entities.StorePhoto", "StoreId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.Navigation("Store");
                 });
 
             modelBuilder.Entity("everest.Entities.AppRole", b =>
@@ -712,18 +724,9 @@ namespace everest.Data.Migrations
                     b.Navigation("UserRoles");
                 });
 
-            modelBuilder.Entity("everest.Entities.Classification", b =>
-                {
-                    b.Navigation("Clinics");
-
-                    b.Navigation("Stores");
-                });
-
             modelBuilder.Entity("everest.Entities.Clinic", b =>
                 {
                     b.Navigation("Bookings");
-
-                    b.Navigation("Classifications");
                 });
 
             modelBuilder.Entity("everest.Entities.Product", b =>
@@ -738,11 +741,7 @@ namespace everest.Data.Migrations
 
             modelBuilder.Entity("everest.Entities.Store", b =>
                 {
-                    b.Navigation("Classifications");
-
                     b.Navigation("Products");
-
-                    b.Navigation("StorePhoto");
                 });
 #pragma warning restore 612, 618
         }

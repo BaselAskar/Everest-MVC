@@ -90,17 +90,20 @@ namespace everest.Controllers
 
                     foreach(var classific in classificationsList)
                     {
-                        var classificationDto = new ClassificationDto
-                        {
-                            Title = classific.Substring(0, classific.IndexOf('-')),
-                            Name = classific.Substring(classific.IndexOf('-') + 1)
-                        };
+
+                        var title = classific.Substring(0, classific.IndexOf('-'));
+                        var name = classific.Substring(classific.IndexOf('-') + 1);
+
+                        var classification = await _uof.ClassificationRepository.GetClassificationByTitleAndName(title, name);
 
 
-                        await _uof.ClassificationRepository.AddClassificationToStoreAsync(store, classificationDto);
+
+                        store.Classifications.Add(classification);
+
+                        if (!await _uof.Complete()) return BadRequest("Something was wrong please try agian");
+
                     }
 
-                    if (!await _uof.Complete()) return BadRequest("Something was wrong please try agian");
 
                     await _userManager.AddToRoleAsync(user, role);
 
@@ -121,19 +124,23 @@ namespace everest.Controllers
 
                     foreach (var classific in classificationsClinicList)
                     {
-                        var classificationDto = new ClassificationDto
-                        {
-                            Title = classific.Substring(0, classific.IndexOf('-')),
-                            Name = classific.Substring(classific.IndexOf('-') + 1)
-                        };
+                        var title = classific.Substring(0, classific.IndexOf('-'));
+                        var name = classific.Substring(classific.IndexOf('-') + 1);
+
+                        var classification = await _uof.ClassificationRepository.GetClassificationByTitleAndName(title, name);
 
 
-                        await _uof.ClassificationRepository.AddClassificationToClinicAsync(clinic, classificationDto);
+                        clinic.Classifications.Add(classification);
+
+                        if (!await _uof.Complete()) return BadRequest("Something was wrong please try agian");
+
                     }
+
+
+                    await _userManager.AddToRoleAsync(user, role);
 
                     if (!await _uof.Complete()) return BadRequest("Something was wrong please try agian");
 
-                    await _userManager.AddToRoleAsync(user, role);
 
                     return Redirect("/Identity/Account/MyProfile/CustomerManager");
 

@@ -208,7 +208,7 @@ namespace everest.Controllers
 
 
         [HttpPut("make-photo-main")]
-        public async Task<IActionResult> MakePhotoMain(string productId,int? id)
+        public async Task<IActionResult> MakePhotoMain(string productId,string id)
         {
             if (productId == null) return BadRequest("product id is null!!");
             if (id == null) return BadRequest();

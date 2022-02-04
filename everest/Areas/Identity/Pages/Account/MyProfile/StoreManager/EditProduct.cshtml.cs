@@ -61,7 +61,9 @@ namespace everest.Areas.Identity.Pages.Account.MyProfile.StoreManager
 
             var store = await _uof.StoreRepository.GetStoreAsync(user);
 
-            Classifications = await _uof.StoreRepository.GetClassificationStoreAsync(store);
+            Classifications = store.Classifications
+                                .Select(classification => _mapper.Map<ClassificationDto>(classification))
+                                .ToList();
 
             var product = await _uof.StoreRepository.GetProductByIdAsync(id);
 

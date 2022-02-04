@@ -13,7 +13,7 @@ namespace everest.Entities
         public DateTime Created { get; set; } = DateTime.Now;
         public int Order { get; set; }
         public double Speed { get; set; }
-        public int StoreId { get; set; }
+        public string StoreId { get; set; }
         public Store Store { get; set; }
         public ICollection<SlidePhoto> Photos { get; set; }
 

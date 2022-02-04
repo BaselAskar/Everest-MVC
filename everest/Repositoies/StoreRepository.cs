@@ -42,13 +42,6 @@ namespace everest.Repositoies
             await _data.Stores.AddAsync(store);
         }
 
-        public async Task<List<ClassificationDto>> GetClassificationStoreAsync(Store store)
-        {
-            return await _data.ClassificationStores
-                .Where(cs => cs.StoreId == store.Id)
-                .Select(cs => _mapper.Map<ClassificationDto>(cs.Classification))
-                .ToListAsync();
-        }
 
         public async Task<StorePhoto> GetStorePhotoAsync(Store store)
         {
@@ -59,17 +52,9 @@ namespace everest.Repositoies
         {
             return await _data.Stores
                 .Include(s => s.Products)
+                .Include(s => s.Classifications)
                 .SingleOrDefaultAsync(s => s.UserId == user.Id);
             
-        }
-
-        public async Task RemoveStorePhotoAsync(int storePhotoId)
-        {
-            var store = await _data.Stores.SingleOrDefaultAsync(s => s.StorePhotoId == storePhotoId);
-            var storePhoto = await _data.StorePhotos.FindAsync(storePhotoId);
-            _data.StorePhotos.Remove(storePhoto);
-            store.StorePhotoId = 0;
-            store.StorePhoto = null;
         }
 
         public void RemoveStore(Store store)
@@ -129,14 +114,5 @@ namespace everest.Repositoies
             return await _data.Stores.ToListAsync();
         }
 
-        public async Task<AppUser> GetUserFromStoreAsync(int storeId)
-        {
-            var store = await _data.Stores
-                .Include(s => s.User)
-                .SingleOrDefaultAsync(s => s.Id == storeId);
-
-            return store.User;
-
-        }
     }
 }

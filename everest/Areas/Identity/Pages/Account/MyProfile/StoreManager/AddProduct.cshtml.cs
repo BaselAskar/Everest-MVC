@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using everest.DTOs;
 using everest.Entities;
 using everest.Interfaces;
@@ -16,10 +17,12 @@ namespace everest.Areas.Identity.Pages.Account.MyProfile.StoreManager
     {
         private readonly IUnitOfWork _uof;
         private readonly UserManager<AppUser> _userManager;
-        public AddProductModel(IUnitOfWork uof,UserManager<AppUser> userManager)
+        private readonly IMapper _mapper;
+        public AddProductModel(IUnitOfWork uof,UserManager<AppUser> userManager,IMapper mapper)
         {
             _uof = uof;
             _userManager = userManager;
+            _mapper = mapper;
         }
 
         public List<ClassificationDto> Classifications { get; set; }
@@ -68,7 +71,9 @@ namespace everest.Areas.Identity.Pages.Account.MyProfile.StoreManager
 
             var store = await _uof.StoreRepository.GetStoreAsync(user);
 
-            Classifications =  await _uof.StoreRepository.GetClassificationStoreAsync(store);
+            Classifications = store.Classifications
+                                .Select(classification => _mapper.Map<ClassificationDto>(classification))
+                                .ToList();
 
             return Page();
         }

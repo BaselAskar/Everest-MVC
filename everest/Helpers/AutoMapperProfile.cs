@@ -8,7 +8,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using static everest.Areas.Identity.Pages.Account.MyProfile.StoreManager.StoreInfoModel;
 using static everest.Areas.Identity.Pages.Account.MyProfile.StoreManager.EditProductModel;
-
+using everest.ModelsView;
 
 namespace everest.Helpers
 {
@@ -36,6 +36,9 @@ namespace everest.Helpers
                 .ForMember(des => des.MainPhotoUrl, opt => opt.MapFrom(src => src.Photos.FirstOrDefault(ph => ph.IsMain).Url));
 
             CreateMap<SlideForm,Slide>();
+
+            CreateMap<AppUser, UserView>()
+                .ForMember(des => des.RoleName, opt => opt.MapFrom(src => src.UserRoles.Select(ur => ur.Role.Name).ToList()[0]));
         }
     }
 }

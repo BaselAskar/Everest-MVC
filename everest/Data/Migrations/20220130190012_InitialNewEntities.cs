@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace everest.Data.Migrations
 {
-    public partial class AddSlide : Migration
+    public partial class InitialNewEntities : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -22,43 +22,42 @@ namespace everest.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "AspNetUsers",
-                columns: table => new
-                {
-                    Id = table.Column<string>(type: "TEXT", nullable: false),
-                    Created = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    UserName = table.Column<string>(type: "TEXT", maxLength: 256, nullable: true),
-                    NormalizedUserName = table.Column<string>(type: "TEXT", maxLength: 256, nullable: true),
-                    Email = table.Column<string>(type: "TEXT", maxLength: 256, nullable: true),
-                    NormalizedEmail = table.Column<string>(type: "TEXT", maxLength: 256, nullable: true),
-                    EmailConfirmed = table.Column<bool>(type: "INTEGER", nullable: false),
-                    PasswordHash = table.Column<string>(type: "TEXT", nullable: true),
-                    SecurityStamp = table.Column<string>(type: "TEXT", nullable: true),
-                    ConcurrencyStamp = table.Column<string>(type: "TEXT", nullable: true),
-                    PhoneNumber = table.Column<string>(type: "TEXT", nullable: true),
-                    PhoneNumberConfirmed = table.Column<bool>(type: "INTEGER", nullable: false),
-                    TwoFactorEnabled = table.Column<bool>(type: "INTEGER", nullable: false),
-                    LockoutEnd = table.Column<DateTimeOffset>(type: "TEXT", nullable: true),
-                    LockoutEnabled = table.Column<bool>(type: "INTEGER", nullable: false),
-                    AccessFailedCount = table.Column<int>(type: "INTEGER", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_AspNetUsers", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Classifications",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
+                    Id = table.Column<string>(type: "TEXT", nullable: false),
                     Name = table.Column<string>(type: "TEXT", nullable: true),
                     Title = table.Column<string>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Classifications", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "StorePhotos",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "TEXT", nullable: false),
+                    Url = table.Column<string>(type: "TEXT", nullable: true),
+                    PublicId = table.Column<string>(type: "TEXT", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_StorePhotos", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "UserPhoto",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "TEXT", nullable: false),
+                    Url = table.Column<string>(type: "TEXT", nullable: true),
+                    PublicId = table.Column<string>(type: "TEXT", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UserPhoto", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -80,6 +79,39 @@ namespace everest.Data.Migrations
                         principalTable: "AspNetRoles",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "AspNetUsers",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "TEXT", nullable: false),
+                    Created = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    UserPhotoId = table.Column<string>(type: "TEXT", nullable: true),
+                    UserName = table.Column<string>(type: "TEXT", maxLength: 256, nullable: true),
+                    NormalizedUserName = table.Column<string>(type: "TEXT", maxLength: 256, nullable: true),
+                    Email = table.Column<string>(type: "TEXT", maxLength: 256, nullable: true),
+                    NormalizedEmail = table.Column<string>(type: "TEXT", maxLength: 256, nullable: true),
+                    EmailConfirmed = table.Column<bool>(type: "INTEGER", nullable: false),
+                    PasswordHash = table.Column<string>(type: "TEXT", nullable: true),
+                    SecurityStamp = table.Column<string>(type: "TEXT", nullable: true),
+                    ConcurrencyStamp = table.Column<string>(type: "TEXT", nullable: true),
+                    PhoneNumber = table.Column<string>(type: "TEXT", nullable: true),
+                    PhoneNumberConfirmed = table.Column<bool>(type: "INTEGER", nullable: false),
+                    TwoFactorEnabled = table.Column<bool>(type: "INTEGER", nullable: false),
+                    LockoutEnd = table.Column<DateTimeOffset>(type: "TEXT", nullable: true),
+                    LockoutEnabled = table.Column<bool>(type: "INTEGER", nullable: false),
+                    AccessFailedCount = table.Column<int>(type: "INTEGER", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AspNetUsers", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_AspNetUsers_UserPhoto_UserPhotoId",
+                        column: x => x.UserPhotoId,
+                        principalTable: "UserPhoto",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -128,7 +160,9 @@ namespace everest.Data.Migrations
                 columns: table => new
                 {
                     UserId = table.Column<string>(type: "TEXT", nullable: false),
-                    RoleId = table.Column<string>(type: "TEXT", nullable: false)
+                    RoleId = table.Column<string>(type: "TEXT", nullable: false),
+                    UserId1 = table.Column<string>(type: "TEXT", nullable: true),
+                    RoleId1 = table.Column<string>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -140,11 +174,23 @@ namespace everest.Data.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
+                        name: "FK_AspNetUserRoles_AspNetRoles_RoleId1",
+                        column: x => x.RoleId1,
+                        principalTable: "AspNetRoles",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
                         name: "FK_AspNetUserRoles_AspNetUsers_UserId",
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_AspNetUserRoles_AspNetUsers_UserId1",
+                        column: x => x.UserId1,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -171,8 +217,7 @@ namespace everest.Data.Migrations
                 name: "Clinics",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
+                    Id = table.Column<string>(type: "TEXT", nullable: false),
                     Name = table.Column<string>(type: "TEXT", nullable: true),
                     Description = table.Column<string>(type: "TEXT", nullable: true),
                     Manager = table.Column<string>(type: "TEXT", nullable: true),
@@ -200,9 +245,8 @@ namespace everest.Data.Migrations
                 name: "Stores",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    StorePhotoId = table.Column<int>(type: "INTEGER", nullable: false),
+                    Id = table.Column<string>(type: "TEXT", nullable: false),
+                    StorePhotoId = table.Column<string>(type: "TEXT", nullable: true),
                     Name = table.Column<string>(type: "TEXT", nullable: true),
                     Description = table.Column<string>(type: "TEXT", nullable: true),
                     Manager = table.Column<string>(type: "TEXT", nullable: true),
@@ -224,17 +268,22 @@ namespace everest.Data.Migrations
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Stores_StorePhotos_StorePhotoId",
+                        column: x => x.StorePhotoId,
+                        principalTable: "StorePhotos",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
                 name: "Bookings",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
+                    Id = table.Column<string>(type: "TEXT", nullable: false),
                     DateOfBooking = table.Column<DateTime>(type: "TEXT", nullable: false),
                     UserId = table.Column<string>(type: "TEXT", nullable: true),
-                    ClinicId = table.Column<int>(type: "INTEGER", nullable: false)
+                    ClinicId = table.Column<string>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -250,56 +299,52 @@ namespace everest.Data.Migrations
                         column: x => x.ClinicId,
                         principalTable: "Clinics",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
-                name: "ClassificationClinics",
+                name: "ClassificationClinic",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    ClassificationId = table.Column<int>(type: "INTEGER", nullable: false),
-                    ClinicId = table.Column<int>(type: "INTEGER", nullable: false)
+                    ClassificationsId = table.Column<string>(type: "TEXT", nullable: false),
+                    ClinicsId = table.Column<string>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ClassificationClinics", x => x.Id);
+                    table.PrimaryKey("PK_ClassificationClinic", x => new { x.ClassificationsId, x.ClinicsId });
                     table.ForeignKey(
-                        name: "FK_ClassificationClinics_Classifications_ClassificationId",
-                        column: x => x.ClassificationId,
+                        name: "FK_ClassificationClinic_Classifications_ClassificationsId",
+                        column: x => x.ClassificationsId,
                         principalTable: "Classifications",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_ClassificationClinics_Clinics_ClinicId",
-                        column: x => x.ClinicId,
+                        name: "FK_ClassificationClinic_Clinics_ClinicsId",
+                        column: x => x.ClinicsId,
                         principalTable: "Clinics",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "ClassificationStores",
+                name: "ClassificationStore",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    ClassificationId = table.Column<int>(type: "INTEGER", nullable: false),
-                    StoreId = table.Column<int>(type: "INTEGER", nullable: false)
+                    ClassificationsId = table.Column<string>(type: "TEXT", nullable: false),
+                    StoresId = table.Column<string>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ClassificationStores", x => x.Id);
+                    table.PrimaryKey("PK_ClassificationStore", x => new { x.ClassificationsId, x.StoresId });
                     table.ForeignKey(
-                        name: "FK_ClassificationStores_Classifications_ClassificationId",
-                        column: x => x.ClassificationId,
+                        name: "FK_ClassificationStore_Classifications_ClassificationsId",
+                        column: x => x.ClassificationsId,
                         principalTable: "Classifications",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_ClassificationStores_Stores_StoreId",
-                        column: x => x.StoreId,
+                        name: "FK_ClassificationStore_Stores_StoresId",
+                        column: x => x.StoresId,
                         principalTable: "Stores",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -316,7 +361,7 @@ namespace everest.Data.Migrations
                     IsAllowed = table.Column<bool>(type: "INTEGER", nullable: false),
                     Price = table.Column<double>(type: "REAL", nullable: false),
                     Currency = table.Column<string>(type: "TEXT", nullable: true),
-                    StoreId = table.Column<int>(type: "INTEGER", nullable: false)
+                    StoreId = table.Column<string>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -326,7 +371,7 @@ namespace everest.Data.Migrations
                         column: x => x.StoreId,
                         principalTable: "Stores",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -337,7 +382,7 @@ namespace everest.Data.Migrations
                     Created = table.Column<DateTime>(type: "TEXT", nullable: false),
                     Order = table.Column<int>(type: "INTEGER", nullable: false),
                     Speed = table.Column<double>(type: "REAL", nullable: false),
-                    StoreId = table.Column<int>(type: "INTEGER", nullable: false)
+                    StoreId = table.Column<string>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -347,36 +392,14 @@ namespace everest.Data.Migrations
                         column: x => x.StoreId,
                         principalTable: "Stores",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "StorePhotos",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    Url = table.Column<string>(type: "TEXT", nullable: true),
-                    PublicId = table.Column<string>(type: "TEXT", nullable: true),
-                    StoreId = table.Column<int>(type: "INTEGER", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_StorePhotos", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_StorePhotos_Stores_StoreId",
-                        column: x => x.StoreId,
-                        principalTable: "Stores",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
                 name: "ProductsPhotos",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
+                    Id = table.Column<string>(type: "TEXT", nullable: false),
                     Url = table.Column<string>(type: "TEXT", nullable: true),
                     IsMain = table.Column<bool>(type: "INTEGER", nullable: false),
                     PublicId = table.Column<string>(type: "TEXT", nullable: true),
@@ -400,15 +423,14 @@ namespace everest.Data.Migrations
                     Id = table.Column<string>(type: "TEXT", nullable: false),
                     Url = table.Column<string>(type: "TEXT", nullable: true),
                     PublicId = table.Column<string>(type: "TEXT", nullable: true),
-                    SlideId = table.Column<int>(type: "INTEGER", nullable: false),
-                    SlideId1 = table.Column<string>(type: "TEXT", nullable: true)
+                    SlideId = table.Column<string>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_SlidePhoto", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_SlidePhoto_Slides_SlideId1",
-                        column: x => x.SlideId1,
+                        name: "FK_SlidePhoto_Slides_SlideId",
+                        column: x => x.SlideId,
                         principalTable: "Slides",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
@@ -441,9 +463,24 @@ namespace everest.Data.Migrations
                 column: "RoleId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_AspNetUserRoles_RoleId1",
+                table: "AspNetUserRoles",
+                column: "RoleId1");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AspNetUserRoles_UserId1",
+                table: "AspNetUserRoles",
+                column: "UserId1");
+
+            migrationBuilder.CreateIndex(
                 name: "EmailIndex",
                 table: "AspNetUsers",
                 column: "NormalizedEmail");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AspNetUsers_UserPhotoId",
+                table: "AspNetUsers",
+                column: "UserPhotoId");
 
             migrationBuilder.CreateIndex(
                 name: "UserNameIndex",
@@ -462,24 +499,14 @@ namespace everest.Data.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ClassificationClinics_ClassificationId",
-                table: "ClassificationClinics",
-                column: "ClassificationId");
+                name: "IX_ClassificationClinic_ClinicsId",
+                table: "ClassificationClinic",
+                column: "ClinicsId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ClassificationClinics_ClinicId",
-                table: "ClassificationClinics",
-                column: "ClinicId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ClassificationStores_ClassificationId",
-                table: "ClassificationStores",
-                column: "ClassificationId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ClassificationStores_StoreId",
-                table: "ClassificationStores",
-                column: "StoreId");
+                name: "IX_ClassificationStore_StoresId",
+                table: "ClassificationStore",
+                column: "StoresId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Clinics_UserId",
@@ -497,9 +524,9 @@ namespace everest.Data.Migrations
                 column: "ProductId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_SlidePhoto_SlideId1",
+                name: "IX_SlidePhoto_SlideId",
                 table: "SlidePhoto",
-                column: "SlideId1");
+                column: "SlideId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Slides_StoreId",
@@ -507,10 +534,9 @@ namespace everest.Data.Migrations
                 column: "StoreId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_StorePhotos_StoreId",
-                table: "StorePhotos",
-                column: "StoreId",
-                unique: true);
+                name: "IX_Stores_StorePhotoId",
+                table: "Stores",
+                column: "StorePhotoId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Stores_UserId",
@@ -539,19 +565,16 @@ namespace everest.Data.Migrations
                 name: "Bookings");
 
             migrationBuilder.DropTable(
-                name: "ClassificationClinics");
+                name: "ClassificationClinic");
 
             migrationBuilder.DropTable(
-                name: "ClassificationStores");
+                name: "ClassificationStore");
 
             migrationBuilder.DropTable(
                 name: "ProductsPhotos");
 
             migrationBuilder.DropTable(
                 name: "SlidePhoto");
-
-            migrationBuilder.DropTable(
-                name: "StorePhotos");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
@@ -573,6 +596,12 @@ namespace everest.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
+
+            migrationBuilder.DropTable(
+                name: "StorePhotos");
+
+            migrationBuilder.DropTable(
+                name: "UserPhoto");
         }
     }
 }

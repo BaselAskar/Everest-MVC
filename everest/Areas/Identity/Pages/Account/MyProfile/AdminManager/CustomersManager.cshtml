@@ -1,0 +1,82 @@
+﻿@page
+@addTagHelper *,Microsoft.AspNetCore.Mvc.TagHelpers
+@model everest.Areas.Identity.Pages.Account.MyProfile.AdminManager.CustomersManagerModel
+@{
+    ViewData["Title"] = "Customers Manager";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+@section Styles{ 
+    <link rel="stylesheet" href="@Url.Content("~/css/Account/MyPage/AdminManager/customers-manager.css")"/>
+}
+
+<div class="customers-manager-tamp position-relative">
+
+    <a class="back-link" asp-area="Identity" asp-page="/Account/MyProfile/Index" title="الصفحة الرئيسية"><i class="bi bi-arrow-left"></i></a>
+
+    <h1 class="text-center text-info p-5">إدارة المستخدمين</h1>
+
+    <form id="search-form">
+        <div class="d-flex justify-content-center m-3">
+            <input type="search" id="search" class="form-control text-center"  placeholder="بحث حسب الإسم"/>
+        </div> 
+        <div class="d-flex justify-content-center">
+            <button type="submit" class="btn btn-outline-info"><i class="bi bi-search"></i> بحث</button>
+        </div>
+    </form>
+
+
+    <section class="container my-5 position-relative" id="users-section">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">صفة المستخدم</th>
+                    <th scope="col">الصورة</th>
+                    <th scope="col">اسم المستخدم</th>
+                    <th scope="col">تاريخ التسجيل</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var user in Model.UsersPage)
+                {
+                    <tr data-userid="@user.Id">
+                        <td>@user.RoleName</td>
+                        <td><img class="user-img" src="@Url.Content("~/assets/user.png")" alt="user photo"/></td>
+                        <td>@user.UserName</td>
+                        <td>@user.Created.ToString("yyyy-MM-dd")</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+        <div class="d-flex justify-content-center" id="pages-buttons">
+            <button class="btn btn-outline-primary" id="previous" disabled data-currentpage="1">
+                السابق
+            </button>
+            <div id="pages-numbers">
+                @for (var i = 1; i <= Model.UsersPage.TotalPages; i++)
+                {
+                    @if(i == 1)
+                    {
+                        <button class="btn btn-primary" disabled>@i</button>
+                    }
+                    else
+                    {
+                        <button class="btn btn-outline-primary nav-btn">@i</button>
+                    }
+
+                }
+
+            </div>
+            <button class="btn btn-outline-primary" id="next" data-currentpage="1">التالي</button>
+        </div>
+
+    </section>
+
+</div>
+
+
+@section Scripts{ 
+    <script type="module" src="@Url.Content("~/js/Account/MyPage/AdminManager/CustomersManager/app.js")"></script>
+}

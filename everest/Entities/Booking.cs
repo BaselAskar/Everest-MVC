@@ -6,11 +6,12 @@ namespace everest.Entities
     [Table("Bookings")]
     public class Booking
     {
-        public int Id { get; set; }
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public string Id { get; set; }
         public DateTime DateOfBooking { get; set; }
         public string UserId { get; set; }
         public AppUser User { get; set; }
-        public int ClinicId { get; set; }
+        public string ClinicId { get; set; }
         public Clinic Clinic { get; set; }
 
     }

@@ -1,9 +1,10 @@
-﻿using everest.Services;
+﻿using everest.Interfaces;
+using everest.Services;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-
+using System.Threading.Tasks;
 
 namespace everest.Entities
 {
@@ -18,8 +19,9 @@ namespace everest.Entities
         public double Price { get; set; }
         public string Currency { get; set; }
         public ICollection<ProductPhoto> Photos { get; set; }
-        public int StoreId { get; set; }
+        public string StoreId { get; set; }
         public Store Store { get; set; }
 
     }
+
 }
