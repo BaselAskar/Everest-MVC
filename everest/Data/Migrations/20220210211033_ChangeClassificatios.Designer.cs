@@ -2,15 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using everest.Data;
 
 namespace everest.Data.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20220210211033_ChangeClassificatios")]
+    partial class ChangeClassificatios
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -298,10 +300,10 @@ namespace everest.Data.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("TEXT");
 
-                    b.Property<int?>("PhoneNumber1")
+                    b.Property<int>("PhoneNumber1")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int?>("PhoneNumber2")
+                    b.Property<int>("PhoneNumber2")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("UserId")
@@ -310,10 +312,10 @@ namespace everest.Data.Migrations
                     b.Property<bool>("Valid")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int?>("Whatsapp1")
+                    b.Property<int>("Whatsapp1")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int?>("Whatsapp2")
+                    b.Property<int>("Whatsapp2")
                         .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
@@ -468,10 +470,10 @@ namespace everest.Data.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("TEXT");
 
-                    b.Property<int?>("PhoneNumber1")
+                    b.Property<int>("PhoneNumber1")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int?>("PhoneNumber2")
+                    b.Property<int>("PhoneNumber2")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("StorePhotoId")
@@ -483,10 +485,10 @@ namespace everest.Data.Migrations
                     b.Property<bool>("Valid")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int?>("Whatsapp1")
+                    b.Property<int>("Whatsapp1")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int?>("Whatsapp2")
+                    b.Property<int>("Whatsapp2")
                         .HasColumnType("INTEGER");
 
                     b.HasKey("Id");

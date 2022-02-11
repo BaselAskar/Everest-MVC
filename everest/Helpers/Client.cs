@@ -16,11 +16,12 @@ namespace everest.Helpers
         public string Manager { get; set; }
         public string Adress { get; set; }
         public string City { get; set; }
+        public bool Valid { get; set; } = true;
         public string LocationUrl { get; set; }
-        public string Whatsapp1 { get; set; }
-        public string Whatsapp2 { get; set; }
-        public string PhoneNumber1 { get; set; }
-        public string PhoneNumber2 { get; set; }
+        public int? Whatsapp1 { get; set; }
+        public int? Whatsapp2 { get; set; }
+        public int? PhoneNumber1 { get; set; }
+        public int? PhoneNumber2 { get; set; }
         public string UserId { get; set; }
         public AppUser User { get; set; }
 

@@ -10,7 +10,7 @@ namespace everest.Entities
     public class Clinic : Client
     {
         public ICollection<Booking> Bookings { get; set; }
-        public ICollection<Classification> Classifications { get; set; }
+        public ICollection<ClinicClassification> Classifications { get; set; }
 
     }
 }

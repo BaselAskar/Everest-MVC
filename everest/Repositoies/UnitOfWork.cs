@@ -18,13 +18,14 @@ namespace everest.Repositoies
             _mapper = mapper;
         }
 
-        public IClassificationRepository ClassificationRepository => new ClassificationRepository(_data, _mapper);
 
         public IStoreRepository StoreRepository => new StoreRepository(_data,_mapper);
 
         public IClinicRepository ClinicRepository => new ClinicRepository(_data);
 
         public ISlideRepository SlideRepository => new SlideRepository(_data, _mapper);
+
+        public IStoreClassificationRepository StoreClassificationRepository => new StoreClassificatioRepository(_data, _mapper);
 
         public async Task<bool> Complete()
         {

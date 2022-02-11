@@ -69,7 +69,7 @@ namespace everest.Areas.Identity.Pages.Account.MyProfile.StoreManager
                 return NotFound("You are not store Manager!!🙄🙄");
             }
 
-            var store = await _uof.StoreRepository.GetStoreAsync(user);
+            var store = await _uof.StoreRepository.GetStoreWithClassificationsAsync(user);
 
             Classifications = store.Classifications
                                 .Select(classification => _mapper.Map<ClassificationDto>(classification))

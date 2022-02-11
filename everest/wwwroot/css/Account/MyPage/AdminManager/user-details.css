@@ -1,0 +1,128 @@
+﻿.user-img {
+    height: 8rem;
+    border-radius: 50%;
+}
+
+#confirm-store {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    z-index: 4;
+    max-width: 700px;
+    width: 80%;
+    opacity: 0;
+    transform: translate(-50%, -75%);
+    transition: all 0.8s ease-in-out;
+}
+
+
+@keyframes show-confirm-store {
+    from{
+        opacity:0;
+        transform:translate(-50%,-75%);
+    }
+    to {
+        opacity: 1;
+        transform: translate(-50%, -50%);
+    }
+}
+
+@-webkit-keyframes show-confirm-store {
+    from {
+        opacity: 0;
+        transform: translate(-50%,-75%);
+    }
+
+    to {
+        opacity: 1;
+        transform: translate(-50%, -50%);
+    }
+}
+
+@-o-keyframes show-confirm-store {
+    from {
+        opacity: 0;
+        transform: translate(-50%,-75%);
+    }
+
+    to {
+        opacity: 1;
+        transform: translate(-50%, -50%);
+    }
+}
+
+@-moz-keyframes show-confirm-store {
+    from {
+        opacity: 0;
+        transform: translate(-50%,-75%);
+    }
+
+    to {
+        opacity: 1;
+        transform: translate(-50%, -50%);
+    }
+}
+
+
+
+@keyframes hide-confirm-store{
+    from{
+        opacity:1;
+        transform:translate(-50%,-50%);
+    }
+    
+    to{
+        opacity:0;
+        transform:translate(-50%,-75%);
+    }
+}
+
+@-webkit-keyframes hide-confirm-store {
+    from {
+        opacity: 1;
+        transform: translate(-50%,-50%);
+    }
+
+    to {
+        opacity: 0;
+        transform: translate(-50%,-75%);
+    }
+}
+
+@-moz-keyframes hide-confirm-store {
+    from {
+        opacity: 1;
+        transform: translate(-50%,-50%);
+    }
+
+    to {
+        opacity: 0;
+        transform: translate(-50%,-75%);
+    }
+}
+
+@-o-keyframes hide-confirm-store {
+    from {
+        opacity: 1;
+        transform: translate(-50%,-50%);
+    }
+
+    to {
+        opacity: 0;
+        transform: translate(-50%,-75%);
+    }
+}
+
+
+.classifications-list {
+    min-height: 300px;
+    height: 0.5rem;
+    overflow: auto;
+}
+
+.class-item {
+    background: linear-gradient( 56deg, rgba(255, 255, 255, 1) 0%, rgba(2, 229, 238, 1) 20% );
+    border-radius: 8px;
+    font-weight: bold;
+    box-shadow: 1px 1px 8px rgb(117, 117, 117);
+}

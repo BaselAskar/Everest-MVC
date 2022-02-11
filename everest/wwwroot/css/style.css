@@ -56,3 +56,18 @@ h1.text-info {
         background-color: aqua;
         color: white;
     }
+
+.black-background {
+    position: fixed;
+    height: 100%;
+    width: 100%;
+    top:0;
+    left:0;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 3;
+}
+
+.everest-card {
+    box-shadow: 1px 1px 10px #464c4c;
+    border-radius: 12px;
+}

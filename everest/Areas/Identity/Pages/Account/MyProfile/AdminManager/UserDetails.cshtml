@@ -1,0 +1,190 @@
+﻿@page
+@addTagHelper *,Microsoft.AspNetCore.Mvc.TagHelpers
+@model everest.Areas.Identity.Pages.Account.MyProfile.AdminManager.UserDetailsModel
+@{
+    ViewData["Title"] = "User Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section Styles{
+    <link rel="stylesheet" href="@Url.Content("~/css/Account/MyPage/AdminManager/user-details.css")" />
+}
+
+<div class="black-background d-none"></div>
+
+
+
+@*Confirm store form*@
+<div class="everest-card bg-info bg-gradient d-none" id="confirm-store">
+    <h5 class="text-center p-4">تصنيف المتجر</h5>
+    <form class="container">
+        <div class="row d-flex justify-content-center">
+            <div class="col-10">
+                <input type="search"
+                       class="form-control text-center"
+                       id="classification-input"
+                       list="classifications" />
+                <p class="text-danger text-center mt-1" id="text-invalid-classification"></p> 
+                <datalist id="classifications">
+                    @foreach(var classification in Model.Classifications)
+            {
+                    <option value="@classification.Title-@classification.Name">@classification.Title-@classification.Name</option>
+            }
+                </datalist>
+            </div>
+        </div>
+        <div class="row d-flex justify-content-center m-2">
+            <button type="submit" class="col-3 btn btn-primary">إضافة</button>
+        </div>
+    </form>
+    <div class="container classifications-list">
+        @*<div class="row d-flex justify-content-center m-1">
+            <div class="col-8 col-md-4 text-center m-3 class-item p-1">
+                ملبوسات-أحذية
+                <button class="btn-close"></button>
+            </div>
+        </div>*@
+    </div>
+    <p class="text-center p-4 fw-bold">
+        سيتم تحويل المستخدم إلى مدير متجر .... هل أنت متأكد؟؟؟
+    </p>
+    <div class="row d-flex justify-content-around mb-3" style="direction: rtl">
+        <button class="col-10 col-md-2 btn btn-success" id="confirm-store-btn">تأكيد</button>
+        <button class="col-10 col-md-2 btn btn-danger my-3 my-md-0" id="hiden-confirm-store">
+            إلغاء
+        </button>
+    </div>
+</div>
+
+
+<div class="user-details-temp position-relative">
+
+    <a class="back-link" asp-area="Identity" asp-page="/Account/MyProfile/AdminManager/CustomersManager" title="الصفحة الشخصية"><i class="bi bi-arrow-left"></i></a>
+
+    <h1 class="text-center text-info p-5">تفاصيل المستخدم</h1>
+
+    <div class="flex-column text-center">
+        <img src="@Url.Content("~/assets/user.png")" alt="user-img" class="user-img" />
+        <h3 class="p-1">@Model.UserDetails.UserName</h3>
+        <div class="btn-group">
+            <button type="button"
+                    class="btn btn-outline-primary dropdown-toggle fs-6"
+                    data-bs-toggle="dropdown"
+                    aria-expanded="false">
+                @Model.UserDetails.DisplayedRoleName
+            </button>
+            <ul class="dropdown-menu">
+                @foreach (var role in Model.RolesNames)
+                {
+                    @if (role.DisplayedName == Model.UserDetails.DisplayedRoleName)
+                    {
+                        <li><button class="dropdown-item" disabled>@role.DisplayedName</button></li>
+                    }
+                    else
+                    {
+                        <li><button class="dropdown-item role-btn" data-role="@role.Name" data-userid="@Model.UserDetails.Id">@role.DisplayedName</button></li>
+                    }
+                }
+            </ul>
+        </div>
+
+    </div>
+
+
+    <div class="container everest-card bg-info bg-opacity-75 my-5 p-3" style="direction:rtl;">
+        <div class="row d-flex justify-content-center my-4">
+            <strong class="col-10 col-md-2 p-1">البريد الالكتروني:</strong>
+            <div class="col-10 col-md-4 text-center border-bottom">@Model.UserDetails.Email</div>
+        </div>
+
+        <div class="row d-flex justify-content-center my-4">
+            <strong class="col-01 col-md-2 p-1">تاريخ التسجيل:</strong>
+            <div class="col-10 col-md-4 text-center border-bottom">
+                @Model.UserDetails.Created.ToString("yyyy-MM-dd")
+            </div>
+        </div>
+
+        <div class="row">
+            <button type="button" class="col-10 col-md-2 btn btn-primary m-3">تعديل كلمة المرور</button>
+        </div>
+
+        @if (Model.UserDetails.Client != null)
+        {
+            <div class="border-top border-dark" id="store-info">
+                <div class="row my-4 d-flex justify-content-center">
+                    <strong class="col-10 col-md-2 p-1">اسم المتجر:</strong>
+                    <div class="col-10 col-md-4 text-center border-bottom">@Model.UserDetails.Client.Name</div>
+                </div>
+
+                <div class="row my-4 d-flex justify-content-center">
+                    <strong class="col-10 col-md-2 p-1">الوصف:</strong>
+                    <div class="col-10 col-md-4 text-center border-bottom">@Model.UserDetails.Client.Description</div>
+                </div>
+
+                <div class="row my-4 d-flex justify-content-center">
+                    <strong class="col-10 col-md-2 p-1">التصنيف:</strong>
+                    <div class="col-10 col-md-4 text-center border-bottom">@Model.UserDetails.Client.Classifications</div>
+                </div>
+
+                <div class="row my-4 d-flex justify-content-center">
+                    <strong class="col-10 col-md-2 p-1">مدير المتجر:</strong>
+                    <div class="col-10 col-md-4 text-center border-bottom">@Model.UserDetails.Client.Manager</div>
+                </div>
+
+                <div class="row my-4 d-flex justify-content-center">
+                    <strong class="col-10 col-md-2 p-1">المدينة:</strong>
+                    <div class="col-10 col-md-4 text-center border-bottom">@Model.UserDetails.Client.City</div>
+                </div>
+
+                <div class="row my-4 d-flex justify-content-center">
+                    <strong class="col-10 col-md-2 p-1">العنوان:</strong>
+                    <div class="col-10 col-md-4 text-center border-bottom">@Model.UserDetails.Client.Adress</div>
+                </div>
+
+                <div class="row my-4 d-flex justify-content-center">
+                    <strong class="col-10 col-md-2 p-1">واتساب1:</strong>
+                    <div class="col-10 col-md-4 text-center border-bottom">@Model.UserDetails.Client.Whatsapp1</div>
+                </div>
+
+                <div class="row my-4 d-flex justify-content-center">
+                    <strong class="col-10 col-md-2 p-1">واتساب2:</strong>
+                    <div class="col-10 col-md-4 text-center border-bottom">@Model.UserDetails.Client.Whatsapp2</div>
+                </div>
+
+                <div class="row my-4 d-flex justify-content-center">
+                    <strong class="col-10 col-md-2 p-1">هاتف1:</strong>
+                    <div class="col-10 col-md-4 text-center border-bottom">@Model.UserDetails.Client.PhoneNumber1</div>
+                </div>
+
+                <div class="row my-4 d-flex justify-content-center">
+                    <strong class="col-10 col-md-2 p-1">هاتف2:</strong>
+                    <div class="col-10 col-md-4 text-center border-bottom">@Model.UserDetails.Client.PhoneNumber2</div>
+                </div>
+
+                <div class="row my-4 d-flex justify-content-center">
+                    <strong class="col-10 col-md-2 p-1">الموقع:</strong>
+                    <div class="col-10 col-md-4 text-center border-bottom">
+                        <a href="@Model.UserDetails.Client.LocationUrl">@Model.UserDetails.Client.LocationUrl</a>
+                    </div>
+                </div>
+
+                <div class="row mt-5">
+                    <button type="button" class="col-10 col-md-2 btn btn-danger">
+                        حذف بيانات المخزن
+                    </button>
+
+                    <button type="button"
+                            class="col-10 col-md-2 btn btn-outline-primary mx-4">
+                        الذهاب إلى المتجر
+                    </button>
+                </div>
+
+
+            </div>
+        }
+    </div>
+</div>
+
+@section Scripts{ 
+    <script type="module" src="@Url.Content("~/js/Account/MyPage/AdminManager/UserDetails/app.js")"></script>
+}

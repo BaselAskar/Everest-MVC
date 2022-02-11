@@ -11,11 +11,13 @@ namespace everest.Interfaces
     public interface IStoreRepository
     {
         Task<List<Store>> GetStoresAsync();
-        Task AddStoreAsync(Store store);
+        void AddStore(Store store);
         Task AddStorePhotoAsync(Store store, StorePhoto storePhoto);
         Task<StorePhoto> GetStorePhotoAsync(Store store);
         void UpdateStorePhoto(StorePhoto companyPhoto);
         Task<Store> GetStoreAsync(AppUser user);
+        Task<Store> GetStoreWithClassificationsAsync(AppUser user);
+        Task<Store> GetStoreWithProductsAsync(AppUser user);
         Task<Store> GetStoreWithStoerPhotoAsync(AppUser user);
         Task<Product> GetProductByIdAsync(string id);
         void UpdateProduct(Product product);

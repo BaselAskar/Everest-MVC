@@ -37,9 +37,9 @@ namespace everest.Repositoies
         }
 
 
-        public async Task AddStoreAsync(Store store)
+        public void AddStore(Store store)
         {
-            await _data.Stores.AddAsync(store);
+            _data.Stores.Add(store);
         }
 
 
@@ -114,5 +114,20 @@ namespace everest.Repositoies
             return await _data.Stores.ToListAsync();
         }
 
+        public async Task<Store> GetStoreWithClassificationsAsync(AppUser user)
+        {
+            return await _data.Stores
+                .Where(s => s.UserId == user.Id)
+                .Include(s => s.Classifications)
+                .SingleOrDefaultAsync();
+        }
+
+        public async Task<Store> GetStoreWithProductsAsync(AppUser user)
+        {
+            return await _data.Stores
+                .Where(s => s.UserId == user.Id)
+                .Include(s => s.Products)
+                .SingleOrDefaultAsync();
+        }
     }
 }

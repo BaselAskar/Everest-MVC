@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using static everest.Areas.Identity.Pages.Account.MyProfile.StoreManager.StoreInfoModel;
 using static everest.Areas.Identity.Pages.Account.MyProfile.StoreManager.EditProductModel;
 using everest.ModelsView;
+using everest.Extensions;
 
 namespace everest.Helpers
 {
@@ -19,10 +20,8 @@ namespace everest.Helpers
 
             CreateMap<Store, InputModel>();
             
-            CreateMap<ClassificationDto, Classification>();
-            
-            CreateMap<Classification, ClassificationDto>();
-            
+            CreateMap<ClassificationDto, StoreClassification>();
+
             CreateMap<ClientDto, Store>();
             
             CreateMap<ProductDto, Product>();
@@ -39,6 +38,11 @@ namespace everest.Helpers
 
             CreateMap<AppUser, UserView>()
                 .ForMember(des => des.RoleName, opt => opt.MapFrom(src => src.UserRoles.Select(ur => ur.Role.Name).ToList()[0]));
+
+            CreateMap<AppUser, UserDetailsView>();
+
+            CreateMap<Store, ClientView>()
+                .ForMember(des => des.Classifications, opt => opt.MapFrom(src => src.Classifications.ConvertToString()));
         }
     }
 }

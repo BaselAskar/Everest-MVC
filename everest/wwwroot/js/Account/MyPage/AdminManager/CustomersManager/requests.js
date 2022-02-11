@@ -31,8 +31,6 @@ export const getUsersRequest = async (userParams) => {
 
 
 
-
-
             const html = `
                      <tr data-userid="${user.id}">
                         <td>${user.roleName}</td>

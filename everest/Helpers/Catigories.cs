@@ -14,7 +14,7 @@ namespace everest.Helpers
 
         }
 
-        public static List<Catigory> CatigoriesList => new List<Catigory>
+        public static List<Catigory> StoreCatigoriesList => new List<Catigory>
         {
             new Catigory
             {
@@ -53,7 +53,7 @@ namespace everest.Helpers
                 CatigoryName = "الصحة",
                 Sections = new List<string>
                 {
-                    "صيدليات","عيادات بشرية","مشافي","تصوير أشعة","مراكز صحية","معالجة فيزيائية","صيدليات بيطرية","عيادات بيطرية",
+                    "صيدليات","صيدليات بيطرية","معدات طبية"
                 }
             },
             new Catigory

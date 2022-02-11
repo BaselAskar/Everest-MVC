@@ -22,7 +22,7 @@ namespace everest.Controllers
 
         public IActionResult Index()
         {
-            var catigoriesList = Catigories.CatigoriesList;
+            var catigoriesList = Catigories.StoreCatigoriesList;
 
             var homeModelsViews = new HomeModelsView
             {

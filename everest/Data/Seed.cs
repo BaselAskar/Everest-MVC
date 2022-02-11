@@ -34,7 +34,8 @@ namespace everest.Data
                 new AppRole{Name = "Admin"},
                 new AppRole{Name = "Moderator"},
                 new AppRole{Name = "Store"},
-                new AppRole{Name = "Clinic"}
+                new AppRole{Name = "Clinic"},
+                new AppRole{Name = "Customer"}
             };
 
             foreach(var role in roles)
@@ -43,7 +44,7 @@ namespace everest.Data
             }
 
 
-            await userManager.AddToRoleAsync(admin, "Admin");
+            await userManager.AddToRolesAsync(admin, new List<string> { "Admin", "Customer" });
 
 
 
@@ -54,6 +55,7 @@ namespace everest.Data
             foreach(var user in users)
             {
                 await userManager.CreateAsync(user, "password");
+                await userManager.AddToRoleAsync(user, "Customer");
             }
 
 
@@ -61,16 +63,18 @@ namespace everest.Data
 
 
 
-            foreach(var catigory in Catigories.CatigoriesList)
+            foreach(var catigory in Catigories.StoreCatigoriesList)
             {
                 foreach(var section in catigory.Sections)
                 {
                     var classificationDto = new ClassificationDto { Title = catigory.CatigoryName, Name = section };
-                    await uof.ClassificationRepository.AddClassification(classificationDto);
+                    uof.StoreClassificationRepository.AddStoreClassification(classificationDto);
                 }
             }
 
-             if (!await uof.Complete()) throw new Exception("something was wrong");
+            
+            
+            if (!await uof.Complete()) throw new Exception("something was wrong");
 
         }
     }

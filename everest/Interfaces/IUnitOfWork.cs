@@ -7,7 +7,8 @@ namespace everest.Interfaces
 {
     public interface IUnitOfWork
     {
-        IClassificationRepository ClassificationRepository { get; }
+
+        IStoreClassificationRepository StoreClassificationRepository { get; }
 
         IStoreRepository StoreRepository { get; }
 
